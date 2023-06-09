@@ -1,4 +1,4 @@
-const mockData = [
+export const mockData = [
   {
     id: "eec9d452-9fc3-4679-b331-3806215edd9a",
     name: "bolt ev premier 203cv (elétrico)",
