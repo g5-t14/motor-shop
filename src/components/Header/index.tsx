@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/Motors shop.svg";
-import "./style.css";
+import closeDropDown from "./../../assets/closedropmenu.png";
+import dropDown from "./../../assets/DropDown.png";
 
 export const Header = () => {
   const [active, setActive] = useState(false);
@@ -11,71 +12,53 @@ export const Header = () => {
     setActive(!active);
   };
   return (
-    <header className="bg-grey10 text-white h-20 shadow-bottom relative">
-      <div className="container mx-auto pl-4 pr-4 h-full">
-        <div className="flex h-full items-center justify-between">
-          <img
-            src={logo}
-            alt="Logo"
-            className={`w-40 h-30 ${active ? "opacity-50" : ""}`}
-          />
+    <header className="bg-gray10 text-white h-20 shadow-bottom relative">
+      <div className="container mx-auto pl-4 pr-4 h-full flex justify-between items-center">
+        <img
+          src={logo}
+          alt="Logo"
+          className={`w-13 h-8 ${active ? "opacity-50" : ""}`}
+        />
 
-          <nav className="md:hidden relative">
-            <button
-              type="button"
-              className="focus:outline-none"
-              onClick={showMenu}
-            >
-              <svg
-                className={`w-6 h-6 fill-current ${
-                  active ? "text-black" : "text-black"
-                }`}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                {active ? (
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M19 6H5v2h14V6zm0 5H5v2h14v-2zm0 5H5v2h14v-2z"
-                  />
-                ) : (
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
-                  />
-                )}
-              </svg>
-            </button>
-          </nav>
+        <nav className="md:hidden relative">
+          <button
+            type="button"
+            className="focus:outline-none"
+            onClick={showMenu}
+          >
+            <img
+              src={active ? closeDropDown : dropDown}
+              alt="Dropdown"
+              className="w-6 h-6 fill-current text-black"
+            />
+          </button>
+        </nav>
 
-          <nav className="hidden md:block">
-            <button
-              className={`mr-4 border-none underline-hover font-medium delay-1000 text-black ${
-                active ? "pl-5 border-l-2 border-gray-300" : ""
-              }`}
-              onClick={showMenu}
-            >
-              <span className="relative">
-                Login
-                <span className="absolute left-0 w-full h-px bg-black transform scale-x-0 transition-transform duration-1000 origin-left"></span>
-              </span>
-            </button>
-            <button className="border border-color-gray transform  font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3">
-              Cadastrar
-            </button>
-          </nav>
-        </div>
+        <nav className="hidden md:block flex items-center">
+          <button
+            className={`mr-4 border-none underline-hover font-medium delay-1000 text-black ${
+              active ? "pl-5 border-l-2 border-grey-300" : ""
+            }`}
+            onClick={showMenu}
+          >
+            <span className="relative">
+              Login
+              <span className="absolute left-0 w-full h-px bg-black transform scale-x-0 transition-transform duration-1000 origin-left"></span>
+            </span>
+          </button>
+          <button className="border border-color-grey transform  font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3">
+            Cadastrar
+          </button>
+        </nav>
       </div>
       {active && (
-        <div className="fixed top-20 right-0 bg-grey10 text-black flex items-end animate-slideFromRight">
-          <div className="container mx-auto flex flex-col">
-            <button className="border border-color-gray transform font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3 mb-4">
-              Login
+        <div className="fixed top-[60px] right-0 bg-grey10 text-black animate-slideFromRight w-[344px]">
+          <div className="flex flex-col justify-start pt-4 pb-4">
+            <button className="border-none  font-medium hover:underline pl-3 pr-3 pt-3 pb-3 mb-4 text-left text-grey2 ">
+              Fazer Login
             </button>
-            <button className="border border-color-gray transform font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3">
-              Register
+            <button className="border-[1.5px] border-grey4  transform font-medium rounded-md hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3 ml-[13px] w-[315px]">
+              Cadastrar
             </button>
           </div>
         </div>
