@@ -1,12 +1,15 @@
 interface ButtonProps {
   children: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const BlackButtonBig = ({ children, ...rest }: ButtonProps) => {
   return (
     <button
       {...rest}
-      className="bg-grey0 text-whiteFixed text-btgBigF font-600 h-btgBigH px-btnBigPad rounded-4 hover:bg-grey1"
+      className="bg-grey0 text-whiteFixed text-btgBigF font-600 h-btgBigH px-btnBigPad rounded-4 hover:bg-grey1 disabled:bg-grey6"
     >
       {children}
     </button>
