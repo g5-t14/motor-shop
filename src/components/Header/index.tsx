@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "./../../assets/Motors shop.jpg";
+import logo from "./../../assets/Motors shop.svg";
 import "./style.css";
 
 export const Header = () => {
@@ -11,7 +11,7 @@ export const Header = () => {
     setActive(!active);
   };
   return (
-    <header className="bg-gray10 text-white h-20 shadow-bottom relative">
+    <header className="bg-grey10 text-white h-20 shadow-bottom relative">
       <div className="container mx-auto pl-4 pr-4 h-full">
         <div className="flex h-full items-center justify-between">
           <img
@@ -69,7 +69,7 @@ export const Header = () => {
         </div>
       </div>
       {active && (
-        <div className="fixed top-20 right-0 bg-gray10 text-black flex items-end animate-slideFromRight">
+        <div className="fixed top-20 right-0 bg-grey10 text-black flex items-end animate-slideFromRight">
           <div className="container mx-auto flex flex-col">
             <button className="border border-color-gray transform font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3 mb-4">
               Login
