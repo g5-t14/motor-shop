@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .tags11 {
-    @apply pt-1 pb-1 pl-2 pr-2 bg-brand4 text-brand1 rounded;
-  } 
-}
