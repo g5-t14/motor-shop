@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideFromRight {
+  animation: slideFromRight 0.3s ease-in-out forwards;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.color-gray {
+  color: #adb5bd;
+}
+.dark-gray {
+  color: #0b0d0d;
+}
+
+.shadow-bottom {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Pode ajustar os valores do box-shadow conforme necessário */
+}
