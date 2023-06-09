@@ -1,5 +1,5 @@
 import { BlackButtonBig, BlackButtonMedium } from "../../components/Button/black";
-import { Header } from "../../components/Header";
+import { Card } from "../../components/Card";
 
 export const Home = () => {
   return (
@@ -7,6 +7,7 @@ export const Home = () => {
       <h3>Home</h3>
       <BlackButtonBig>Text Button</BlackButtonBig>
       <BlackButtonMedium>Text Button</BlackButtonMedium>
+      <Card/>
     </div>
   );
 };
