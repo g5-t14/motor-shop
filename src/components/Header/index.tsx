@@ -52,7 +52,10 @@ export const Header = () => {
         </nav>
       </div>
       {active && (
-        <div className="fixed top-[60px] right-0 bg-grey10 text-black animate-slideFromRight w-[344px]">
+        <div
+          className="fixed top-[60px] right-0 bg-grey10 text-black animate-slideFromRight w-[344px] "
+          style={{ zIndex: "99" }}
+        >
           <div className="flex flex-col justify-start pt-4 pb-4">
             <button className="border-none  font-medium hover:underline pl-3 pr-3 pt-3 pb-3 mb-4 text-left text-grey2 ">
               Fazer Login

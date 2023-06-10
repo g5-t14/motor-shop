@@ -60,6 +60,9 @@ export default {
         btgBigF: "16px",
         btgMedF: "14px",
       },
+      fontFamily: {
+        lexend: "Lexend",
+      },
     },
   },
   plugins: [],
