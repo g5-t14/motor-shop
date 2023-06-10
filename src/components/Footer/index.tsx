@@ -1,5 +1,5 @@
 import logo from "./../../assets/Motors shop white.svg";
-import { IoIosArrowUp } from "react-icons/Io";
+import { IoIosArrowUp } from "react-icons/io";
 
 export const Footer = () => {
   return (
