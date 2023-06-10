@@ -10,6 +10,7 @@ export const mockData = [
     is_active: true,
     fuel: 3,
     value: 282045,
+    seller: "Vendedor"
   },
   {
     id: "82c08fa4-e311-4ba6-974f-c758d87564a3",
@@ -22,6 +23,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 486002,
+    seller: "Vendedor 2"
   },
   {
     id: "ca68938a-6737-4a89-9b57-520adbbb931a",
@@ -34,6 +36,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 533458,
+    seller: "Vendedor 3"
   },
   {
     id: "d0f679fe-e13e-45bb-800e-6191c6f34bb8",
@@ -46,6 +49,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 73787,
+    seller: "Vendedor"
   },
   {
     id: "e66650bf-5ee9-450b-a896-60091425bb01",
@@ -58,6 +62,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 270203,
+    seller: "Vendedor 2"
   },
   {
     id: "cf6c97d2-06e2-4356-988c-577cfa035e46",
@@ -70,6 +75,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 86610,
+    seller: "Vendedor"
   },
   {
     id: "0f83752b-5eea-4ea3-bda4-929bcf83d5c9",
@@ -82,6 +88,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 91213,
+    seller: "Vendedor 4"
   },
   {
     id: "f2f949b1-f2f7-47ce-8caf-4828445d8ca1",
@@ -94,6 +101,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 88136,
+    seller: "Vendedor 3"
   },
   {
     id: "45322295-20ee-46fa-beba-bea48bcf127d",
@@ -106,6 +114,7 @@ export const mockData = [
     is_active: true,
     fuel: 3,
     value: 255821,
+    seller: "Vendedor"
   },
   {
     id: "3ef8c421-3945-47c4-89f0-a56e2ef16da1",
@@ -118,6 +127,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 72229,
+    seller: "Vendedor"
   },
   {
     id: "d1bae78e-3cca-4904-8806-f79700ca3de5",
@@ -130,6 +140,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 77578,
+    seller: "Vendedor"
   },
   {
     id: "2d812e7d-5108-463e-a1a9-aae75e8da9ee",
@@ -142,6 +153,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 70510,
+    seller: "Vendedor"
   },
   {
     id: "802ef8c6-babb-43c2-81f4-9047d18d8526",
@@ -154,6 +166,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 308658,
+    seller: "Vendedor"
   },
   {
     id: "c610a16c-3085-4087-b522-85901c65be2c",
@@ -166,6 +179,7 @@ export const mockData = [
     is_active: true,
     fuel: 2,
     value: 333015,
+    seller: "Vendedor"
   },
   {
     id: "23d38ba1-92c8-496e-b1c2-c3b9b0bb0bb0",
@@ -178,6 +192,7 @@ export const mockData = [
     is_active: true,
     fuel: 1,
     value: 174360,
+    seller: "Vendedor"
   },
   {
     id: "13ee7dc6-a560-44da-a958-92d61973291a",
@@ -190,5 +205,6 @@ export const mockData = [
     is_active: true,
     fuel: 2,
     value: 178908,
+    seller: "Vendedor"
   },
 ];
