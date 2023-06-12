@@ -8,7 +8,7 @@ interface CardProps extends HTMLAttributes<HTMLLIElement> {
   mileage: string,
   fipe_table: number,
   description: string,
-  is_active: boolean,
+  is_active: string,
   fuel: number,
   value: number,
   seller: string
@@ -37,19 +37,30 @@ export const Card = ({brand,description,fipe_table,fuel,id,is_active,mileage,nam
     return `${formatedBrand} - ${formatedName}`
   }
 
+  const showTag = (status: string) => {
+    if(status == "true"){
+      return (
+        <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-brand1 text-white">
+            Ativo
+        </div>
+      )
+    } else if (status == "false"){
+      return (
+        <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-grey4 text-white">
+            Inativo
+        </div>
+      )
+    } else {
+      return
+    }
+  }
+
   return(
     <li className="w-[312px] h-[350px] flex flex-col gap-4 mb-[85px]"> 
       <div className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">
 
         {
-          is_active ?
-          <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-brand1 text-white">
-            Ativo
-          </div>
-          :
-          <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-grey4 text-white">
-            Inativo
-          </div>
+          showTag(is_active)
         }
 
         {
