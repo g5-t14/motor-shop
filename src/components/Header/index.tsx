@@ -37,15 +37,15 @@ export const Header = () => {
           </button>
         </nav>
 
-        <nav className="hidden md:block flex items-center">
+        <nav className="hidden md:block md:flex md:gap-11 items-center border-l-2 border-grey6 h-full pl-11">
           <button
-            className={`mr-4 border-none underline-hover font-medium delay-1000 text-black ${
+            className={`mr-4 border-none underline-hover font-semibold delay-1000 text-grey2 ${
               active ? "pl-5 border-l-2 border-grey-300" : ""
             }`}
-            onClick={showMenu}
+            onClick={undefined}
           >
-            <span className="relative">
-              Login
+            <span className="relative font-inter">
+              Fazer Login
               <span className="absolute left-0 w-full h-px bg-black transform scale-x-0 transition-transform duration-1000 origin-left"></span>
             </span>
           </button>

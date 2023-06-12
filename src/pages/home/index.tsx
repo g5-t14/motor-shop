@@ -1,8 +1,9 @@
 import { Card } from "../../components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
+import { PurpleButton } from "../../components/Button";
 import AsideHome from "./components/Aside";
 
 export const Home = () => {
@@ -11,13 +12,13 @@ export const Home = () => {
 
   return (
     <>
-      <div className="container mx-auto pl-4 pr-4 h-full flex flex-col justify-between items-center">
-        <div className="flex mx-auto justify-center pt-[55px]">
-          <aside className="w-[454px] flex-shrink-0 hidden lg:block">
+      <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
+        <div className="w-full flex py-[55px]">
+          <aside className="w-[454px] hidden md:block">
             <AsideHome />
           </aside>
-          <main className="flex-1 max-w-1100 mx-auto">
-            <ul className="flex flex-wrap gap-12">
+          <main className="w-full">
+            <ul className="flex gap-3 w-full overflow-scroll md:flex-wrap md:gap-12">
               {mockData.map((ad) => (
                 <Card
                   key={ad.id}
