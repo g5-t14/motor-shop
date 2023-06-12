@@ -4,6 +4,7 @@ import logo from "./../../assets/Motors shop.svg";
 import closeDropDown from "./../../assets/closedropmenu.png";
 import dropDown from "./../../assets/DropDown.png";
 import { BorderGreyButton } from "../Button";
+import { HeaderPhoto } from "../HeaderPhoto";
 
 export const Header = () => {
   const [active, setActive] = useState(false);
@@ -13,6 +14,7 @@ export const Header = () => {
     setActive(!active);
   };
   return (
+    <>
     <header className="bg-gray10 text-white h-20 shadow-bottom relative">
       <div className="container mx-auto pl-4 pr-4 h-full flex justify-between items-center">
         <img
@@ -66,5 +68,7 @@ export const Header = () => {
         </div>
       )}
     </header>
+    <HeaderPhoto />
+    </>
   );
 };
