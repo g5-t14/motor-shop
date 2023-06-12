@@ -20,12 +20,14 @@ export const Home = () => {
             <ul className="flex flex-wrap gap-12">
               {mockData.map((ad) => (
                 <Card
+                  key={ad.id}
                   brand={ad.brand}
                   description={ad.description}
                   fipe_table={ad.fipe_table}
                   fuel={ad.fuel}
                   id={ad.id}
-                  is_active={ad.is_active}
+                  // (ad.is_active).toString()
+                  is_active={"none"}
                   mileage={ad.mileage}
                   name={ad.name}
                   seller={ad.seller}
