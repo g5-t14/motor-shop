@@ -2,9 +2,9 @@ import photoCar from "../../assets/photoCar.svg"
 
 export const HeaderPhoto = () => {
     return (
-      <div className="relative w-full">
+      <div className="relative w-full h-56 md:h-96">
         <img
-          className="top-0 left-0 w-full h-full object-cover brightness-50"
+          className="top-0 left-0 w-full h-full object-cover"
           src={photoCar}
           alt="Header Photo Motors Shop"
         />
