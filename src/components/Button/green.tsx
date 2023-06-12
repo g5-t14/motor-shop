@@ -1,10 +1,10 @@
 import { ButtonProps } from "./interface";
 
-export const BlackButton = ({ children, size, ...rest }: ButtonProps) => {
+export const GreenButton = ({ children, size, ...rest }: ButtonProps) => {
   return (
     <button
       {...rest}
-      className={`bg-grey0 border-grey0 hover:bg-grey1 hover:border-grey1 ${
+      className={`bg-sucess3 border-sucess3 text-sucess1 hover:bg-sucess2 hover:border-sucess2 ${
         size === "big" ? "btn-big" : "btn-medium"
       }`}
     >

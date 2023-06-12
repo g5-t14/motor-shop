@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/Motors shop.svg";
 import closeDropDown from "./../../assets/closedropmenu.png";
 import dropDown from "./../../assets/DropDown.png";
+import { BorderGreyButton } from "../Button";
 
 export const Header = () => {
   const [active, setActive] = useState(false);
@@ -46,9 +47,7 @@ export const Header = () => {
               <span className="absolute left-0 w-full h-px bg-black transform scale-x-0 transition-transform duration-1000 origin-left"></span>
             </span>
           </button>
-          <button className="border border-color-grey transform  font-medium hover:scale-110 transition duration-1000 dark-gray pl-3 pr-3 pt-3 pb-3">
-            Cadastrar
-          </button>
+          <BorderGreyButton size="big">Cadastrar</BorderGreyButton>
         </nav>
       </div>
       {active && (

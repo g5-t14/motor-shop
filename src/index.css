@@ -35,5 +35,15 @@
 }
 
 .shadow-bottom {
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Pode ajustar os valores do box-shadow conforme necessário */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@layer components {
+  .btn-big {
+    @apply text-whiteFixed text-btgBigF font-600 h-btgBigH px-btnBigPad rounded-4 border-2 disabled:text-whiteFixed disabled:bg-grey5 disabled:border-grey5 disabled:hover:bg-grey5 disabled:hover:border-grey5;
+  }
+
+  .btn-medium {
+    @apply text-whiteFixed text-btgMedF font-600 h-btgMedH px-btnMedPad rounded-4 border-2 disabled:text-whiteFixed disabled:bg-grey5 disabled:border-grey5 disabled:hover:bg-grey5 disabled:hover:border-grey5;
+  }
 }
