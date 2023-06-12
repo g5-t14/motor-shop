@@ -13,7 +13,7 @@ export const ModalFilterTask = ({ toggleModal }: ModalFilterTaskProps) => {
 
   return (
     <Modal toggleModal={toggleModal}>
-      <div className="bg-neutral-100  w-[420px] rounded-2xl p-10 flex-auto flex-col  ">
+      <div className="bg-neutral-100  w-[420px] h-[90%] rounded-2xl p-10 flex-col overflow-auto  ">
         <div className="flex-auto flex-col justify-center">
           <h2 className="text-[28px] font-bold mb-2 text-[28px] lexend">
             Marca
