@@ -1,9 +1,8 @@
 import { Card } from "../../components/Card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
-import { PurpleButton } from "../../components/Button";
 import AsideHome from "./components/Aside";
 
 export const Home = () => {
