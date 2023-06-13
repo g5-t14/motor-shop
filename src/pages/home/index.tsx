@@ -4,6 +4,7 @@ import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
+import { HeaderPhoto } from "../../components/HeaderPhoto";
 
 export const Home = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -25,6 +26,7 @@ export const Home = () => {
 
   return (
     <>
+      <HeaderPhoto/>
       <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
         <div className="w-full flex py-[55px]">
           <aside className="w-[454px] hidden md:block">

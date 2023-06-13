@@ -7,6 +7,7 @@ export const RoutesMain = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login/>}></Route>
+      <Route path="/product/:id" element={<p>Olá</p>}></Route>
     </Routes>
   );
 };
