@@ -21,14 +21,12 @@ export const Login = () => {
     mode: "onChange",
   });
 
-  const showMenu = () => {
-    setActive(!active);
-  };
 
   return (
-  <>
-    <main className="h-[100vh] w-100% flex  items-center justify-center flex-col">
-      <form className=" h-[642px] w-[420px] p-10 box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-md ">
+  <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
+    <div className="w-full flex py-[55px]">
+    <main className="w-full flex flex-col jutify-center items-center">
+      <form className="  p-8 w-[70%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-md ">
         <h2 className="font-bold text-lg">Login</h2>
 
         <InputForm
@@ -53,11 +51,11 @@ export const Login = () => {
           }
         />
 
-      <div className=" flex justify-end flex-row align-end "><p className="text-brand2 mx-12 text-sm">Esqueci minha senha</p></div>
+      <div className="flex justify-end flex-row align-end "><p className="text-brand2 mx-12 text-sm">Esqueci minha senha</p></div>
         
-      <div className="flex flex-col items-center justify-center">  
+      <div className="flex flex-col flex-auto items-center justify-center">  
         <button
-          className="w-[100%] h-[60px] my-20 rounded-1xl flex-grow-0 bg-brand1 
+          className="w-[100%] h-[48px] my-20 rounded-1xl flex-grow-0 bg-brand1 
         border-brand1 text-white hover:bg-brand2 
         font:bold hover:border-brand2 "
         >
@@ -67,7 +65,7 @@ export const Login = () => {
         <p>Ainda não possui cadastro ?</p>
 
         <button
-          className="w-[100%] h-[60px] my-20 rounded-1xl flex-grow-0 bg-grey10 
+          className="w-[100%] h-[48px] my-20 rounded-1xl flex-grow-0 bg-grey10 
         border-solid 
         border-grey1  text-black hover:bg-grey4 
         font:bold hover:border-brand2 "
@@ -77,7 +75,11 @@ export const Login = () => {
       </div>  
       </form>
     </main>
-    <Footer/>  
-    </>  
+    </div>  
+    <div className="my-108px"style={{ width: "100vw"}}>
+        <Footer />
+      </div> 
+      
+  </div>  
   );
 };
