@@ -86,7 +86,7 @@ export const Card = ({brand,description,fipe_table,fuel,id,is_active,mileage,nam
             <span className="pt-1 pb-1 pl-2 pr-2 bg-brand4 text-brand1 rounded font-medium text-[14px] leading-6">{mileage} KM</span>
             <span className="pt-1 pb-1 pl-2 pr-2 bg-brand4 text-brand1 rounded font-medium text-[14px] leading-6">{year}</span>
           </div>
-          <span className="text-[16px] leading-5 font-medium">{value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
+          <span className="font-lexend text-[16px] leading-5 font-medium">{value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
         </div>
       </div>
     </li>
