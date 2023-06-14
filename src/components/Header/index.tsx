@@ -68,7 +68,6 @@ export const Header = () => {
           </div>
         )}
       </header>
-      <HeaderPhoto />
     </>
   );
 };
