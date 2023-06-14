@@ -1,8 +1,28 @@
 import { Card } from "../../components/Card";
+import { useState } from "react";
 import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
+import ModalCreateAd from "../../components/ModalCreateAd";
 
 export const AdvertiserProfile = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const cardsPerPage = 8;
+  const totalPages = Math.ceil(mockData.length / cardsPerPage);
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = mockData.slice(indexOfFirstCard, indexOfLastCard);
+
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
   return (
     <>
       <div className="bg-brand1 h-[357px]">
@@ -23,18 +43,21 @@ export const AdvertiserProfile = () => {
             teste testando, testa, testando teste grande, testa, testando, um
             mais um nem sempre é igual a 2.
           </p>
-          <button className="mt-[39px] px-4 py-2 rounded-md border-2 border-brand1 text-brand1 bg-transparent">
+          <button
+            className="mt-[39px] px-4 py-2 rounded-md border-2 border-brand1 text-brand1 bg-transparent"
+            onClick={toggleModal}
+          >
             Criar anúncio
           </button>
         </div>
       </div>
-      <div className="bg-grey8 h-screen flex flex-col items-center">
-        <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px]">
+      <div className="bg-grey8 h-auto flex flex-col items-center">
+        <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
           <h2 className="text-[24px] font-bold pt-[250px] md:pt-[200px] self-start">
             Anúncios
           </h2>
-          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[63px] md:mt-[80px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto maxsm:w-auto">
-            {mockData.map((ad) => (
+          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[63px] md:mt-[80px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto ">
+            {currentCards.map((ad) => (
               <Card
                 key={ad.id}
                 brand={ad.brand}
@@ -52,6 +75,33 @@ export const AdvertiserProfile = () => {
             ))}
           </ul>
         </div>
+        {totalPages > 1 && (
+          <div className="flex justify-center space-x-4 align-end md:h-[200px] md:flex md:justify-center md:items-center lg:min-w-[768px] bg-grey8 w-full">
+            {currentPage > 1 && (
+              <button
+                onClick={previousPage}
+                className="text-[24px] text-brand2 font-medium"
+              >
+                &lt; Anterior
+              </button>
+            )}
+            <span className="font-bold text-grey3 text-[24px]">
+              {currentPage}
+            </span>{" "}
+            <span className="font-medium text-grey3 opacity-50 text-[24px]">
+              de {totalPages}
+            </span>
+            {currentPage < totalPages && (
+              <button
+                onClick={nextPage}
+                className="text-brand2 font-medium text-[24px]"
+              >
+                Seguinte &gt;
+              </button>
+            )}
+          </div>
+        )}
+        {isOpenModal && <ModalCreateAd toggleModal={toggleModal} />}
         <div style={{ width: "100%" }}>
           <Footer />
         </div>
