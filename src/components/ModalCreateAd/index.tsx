@@ -1,29 +1,44 @@
 import { Modal } from "../Modal";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCar } from "../../hooks/useCar";
+import { api } from "../../services/api";
+interface modelsRequest {
+  id: string;
+  name: string;
+  fuel: number;
+  value: number;
+  brand: string;
+  year: string;
+}
 
 interface ModalCreateAdTaskProps {
   toggleModal: () => void;
 }
 
 const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
-  const [formState, setFormState] = useState({
-    marca: "",
-    modelo: "",
-    ano: "",
-    combustivel: "",
-    quilometragem: "",
-    cor: "",
-    fipe: "",
-    preco: "",
-    descricao: "",
-    imagePrincipal: "",
-    firstImage: "",
-    secondImagem: "",
-  });
+  const { cars } = useCar();
+  const [infoCar, setInfoCars] = useState<modelsRequest>();
+  const [brand, setBrand] = useState<modelsRequest>();
 
-  const handleInputChange = (e: any) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+  const [models, setModels] = useState<modelsRequest[]>([]);
+
+  const fuels = ["Flex", "Elétrico", "Híbrido"];
+  const getModels = async (brand: string) => {
+    try {
+      const response = await api.get(`/cars?brand=${brand}`);
+      setModels(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const filterCar = (carName: string) => {
+    const result = models.filter((car) => {
+      return car.name == carName;
+    });
+    if (result[0]) {
+      setInfoCars(result[0]);
+    }
   };
   return (
     <Modal toggleModal={toggleModal}>
@@ -37,21 +52,59 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
           </h4>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">Marca</label>
-            <input
-              type="text"
-              name="Marca"
+            <select
+              name="marca"
               id="marca"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-            />
+              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
+              onChange={(e) => getModels(e.target.value)}
+            >
+              <option value={"#"} hidden>
+                Qual é a marca do carro?
+              </option>
+              {cars.map((brand, index) => {
+                return (
+                  <option value={brand} key={index}>
+                    {brand
+                      .split(" ")
+                      .map(
+                        (word) => word.slice(0, 1).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">Modelo</label>
-            <input
-              type="text"
-              name="Modelo"
-              id="modelo"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-            />
+            <select
+              name="marca"
+              id="marca"
+              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
+              onChange={(e) => filterCar(e.target.value)}
+            >
+              <option value={"#"} hidden>
+                Qual é o modelo do carro?
+              </option>
+
+              {models
+                .map((element) => {
+                  return element.name;
+                })
+                .map((model, index) => {
+                  return (
+                    <option value={model} key={index}>
+                      {model
+                        .split(" ")
+                        .map(
+                          (word) =>
+                            word.slice(0, 1).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ")}
+                    </option>
+                  );
+                })}
+            </select>
           </div>
           <div className="flex gap-[25px]">
             <div className="flex flex-col w-full maxsm:w-auto">
@@ -62,6 +115,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 type="text"
                 name="Ano"
                 id="ano"
+                value={infoCar?.year}
                 className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
               />
             </div>
@@ -73,6 +127,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 type="text"
                 name="Ano"
                 id="ano"
+                value={infoCar ? fuels[infoCar.fuel - 1] : ""}
                 className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
               />
             </div>
@@ -121,6 +176,10 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 name="fipe"
                 id="fipe"
                 className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
+                value={infoCar?.value.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
               />
             </div>
             <div className="flex flex-col w-full maxsm:w-auto">
