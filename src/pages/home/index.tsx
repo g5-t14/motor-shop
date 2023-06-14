@@ -27,7 +27,7 @@ export const Home = () => {
   return (
     <>
       <HeaderPhoto />
-      <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center ">
+      <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
         <div className="w-full flex py-[55px]">
           <aside className="w-[454px] hidden md:block">
             <AsideHome />
