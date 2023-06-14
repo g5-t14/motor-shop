@@ -24,7 +24,7 @@ interface InputProps {
   }: InputProps) {
     return (
       <fieldset className="flex  flex-col relative gap-2 border-none">
-        <label htmlFor={id}>{label}</label>
+        <label className="font-bold" htmlFor={id}>{label}</label>
         <input
           className="box-border h-[40px] w-[100%] outline-none p-0 16px 
           border-solid 
