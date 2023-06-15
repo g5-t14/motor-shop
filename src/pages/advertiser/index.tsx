@@ -8,7 +8,7 @@ export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const cardsPerPage = 8;
+  const cardsPerPage = 20;
   const totalPages = Math.ceil(mockData.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
