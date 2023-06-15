@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useState } from "react";
 import { Api } from "../services/apiMotors";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { RegisterData } from "../validations/register";
 
 interface RegisterProviderProps {
@@ -25,11 +24,9 @@ export const RegisterProvider = ({ children }: RegisterProviderProps)=>{
     try {
       setLoading(true);
       await Api.post("/users", data);
-      toast.success("Conta criada com sucesso");
       setTimeout(() => navigate("/login"), 4500);
     } catch (error) {
       console.error(error);
-      toast.error("Email já cadastrado");
     } finally {
       setLoading(false);
     }
