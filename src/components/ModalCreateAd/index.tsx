@@ -1,8 +1,12 @@
 import { Modal } from "../Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCar } from "../../hooks/useCar";
 import { api } from "../../services/api";
+import { GrClose } from "react-icons/gr";
+import { useForm } from "react-hook-form";
+import { adData, adSchema } from "../../validations/ad";
+
 interface modelsRequest {
   id: string;
   name: string;
@@ -19,11 +23,36 @@ interface ModalCreateAdTaskProps {
 const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
   const { cars } = useCar();
   const [infoCar, setInfoCars] = useState<modelsRequest>();
-  const [brand, setBrand] = useState<modelsRequest>();
-
+  const [selectedBrand, setSelectedBrand] = useState("");
   const [models, setModels] = useState<modelsRequest[]>([]);
+  const token = localStorage.getItem("@Token");
+  const idLogged = localStorage.getItem("@IDUser");
+
+  const createAd = async (data: adData) => {
+    try {
+      // await apiLocal.post("/ads", data);
+      console.log(data);
+      // api.defaults.headers.common.authorization = `Bearer ${token}`;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<adData>({
+    resolver: zodResolver(adSchema),
+    mode: "onBlur",
+    defaultValues: {
+      brand: "",
+      model: "",
+    },
+  });
 
   const fuels = ["Flex", "Elétrico", "Híbrido"];
+
   const getModels = async (brand: string) => {
     try {
       const response = await api.get(`/cars?brand=${brand}`);
@@ -32,6 +61,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
       console.log(error);
     }
   };
+
   const filterCar = (carName: string) => {
     const result = models.filter((car) => {
       return car.name == carName;
@@ -40,23 +70,51 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
       setInfoCars(result[0]);
     }
   };
+  const [imageCount, setImageCount] = useState(2);
+
+  const handleAddImage = () => {
+    setImageCount((prevCount) => prevCount + 1);
+  };
+
+  const renderGalleryInputs = () => {
+    const inputs = [];
+    for (let i = 3; i <= imageCount; i++) {
+      inputs.push(
+        <div className="flex flex-col" key={i}>
+          <label className="text-[14px] font-medium mb-[8px]">
+            {i}º Imagem de galeria
+          </label>
+          <input
+            type="url"
+            name={`image${i}`}
+            id={`image${i}`}
+            className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+          />
+        </div>
+      );
+    }
+    return inputs;
+  };
   return (
     <Modal toggleModal={toggleModal}>
-      <div className="bg-white  w-screen max-w-[530px] h-full rounded-2xl p-[25px] flex-col overflow-auto pb-[100px] ">
+      <div className="bg-white  w-screen max-w-[530px] h-full rounded-2xl p-[25px] flex-col overflow-auto pb-[100px] relative">
         <h3 className="text-grey1 font-lexend text-[18px] mb-[30px]">
           Criar anúncio
         </h3>
-        <form className="p-[5px]">
+        <form className="p-[5px]" onSubmit={handleSubmit(createAd)}>
           <h4 className="text-[14px] font-medium mb-[24px]">
             Informações do veículo
           </h4>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">Marca</label>
             <select
-              name="marca"
               id="marca"
               className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
-              onChange={(e) => getModels(e.target.value)}
+              {...register("brand")}
+              onChange={(e) => {
+                setSelectedBrand(e.target.value);
+                getModels(e.target.value);
+              }}
             >
               <option value={"#"} hidden>
                 Qual é a marca do carro?
@@ -78,9 +136,12 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">Modelo</label>
             <select
-              name="marca"
-              id="marca"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
+              id="modelo"
+              disabled={!selectedBrand}
+              className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider ${
+                !selectedBrand ? "bg-grey7 cursor-not-allowed" : ""
+              } ${!selectedBrand ? "text-grey2" : ""}`}
+              {...register("model")}
               onChange={(e) => filterCar(e.target.value)}
             >
               <option value={"#"} hidden>
@@ -113,10 +174,13 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
               </label>
               <input
                 type="text"
-                name="Ano"
                 id="ano"
+                disabled={!infoCar?.name}
+                {...register("year")}
                 value={infoCar?.year}
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
               />
             </div>
             <div className="flex flex-col w-full maxsm:w-auto">
@@ -125,10 +189,13 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
               </label>
               <input
                 type="text"
-                name="Ano"
-                id="ano"
+                id="combustivel"
                 value={infoCar ? fuels[infoCar.fuel - 1] : ""}
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
+                disabled={!infoCar?.name}
+                {...register("fuel")}
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
               />
             </div>
           </div>
@@ -138,10 +205,13 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 Quilometragem
               </label>
               <input
-                type="text"
-                name="Ano"
-                id="ano"
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
+                type="number"
+                id="quilometragem"
+                disabled={!infoCar?.name}
+                {...register("mileage")}
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
               />
             </div>
             <div className="flex flex-col w-full w-auto">
@@ -149,19 +219,28 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 Cor
               </label>
               <select
-                name=""
                 id="cor"
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
+                disabled={!infoCar?.name}
+                {...register("color")}
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
               >
                 <option value={"#"} hidden>
                   Qual é a cor do seu carro
                 </option>
-                <option value="Azul">Azul</option>
+                <option value="AzulClaro">Azul Claro</option>
                 <option value="Preto">Preto</option>
-                <option value="Verde">Verde</option>
                 <option value="Rosa">Rosa</option>
                 <option value="Vermelho">Vermelho</option>
-                <option value="Índigo">Índigo</option>
+                <option value="Cinza">Cinza</option>
+                <option value="Marrom">Marrom</option>
+                <option value="Amarelo">Amarelo</option>
+                <option value="VerdeClaro">Verde Claro</option>
+                <option value="VerdeEscuro">Verde Escuro</option>
+                <option value="AzulEscuro">Azul Escuro</option>
+                <option value="Roxo">Roxo</option>
+                <option value="Branco">Branco</option>
                 <option value="Laranja">Laranja</option>
               </select>
             </div>
@@ -172,14 +251,18 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 Preço tabela FIPE
               </label>
               <input
-                type="text"
-                name="fipe"
+                type="number"
                 id="fipe"
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
-                value={infoCar?.value.toLocaleString("pt-br", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
+                disabled={!infoCar?.name}
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
+                value={infoCar?.value || ""}
+                //   .toLocaleString("pt-br", {
+                //   style: "currency",
+                //   currency: "BRL",
+                // })}
+                {...register("fipe_table", { valueAsNumber: true })}
               />
             </div>
             <div className="flex flex-col w-full maxsm:w-auto">
@@ -187,10 +270,13 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 Preço
               </label>
               <input
-                type="text"
-                name="preco"
+                type="number"
                 id="preco"
-                className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full"
+                disabled={!infoCar?.name}
+                {...register("price", { valueAsNumber: true })}
+                className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                  !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+                }`}
               />
             </div>
           </div>
@@ -198,76 +284,87 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
             <label className="text-[14px] font-medium mb-[8px]">
               Descrição
             </label>
+
             <textarea
-              name="Descricao"
+              disabled={!infoCar?.name}
               id="descricao"
-              className="rounded border-[1.5px] border-grey7 resize-none p-[10px] text-grey3 text-[14px] mb-[20px]"
+              {...register("description")}
+              className={`rounded border-[1.5px] border-grey7 resize-none p-[10px] text-grey3 text-[14px] mb-[20px] ${
+                !infoCar?.name ? "bg-grey7" : ""
+              }`}
             />
           </div>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">
               Imagem da capa
             </label>
-            {/* <input
-              type="image"
-              name="Image"
-              id="image"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-            /> */}
             <input
               type="url"
-              name="ImagePrincipal"
               id="imagePrincipal"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+              disabled={!infoCar?.name}
+              {...register("cover_img")}
+              className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+              }`}
             />
           </div>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">
               1º Imagem da galeria
             </label>
-            {/* <input
-              type="image"
-              name="Image"
-              id="image"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-            /> */}
+
             <input
               type="url"
               name="firstImage"
               id="firstImage"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+              disabled={!infoCar?.name}
+              className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+              }`}
             />
           </div>
           <div className="flex flex-col">
             <label className="text-[14px] font-medium mb-[8px]">
               2º Imagem de galeria
             </label>
-            {/* <input
-              type="image"
-              name="Image"
-              id="image"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-            /> */}
             <input
               type="url"
               name="secondImagem"
               id="secondImagem"
-              className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+              disabled={!infoCar?.name}
+              className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
+                !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
+              }`}
             />
           </div>
-          <button className="w-[315px] h-[38px] rounded bg-brand4 text-brand1 text-[14px] font-600">
-            Adicionar campo para imagem da galeria
-          </button>
+
+          {renderGalleryInputs()}
+          {imageCount < 6 && (
+            <button
+              type="button"
+              disabled={!infoCar?.name}
+              className="w-[315px] h-[38px] rounded bg-brand4 text-brand1 text-[14px] font-600"
+              onClick={handleAddImage}
+            >
+              Adicionar campo para imagem da galeria
+            </button>
+          )}
           <div className="mt-[42px] flex justify-end gap-[10px]">
             <button className="bg-grey6 h-[48px] w-[126px] text-grey2 font-600 text-[16px] rounded">
               Cancelar
             </button>
 
-            <button className="bg-brand3 w-[193px] h-[48px] rounded text-white">
+            <button
+              type="submit"
+              className="bg-brand3 w-[193px] h-[48px] rounded text-white"
+            >
               Criar anúncio
             </button>
           </div>
         </form>
+        <button className="absolute top-[22px] right-[22px] text-grey4">
+          <GrClose />
+        </button>
       </div>
     </Modal>
   );
