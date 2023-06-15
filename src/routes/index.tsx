@@ -1,3 +1,4 @@
+
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../pages/home";
 import { AdvertiserProfile } from "../pages/advertiser";
@@ -16,3 +17,4 @@ export const RoutesMain = () => {
     </Routes>
   );
 };
+
