@@ -34,7 +34,9 @@ export const Modal = ({ toggleModal, children, blockClosgin }: ModalProps) => {
 
   return createPortal(
     <div className="fixed top-20 bg-zinc-800 bg-opacity-50 w-[100%] h-[100%] flex justify-center align-center overflow-scroll z-50">
-      <div ref={blockClosgin ? null : ref}>{children}</div>
+      <div ref={blockClosgin ? null : ref} style={{ zIndex: 100 }}>
+        {children}
+      </div>
     </div>,
     document.body
   );

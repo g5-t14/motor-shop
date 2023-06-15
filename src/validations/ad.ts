@@ -21,6 +21,7 @@ export const adSchema = z.object({
     "Rosa",
     "Branco",
   ]),
+  pictures: z.record(z.string().nullish()),
   fipe_table: z.number(),
   price: z.number(),
   description: z.string(),
