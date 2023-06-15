@@ -1,4 +1,3 @@
-import "react-toastify/dist/ReactToastify.css";
 import { RoutesMain } from "./routes";
 import "./index.css";
 import { Header } from "./components/Header";
