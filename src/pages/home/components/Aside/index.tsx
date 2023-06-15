@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
 
 const AsideHome = () => {
   const { cars } = useCar();
   const [activeFilter, setActiveFilter] = useState("");
+
   const [yearFilter, setYearFilter] = useState("");
+  const [carFilter, setCarFilter] = useState("");
+  const [brandFilter, setBrandFilter] = useState("");
+  const [fuelFilter, setFuelFilter] = useState("");
+
   const [filtersActive, setFiltersActive] = useState(false);
+
+  const clickFilter = (filter: SetStateAction<string>) => {
+    setActiveFilter(filter);
+    setFiltersActive(true);
+  };
 
   return (
     <aside className="w-[454px] flex flex-col pl-5">
@@ -19,8 +29,7 @@ const AsideHome = () => {
                 activeFilter === car && filtersActive ? "underline" : ""
               }`}
               onClick={() => {
-                setActiveFilter(car);
-                setFiltersActive(true);
+                clickFilter(car);
               }}
             >
               {car
@@ -51,8 +60,7 @@ const AsideHome = () => {
                 activeFilter === model && filtersActive ? "underline" : ""
               }`}
               onClick={() => {
-                setActiveFilter(model);
-                setFiltersActive(true);
+                clickFilter(model);
               }}
             >
               {model}
@@ -72,8 +80,7 @@ const AsideHome = () => {
                   activeFilter === color && filtersActive ? "underline" : ""
                 }`}
                 onClick={() => {
-                  setActiveFilter(color);
-                  setFiltersActive(true);
+                  clickFilter(color);
                 }}
               >
                 {color}
@@ -94,8 +101,7 @@ const AsideHome = () => {
                   activeFilter === year && filtersActive ? "underline" : ""
                 }`}
                 onClick={() => {
-                  setActiveFilter(year);
-                  setFiltersActive(true);
+                  clickFilter(year);
                 }}
               >
                 {year}
@@ -115,8 +121,7 @@ const AsideHome = () => {
                 activeFilter === fuel && filtersActive ? "underline" : ""
               }`}
               onClick={() => {
-                setActiveFilter(fuel);
-                setFiltersActive(true);
+                clickFilter(fuel);
               }}
             >
               {fuel}
