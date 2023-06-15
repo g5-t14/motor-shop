@@ -1,97 +1,67 @@
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/userAuth";
-import { InputForm } from "../../components/Input/forms";
+import { BorderGreyButton, PurpleButton } from "../../components/Button";
 import { LoginData, loginSchema } from "../../validations/login";
 import { Footer } from "../../components/Footer";
+import { Input } from "../../components/Input/default";
+import { apiLocal } from "../../services/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginData>({
+  const { register, handleSubmit } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
 
-  console.log(errors);
+  const navigate = useNavigate();
 
-  const { login, loading } = useAuth();
+  async function userLogin(data: LoginData) {
+    try {
+      const response = await apiLocal.post("/login", data);
+      const { token } = response.data;
+      apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
+      localStorage.setItem("user-token", token);
+
+      navigate("/advertiser");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
-    <div className="pl-4 pr-4 h-full w-full flex flex-col justify-between items-center">
-      <div className="w-full flex py-[55px]">
-        <main className="w-full flex flex-col jutify-center items-center">
-          <form
-            onSubmit={handleSubmit(login)}
-            className="p-8 w-[100%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-md max-w-sm"
-          >
-            <h2 className="font-bold text-lg">Login</h2>
+    <>
+      <main className="h-[100vh] bg-slate-500 flex flex-col justify-center items-center">
+        <form
+          onSubmit={handleSubmit(userLogin)}
+          className="box-border flex flex-col gap-3 w-full max-w-[360px] bg-whiteFixed px-8 py-4 rounded-4"
+        >
+          <h1>Login</h1>
 
-            <InputForm
-              id="Email"
-              type="Email"
-              label="Email"
-              placeholder="Digite seu email"
-              register={register("email")}
-              error={
-                errors.email?.message && (
-                  <span className="text-brand2 bottom-[-16px] right-0 text-sm absolute">
-                    {errors.email.message}
-                  </span>
-                )
-              }
-            />
-
-            <InputForm
-              id="password"
-              type="password"
-              label="Senha"
-              placeholder="Digite sua senha"
-              register={register("password")}
-              error={
-                errors.password?.message && (
-                  <span className="text-brand2 bottom-[-16px] right-0 text-sm absolute">
-                    {errors.password.message}
-                  </span>
-                )
-              }
-            />
-
-            <div className="flex justify-end flex-row align-end my-8 ">
-              <p className="text-brand2 mx-12 text-sm ml-10">
-                Esqueci minha senha
-              </p>
-            </div>
-
-            <div className="flex flex-col flex-auto items-center justify-center ">
-              <button
-                className="w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-brand1 
-        border-brand1 text-white hover:bg-brand2 
-        font:bold hover:border-brand2 "
-                type="submit"
-              >
-                {loading ? "Entrando..." : "Entrar"}
-              </button>
-
-              <p>Ainda não possui Cadastro ?</p>
-
-              <span
-                className="flex align-center justify-center items-center w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-grey10 border-solid 
-border-grey1  text-black hover:bg-grey4 
-font:bold hover:border-brand2 cursor-pointer"
-              >
-                <Link to={"/register"}>Fazer Registro </Link>
-              </span>
-            </div>
-          </form>
-        </main>
-      </div>
-      <div className="my-108px" style={{ width: "98vw" }}>
-        <Footer />
-      </div>
-    </div>
+          <Input
+            id="email"
+            label="Email"
+            placeholder="Digitar email"
+            type="email"
+            register={register("email")}
+          />
+          <Input
+            id="password"
+            label="Senha"
+            placeholder="Digitar senha"
+            type="password"
+            register={register("password")}
+          />
+          <p className="text-right">Esqueci minha senha</p>
+          <PurpleButton size="big" type="submit">
+            Entrar
+          </PurpleButton>
+          <p className="text-center">Ainda não possui conta?</p>
+          <BorderGreyButton size="big" type="button">
+            Cadastrar
+          </BorderGreyButton>
+        </form>
+      </main>
+      <Footer />
+    </>
   );
 };

@@ -1,7 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { Api } from "../services/apiMotors";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { LoginData } from "../validations/login";
 import { UserData } from "../validations/user";
 
@@ -68,7 +67,6 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
       navigate("/");
     } catch (error) {
       console.error(error);
-      toast.error("Usuário ou senha incorretos");
     } finally {
       setLoading(false);
     }
