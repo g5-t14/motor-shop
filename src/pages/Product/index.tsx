@@ -4,9 +4,9 @@ import { Footer } from "../../components/Footer"
 export const Product = () => {
   return (
     <>
-    <main className="py-[45px] bg-brand1 px-3">
-      <div className="rounded px-6 py-7 flex items-center bg-grey10 mb-[17px]">
-        <img className="rounded" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="" />
+    <main className="py-[45px] px-3 bg-duo md:bg-duo-big">
+
+      <div className="md:max-w-[750px] md:h-[355px] max-h-[355px] w-full h-[355px] rounded flex items-center bg-grey10 mb-[17px] bg-[url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80')] bg-cover bg-center" >
       </div>
 
       <section className="rounded flex flex-col gap-8 px-7 py-9 bg-grey10 mb-[15px]">
