@@ -2,7 +2,7 @@ import { Modal } from "../Modal";
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCar } from "../../hooks/useCar";
-import { api } from "../../services/api";
+import { api, apiLocal } from "../../services/api";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { adData, adSchema } from "../../validations/ad";
@@ -31,9 +31,9 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
 
   const createAd = async (data: adData) => {
     try {
-      // await apiLocal.post("/ads", data);
+      await apiLocal.post("/ads", data);
       console.log(data);
-      // api.defaults.headers.common.authorization = `Bearer ${token}`;
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
     } catch (err) {
       console.log(err);
     }
