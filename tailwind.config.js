@@ -63,6 +63,9 @@ export default {
       fontFamily: {
         lexend: "Lexend",
       },
+      screens: {
+        maxsm: { max: "768px" },
+      },
     },
   },
   plugins: [],

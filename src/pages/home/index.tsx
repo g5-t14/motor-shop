@@ -1,9 +1,10 @@
 import { Card } from "../../components/Card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
+import { HeaderPhoto } from "../../components/HeaderPhoto";
 
 export const Home = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -25,6 +26,7 @@ export const Home = () => {
 
   return (
     <>
+      <HeaderPhoto />
       <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
         <div className="w-full flex py-[55px]">
           <aside className="w-[454px] hidden md:block">
@@ -50,34 +52,34 @@ export const Home = () => {
                 />
               ))}
             </ul>
-            {totalPages > 1 && (
-              <div className="flex justify-center space-x-4">
-                {currentPage > 1 && (
-                  <button
-                    onClick={previousPage}
-                    className="text-[24px] text-brand2 font-medium"
-                  >
-                    &lt; Anterior
-                  </button>
-                )}
-                <span className="font-bold text-grey3 text-[24px]">
-                  {currentPage}
-                </span>{" "}
-                <span className="font-medium text-grey3 opacity-50 text-[24px]">
-                  de {totalPages}
-                </span>
-                {currentPage < totalPages && (
-                  <button
-                    onClick={nextPage}
-                    className="text-brand2 font-medium text-[24px]"
-                  >
-                    Seguinte &gt;
-                  </button>
-                )}
-              </div>
-            )}
           </main>
         </div>
+        {totalPages > 1 && (
+          <div className="flex justify-center space-x-4 align-end md:h-[200px] md:flex md:justify-center md:items-center lg:min-w-[768px]">
+            {currentPage > 1 && (
+              <button
+                onClick={previousPage}
+                className="text-[24px] text-brand2 font-medium"
+              >
+                &lt; Anterior
+              </button>
+            )}
+            <span className="font-bold text-grey3 text-[24px]">
+              {currentPage}
+            </span>{" "}
+            <span className="font-medium text-grey3 opacity-50 text-[24px]">
+              de {totalPages}
+            </span>
+            {currentPage < totalPages && (
+              <button
+                onClick={nextPage}
+                className="text-brand2 font-medium text-[24px]"
+              >
+                Seguinte &gt;
+              </button>
+            )}
+          </div>
+        )}
 
         <button
           className="w-[320px] h-[60px] my-20 rounded-2xl flex-grow-0 lg:hidden bg-brand1 
