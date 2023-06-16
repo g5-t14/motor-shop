@@ -1,11 +1,12 @@
 import { Modal } from "../Modal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCar } from "../../hooks/useCar";
-import { api } from "../../services/api";
+import { api, apiLocal } from "../../services/api";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { adData, adSchema } from "../../validations/ad";
+import { UserAdsResponse } from "../../providers/CarProvider";
 
 interface modelsRequest {
   id: string;
@@ -18,21 +19,27 @@ interface modelsRequest {
 
 interface ModalCreateAdTaskProps {
   toggleModal: () => void;
+  setAds: React.Dispatch<React.SetStateAction<UserAdsResponse[]>>;
 }
 
-const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
-  const { cars } = useCar();
+const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {
+  const { cars, setAd } = useCar();
   const [infoCar, setInfoCars] = useState<modelsRequest>();
   const [selectedBrand, setSelectedBrand] = useState("");
   const [models, setModels] = useState<modelsRequest[]>([]);
-  const token = localStorage.getItem("@Token");
-  const idLogged = localStorage.getItem("@IDUser");
-
-  const createAd = async (data: adData) => {
+  const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
+  const token = localStorage.getItem("user-token");
+  const idLogged = localStorage.getItem("user-id");
+  const createAd = async (data: any) => {
     try {
-      // await apiLocal.post("/ads", data);
-      console.log(data);
-      // api.defaults.headers.common.authorization = `Bearer ${token}`;
+      data = { ...data, is_active: true };
+      apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
+      await apiLocal.post("/ads", data);
+      const response = await apiLocal.get<UserAdsResponse[]>(
+        `/ads/seller/${idLogged}`
+      );
+      setAds([...response.data]);
+      toggleModal();
     } catch (err) {
       console.log(err);
     }
@@ -42,13 +49,9 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<adData>({
+  } = useForm({
     resolver: zodResolver(adSchema),
     mode: "onBlur",
-    defaultValues: {
-      brand: "",
-      model: "",
-    },
   });
 
   const fuels = ["Flex", "Elétrico", "Híbrido"];
@@ -74,26 +77,27 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
 
   const handleAddImage = () => {
     setImageCount((prevCount) => prevCount + 1);
-  };
-
-  const renderGalleryInputs = () => {
-    const inputs = [];
-    for (let i = 3; i <= imageCount; i++) {
-      inputs.push(
-        <div className="flex flex-col" key={i}>
-          <label className="text-[14px] font-medium mb-[8px]">
-            {i}º Imagem de galeria
-          </label>
-          <input
-            type="url"
-            name={`image${i}`}
-            id={`image${i}`}
-            className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-          />
-        </div>
-      );
+    if (imageCount < 6) {
+      setGaleryInputs((prevInputs) => [
+        ...prevInputs,
+        `picture_${imageCount + 1}`,
+      ]);
     }
-    return inputs;
+  };
+  const renderGalleryInputs = () => {
+    return galeryInputs.slice(2).map((fieldName, index) => (
+      <div className="flex flex-col" key={index}>
+        <label className="text-[14px] font-medium mb-[8px]">
+          {index + 3}º Imagem de galeria
+        </label>
+        <input
+          type="url"
+          id={`image${index + 3}`}
+          className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+          {...register(`pictures.${fieldName}`)}
+        />
+      </div>
+    ));
   };
   return (
     <Modal toggleModal={toggleModal}>
@@ -111,6 +115,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
               id="marca"
               className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full tracking-wider"
               {...register("brand")}
+              defaultValue=""
               onChange={(e) => {
                 setSelectedBrand(e.target.value);
                 getModels(e.target.value);
@@ -154,7 +159,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 })
                 .map((model, index) => {
                   return (
-                    <option value={model} key={index}>
+                    <option value={model} key={index} disabled={!selectedBrand}>
                       {model
                         .split(" ")
                         .map(
@@ -177,7 +182,7 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
                 id="ano"
                 disabled={!infoCar?.name}
                 {...register("year")}
-                value={infoCar?.year}
+                value={infoCar ? infoCar?.year : ""}
                 className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
                   !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
                 }`}
@@ -315,9 +320,9 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
 
             <input
               type="url"
-              name="firstImage"
               id="firstImage"
               disabled={!infoCar?.name}
+              {...register("pictures.picture_1")}
               className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
                 !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
               }`}
@@ -329,8 +334,8 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
             </label>
             <input
               type="url"
-              name="secondImagem"
               id="secondImagem"
+              {...register("pictures.picture_2")}
               disabled={!infoCar?.name}
               className={`rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px] w-full ${
                 !infoCar?.name ? "bg-grey7 cursor-not-allowed" : ""
@@ -362,7 +367,10 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
             </button>
           </div>
         </form>
-        <button className="absolute top-[22px] right-[22px] text-grey4">
+        <button
+          className="absolute top-[22px] right-[22px] text-whiteFixed "
+          onClick={toggleModal}
+        >
           <GrClose />
         </button>
       </div>

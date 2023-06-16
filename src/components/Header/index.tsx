@@ -11,12 +11,10 @@ export const Header = () => {
   const navigate = useNavigate();
 
   const loginHandler = () => {
-    console.log("Hello");
     navigate("/login");
   };
 
   const registerHandler = () => {
-    console.log("World!");
     navigate("/register");
   };
 
