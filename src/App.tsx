@@ -1,18 +1,18 @@
 import { RoutesMain } from "./routes";
 import "./index.css";
+import { RegisterProvider } from "./Context/RegisterContext";
 import { Header } from "./components/Header";
 import { CarProvider } from "./providers/CarProvider";
-import { RegisterProvider } from "./Context/RegisterContext";
 
 function App() {
   return (
     <>
       <Header />
-        <CarProvider>
-      <RegisterProvider>
+      <CarProvider>
+        <RegisterProvider>
           <RoutesMain />
-      </RegisterProvider>
-        </CarProvider>
+        </RegisterProvider>
+      </CarProvider>
     </>
   );
 }

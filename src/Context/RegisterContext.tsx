@@ -16,25 +16,24 @@ export const RegisterContext = createContext<RegisterContextValues>(
   {} as RegisterContextValues
 );
 
-export const RegisterProvider = ({ children }: RegisterProviderProps)=>{
+export const RegisterProvider = ({ children }: RegisterProviderProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
- const userRegister =   async (data: RegisterData)=>{
+  const userRegister = async (data: RegisterData) => {
     try {
       setLoading(true);
       await Api.post("/users", data);
-      setTimeout(() => navigate("/login"), 4500);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <RegisterContext.Provider value={{ userRegister, loading }}>
       {children}
     </RegisterContext.Provider>
   );
-}
+};

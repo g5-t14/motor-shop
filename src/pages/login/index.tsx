@@ -1,27 +1,19 @@
 import { useForm } from "react-hook-form";
-import { BorderGreyButton, PurpleButton } from "../../components/Button";
+import { PurpleButton } from "../../components/Button";
 import { LoginData, loginSchema } from "../../validations/login";
 import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input/default";
 import { apiLocal } from "../../services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { ModalLogin } from "../../components/ModalLogin";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitSuccessful },
-  } = useForm<LoginData>({
+  const { register, handleSubmit } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const toggleModal = () => setIsOpenModal(!isOpenModal);
-  
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
 
   const userLogin = async (data: LoginData) => {
     try {
@@ -30,7 +22,7 @@ export const Login = () => {
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem("user-token", token);
       localStorage.setItem("user-id", user_id);
-      navigate("/advertiser");
+      navigate(`/advertiser/${user_id}`);
     } catch (error) {
       console.error(error);
     }
@@ -38,12 +30,12 @@ export const Login = () => {
 
   return (
     <>
-      <main className="h-[100vh] bg-slate-500 flex flex-col justify-center items-center">
+      <main className="h-[100vh] bg-grey7 flex flex-col justify-center items-center">
         <form
           onSubmit={handleSubmit(userLogin)}
-          className="box-border flex flex-col gap-3 w-full max-w-[360px] bg-whiteFixed px-8 py-4 rounded-4"
+          className="box-border flex flex-col gap-3 w-full max-w-[360px] bg-whiteFixed px-[49px] py-[44px] rounded-4 max-w-[412px]"
         >
-          <h1>Login</h1>
+          <h1 className="mb-[32px] lexend text-[24px] font-medium">Login</h1>
 
           <Input
             id="email"
@@ -59,20 +51,25 @@ export const Login = () => {
             type="password"
             register={register("password")}
           />
-          <p className="text-right">Esqueci minha senha</p>
+          <Link
+            to={"/"}
+            className="text-right text-[14px] mb-[21px] text-grey2 font-medium hover:underline"
+          >
+            Esqueci minha senha
+          </Link>
+
           <PurpleButton size="big" type="submit">
             Entrar
           </PurpleButton>
-          {isSubmitSuccessful ? (
-            <ModalLogin toggleModal={toggleModal} />
-          ) : (
-            <p></p>
-          )}
-          <p className="text-center">Ainda não possui conta?</p>
-
-          <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
-                <Link to={"/register"}>Fazer Registro</Link>
-              </div>
+          <p className="text-center text-[14px] my-[24px]">
+            Ainda não possui conta?
+          </p>
+          <Link
+            className="bg-none border-grey4 border-[1.5px] text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed flex font-bold justify-center items-center h-[48px] rounded w-[100%]"
+            to={`/register`}
+          >
+            Cadastrar
+          </Link>
         </form>
       </main>
       <Footer />

@@ -32,7 +32,6 @@ const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {
   const idLogged = localStorage.getItem("user-id");
   const createAd = async (data: any) => {
     try {
-      data = { ...data, is_active: true };
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       await apiLocal.post("/ads", data);
       const response = await apiLocal.get<UserAdsResponse[]>(
