@@ -1,11 +1,12 @@
 import { Modal } from "../Modal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCar } from "../../hooks/useCar";
 import { api, apiLocal } from "../../services/api";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { adData, adSchema } from "../../validations/ad";
+import { UserAdsResponse } from "../../providers/CarProvider";
 
 interface modelsRequest {
   id: string;
@@ -18,22 +19,27 @@ interface modelsRequest {
 
 interface ModalCreateAdTaskProps {
   toggleModal: () => void;
+  setAds: React.Dispatch<React.SetStateAction<UserAdsResponse[]>>;
 }
 
-const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
-  const { cars } = useCar();
+const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {
+  const { cars, setAd } = useCar();
   const [infoCar, setInfoCars] = useState<modelsRequest>();
   const [selectedBrand, setSelectedBrand] = useState("");
   const [models, setModels] = useState<modelsRequest[]>([]);
-  const [galeryInputs, setGaleryInputs] = useState(["pictures_1", "picture_2"]);
-  const token = localStorage.getItem("@Token");
-  const idLogged = localStorage.getItem("@IDUser");
-
-  const createAd = async (data: adData) => {
+  const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
+  const token = localStorage.getItem("user-token");
+  const idLogged = localStorage.getItem("user-id");
+  const createAd = async (data: any) => {
     try {
+      data = { ...data, is_active: true };
+      apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       await apiLocal.post("/ads", data);
-      console.log(data);
-      api.defaults.headers.common.authorization = `Bearer ${token}`;
+      const response = await apiLocal.get<UserAdsResponse[]>(
+        `/ads/seller/${idLogged}`
+      );
+      setAds([...response.data]);
+      toggleModal();
     } catch (err) {
       console.log(err);
     }
@@ -43,13 +49,9 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<adData>({
+  } = useForm({
     resolver: zodResolver(adSchema),
     mode: "onBlur",
-    defaultValues: {
-      brand: "",
-      model: "",
-    },
   });
 
   const fuels = ["Flex", "Elétrico", "Híbrido"];
@@ -365,7 +367,10 @@ const ModalCreateAd = ({ toggleModal }: ModalCreateAdTaskProps) => {
             </button>
           </div>
         </form>
-        <button className="absolute top-[22px] right-[22px] text-whiteFixed ">
+        <button
+          className="absolute top-[22px] right-[22px] text-whiteFixed "
+          onClick={toggleModal}
+        >
           <GrClose />
         </button>
       </div>

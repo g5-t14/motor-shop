@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { picturesSchema, picturesSchemaRequest } from "./pictures.schema";
 
 export const adSchema = z.object({
   brand: z.string(),
@@ -21,7 +22,14 @@ export const adSchema = z.object({
     "Rosa",
     "Branco",
   ]),
-  pictures: z.record(z.string().nullish()),
+  pictures: z.object({
+    picture_1: z.string(),
+    picture_2: z.string(),
+    picture_3: z.string().nullish(),
+    picture_4: z.string().nullish(),
+    picture_5: z.string().nullish(),
+    picture_6: z.string().nullish(),
+  }),
   fipe_table: z.number(),
   price: z.number(),
   description: z.string(),

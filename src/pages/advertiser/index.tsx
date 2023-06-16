@@ -5,11 +5,13 @@ import { mockData } from "../../mock";
 import ModalCreateAd from "../../components/ModalCreateAd";
 import { apiLocal } from "../../services/api";
 import { UserData } from "../../validations/user";
+import { UserAdsResponse } from "../../providers/CarProvider";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [userInfo, setUserInfo] = useState<UserData[]>([]);
+  const [adArray, setAdArray] = useState<UserAdsResponse[]>([]);
   const cardsPerPage = 20;
   const totalPages = Math.ceil(mockData.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
@@ -32,14 +34,29 @@ export const AdvertiserProfile = () => {
         }
         apiLocal.defaults.headers.common.Authorization = `Bearer ${token}`;
         const response = await apiLocal.get(`/users/${userId}`);
-        const infoUser = [response.data];
-        setUserInfo(infoUser);
+        const ads = [response.data];
+        setUserInfo(ads);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+    (async () => {
+      try {
+        if (!token) {
+          return;
+        }
+        apiLocal.defaults.headers.common.Authorization = `Bearer ${token}`;
+        const response = await apiLocal.get<UserAdsResponse[]>(
+          `/ads/seller/${userId}`
+        );
+
+        const ad = response.data;
+        setAdArray(ad);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
-
   const getInitials = (name: string) => {
     const names = name.split(" ");
     if (names.length === 1) {
@@ -92,26 +109,27 @@ export const AdvertiserProfile = () => {
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
-          <h2 className="text-[24px] font-bold pt-[250px] md:pt-[200px] self-start">
-            Anúncios
-          </h2>
-          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[63px] md:mt-[80px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto ">
-            {currentCards.map((ad) => (
-              <Card
-                key={ad.id}
-                brand={ad.brand}
-                description={ad.description}
-                fipe_table={ad.fipe_table}
-                fuel={ad.fuel}
-                id={ad.id}
-                is_active={"none"}
-                mileage={ad.mileage}
-                name={ad.name}
-                seller={ad.seller}
-                value={ad.value}
-                year={ad.year}
-              />
-            ))}
+          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto ">
+            {adArray?.length > 0 ? (
+              adArray?.map((ad) => (
+                <Card
+                  key={ad.id}
+                  brand={ad.brand}
+                  description={ad.description}
+                  fipe_table={ad.fipe_table}
+                  fuel={ad.fuel}
+                  id={ad.id}
+                  is_active={"none"}
+                  mileage={ad.mileage}
+                  name={ad.model}
+                  user_seller={ad.user_seller}
+                  value={ad.price}
+                  year={ad.year}
+                />
+              ))
+            ) : (
+              <p className="text-[40px]">Nenhum anúncio disponível.</p>
+            )}
           </ul>
         </div>
         {totalPages > 1 && (
@@ -140,7 +158,9 @@ export const AdvertiserProfile = () => {
             )}
           </div>
         )}
-        {isOpenModal && <ModalCreateAd toggleModal={toggleModal} />}
+        {isOpenModal && (
+          <ModalCreateAd toggleModal={toggleModal} setAds={setAdArray} />
+        )}
         <div style={{ width: "100%" }}>
           <Footer />
         </div>
