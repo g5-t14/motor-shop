@@ -2,12 +2,13 @@ import { RoutesMain } from "./routes";
 import "./index.css";
 import { Header } from "./components/Header";
 import { CarProvider } from "./providers/CarProvider";
+
 function App() {
   return (
     <>
       <Header />
       <CarProvider>
-        <RoutesMain />
+        <RoutesMain />  
       </CarProvider>
     </>
   );

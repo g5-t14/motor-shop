@@ -1,40 +1,39 @@
 import { useForm } from "react-hook-form";
 import { useRegister } from "../../hooks/userRegister";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
 import { InputForm } from "../../components/Input/forms";
 import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
+import { useState } from "react";
+import { ModalRegister } from "../../components/ModalRegister";
+import { BorderGreyButton, PurpleButton } from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
 
-  console.log(errors);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+  const navigate = useNavigate();
+
+  console.log(isSubmitSuccessful);
 
   const { userRegister, loading } = useRegister();
-
-  // const handleRegistry = (data)=> {
-
-  // console.log(data)
-
-  // useRegister(data)
-
-  // }
 
   return (
     <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
       <div className="w-full flex py-[55px]">
-        <main className="w-full flex flex-col jutify-center items-center">
+        <main className="w-full flex flex-col justify-center items-center">
           <form
             onSubmit={handleSubmit(userRegister)}
-            className="  p-8 w-[70%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-md max-w-sm "
+            className="  p-8 w-[70%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-lg max-w-sm "
           >
             <h2 className="font-bold text-lg">Cadastro</h2>
 
@@ -267,25 +266,25 @@ export const Register = () => {
             </div>
 
             <div className="flex flex-col flex-auto items-center justify-center">
-              <button
-                className="w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-brand1 
-          border-brand1 text-white hover:bg-brand2 
-          font:bold hover:border-brand2 "
-                type="submit"
-              >
+              <PurpleButton size="big" type="submit" onClick={toggleModal}>
                 {loading ? "Cadastrando..." : "Cadastrar"}
-              </button>
+              </PurpleButton>
+
+              {isSubmitSuccessful ? (
+                <ModalRegister toggleModal={toggleModal} />
+              ) : (
+                <p></p>
+              )}
 
               <p>Já possui Cadastro ?</p>
 
-              <span
-                className="flex align-center justify-center items-center w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-grey10 
-border-solid 
-border-grey1  text-black hover:bg-grey4 
-font:bold hover:border-brand2 cursor-pointer "
+              <BorderGreyButton
+                size="big"
+                type="button"
+                onClick={() => navigate("/login")}
               >
-                <Link to={"/login"}>Fazer Login</Link>
-              </span>
+                Fazer Login
+              </BorderGreyButton>
             </div>
           </form>
         </main>
