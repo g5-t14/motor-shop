@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputForm } from "../../components/Input/forms";
 import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ModalRegister } from "../../components/ModalRegister";
 import { Link } from "react-router-dom";
 
@@ -42,7 +42,7 @@ export const Register = () => {
   // }
 
   return (
-    <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
+    <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center bg-grey7">
       <div className="w-full flex py-[55px]">
         <main className="w-full flex flex-col jutify-center items-center">
           <form
@@ -314,12 +314,6 @@ export const Register = () => {
               ) : (
                 <p></p>
               )}
-
-              <p>Já possui Cadastro ?</p>
-
-              <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
-                <Link to={"/login"}>Ir para Login</Link>
-              </div>
             </div>
           </form>
         </main>

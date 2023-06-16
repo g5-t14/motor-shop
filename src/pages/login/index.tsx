@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { BorderGreyButton, PurpleButton } from "../../components/Button";
+import { PurpleButton } from "../../components/Button";
 import { LoginData, loginSchema } from "../../validations/login";
 import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input/default";
@@ -51,18 +51,25 @@ export const Login = () => {
             type="password"
             register={register("password")}
           />
-          <p className="text-right text-[14px] mb-[21px] text-grey2 font-medium">
+          <Link
+            to={"/"}
+            className="text-right text-[14px] mb-[21px] text-grey2 font-medium hover:underline"
+          >
             Esqueci minha senha
-          </p>
+          </Link>
+
           <PurpleButton size="big" type="submit">
             Entrar
           </PurpleButton>
           <p className="text-center text-[14px] my-[24px]">
             Ainda não possui conta?
           </p>
-          <BorderGreyButton size="big" type="button">
+          <Link
+            className="bg-none border-grey4 border-[1.5px] text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed flex font-bold justify-center items-center h-[48px] rounded w-[100%]"
+            to={`/register`}
+          >
             Cadastrar
-          </BorderGreyButton>
+          </Link>
         </form>
       </main>
       <Footer />
