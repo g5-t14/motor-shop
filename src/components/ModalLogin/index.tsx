@@ -26,7 +26,7 @@ export const ModalLogin = ({ toggleModal }: ModalRegisterTaskProps) => {
           <p> Agora você poderá ver seus negócios crescendo em grande escala</p>
           <Link
             className=" bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-[20%] rounded-2x1"
-            to={"/"}
+            to={"/advertiser"}
           >
             Ir para home
           </Link>
