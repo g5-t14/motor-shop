@@ -16,11 +16,12 @@ export const userSchema = z.object({
   description: z.string(),
   is_seller: z.boolean().default(false),
   cep: z.string().max(10),
-  slate: z.string().max(127),
+  state: z.string().max(127),
   city: z.string().max(127),
   street: z.string().max(127),
   number: z.string().max(127),
   complement: z.string().max(127),
+  user_color: z.string(),
 });
 
 export type UserData = z.infer<typeof userSchema>;

@@ -18,10 +18,10 @@ export const Login = () => {
   async function userLogin(data: LoginData) {
     try {
       const response = await apiLocal.post("/login", data);
-      const { token } = response.data;
+      const { token, user_id } = response.data;
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem("user-token", token);
-
+      localStorage.setItem("user-id", user_id);
       navigate("/advertiser");
     } catch (error) {
       console.error(error);
