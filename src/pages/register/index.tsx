@@ -7,7 +7,7 @@ import { Footer } from "../../components/Footer";
 import { useState } from "react";
 import { ModalRegister } from "../../components/ModalRegister";
 import { BorderGreyButton, PurpleButton } from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export const Register = () => {
   const {
@@ -266,9 +266,13 @@ export const Register = () => {
             </div>
 
             <div className="flex flex-col flex-auto items-center justify-center">
-              <PurpleButton size="big" type="submit" onClick={toggleModal}>
+              <button
+                className=" bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1"
+                type="submit"
+                onClick={toggleModal}
+              >
                 {loading ? "Cadastrando..." : "Cadastrar"}
-              </PurpleButton>
+              </button>
 
               {isSubmitSuccessful ? (
                 <ModalRegister toggleModal={toggleModal} />
@@ -278,13 +282,9 @@ export const Register = () => {
 
               <p>Já possui Cadastro ?</p>
 
-              <BorderGreyButton
-                size="big"
-                type="button"
-                onClick={() => navigate("/login")}
-              >
-                Fazer Login
-              </BorderGreyButton>
+              <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
+                <Link to={"/login"}>Ir para Login</Link>
+              </div>
             </div>
           </form>
         </main>

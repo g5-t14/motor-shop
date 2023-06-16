@@ -6,7 +6,7 @@ import { Input } from "../../components/Input/default";
 import { apiLocal } from "../../services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ModalLogin } from "../../components/ModalLogin";
 
 export const Login = () => {
@@ -68,13 +68,9 @@ export const Login = () => {
           )}
           <p className="text-center">Ainda não possui conta?</p>
 
-          <BorderGreyButton
-            size="big"
-            type="button"
-            onClick={() => navigate("/register")}
-          >
-            Cadastrar
-          </BorderGreyButton>
+          <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
+                <Link to={"/register"}>Fazer Registro</Link>
+              </div>
         </form>
       </main>
       <Footer />
