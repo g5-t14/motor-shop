@@ -5,6 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @keyframes slideFromRight {
   0% {
     opacity: 0;
@@ -45,5 +46,13 @@
 
   .btn-medium {
     @apply w-fit text-whiteFixed text-btgMedF font-600 h-btgMedH px-btnMedPad rounded-4 border-2 disabled:text-whiteFixed disabled:bg-grey5 disabled:border-grey5 disabled:hover:bg-grey5 disabled:hover:border-grey5;
+  }
+
+  .bg-duo {
+    @apply bg-gradient-to-b from-brand1 from-[450px] via-grey7 via-[450px] to-grey7 to-100%
+  }
+
+  .bg-duo-big {
+    @apply bg-gradient-to-b from-brand1 from-[550px] via-grey7 via-[550px] to-grey7 to-100%
   }
 }

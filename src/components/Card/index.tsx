@@ -1,4 +1,5 @@
 import { HTMLAttributes } from "react";
+import { Link } from "react-router-dom";
 
 interface CardProps extends HTMLAttributes<HTMLLIElement> {
   id: string,
@@ -56,7 +57,7 @@ export const Card = ({brand,description,fipe_table,fuel,id,is_active,mileage,nam
   }
 
   return(
-    <li className="min-w-[312px] min-h-[350px] w-[312px] h-[350px] flex flex-col gap-4 mb-[85px]"> 
+    <Link to={"product/"+id} className="min-w-[312px] min-h-[350px] w-[312px] h-[350px] flex flex-col gap-4 mb-[85px]"> 
       <div className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">
 
         {
@@ -89,6 +90,6 @@ export const Card = ({brand,description,fipe_table,fuel,id,is_active,mileage,nam
           <span className="font-lexend text-[16px] leading-5 font-medium">{value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
         </div>
       </div>
-    </li>
+    </Link>
   )
 }

@@ -65,6 +65,7 @@ export default {
       },
       screens: {
         maxsm: { max: "768px" },
+        midson: {min: "1215px"}
       },
     },
   },
