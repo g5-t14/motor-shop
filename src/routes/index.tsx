@@ -1,4 +1,3 @@
-
 import { Route, Routes } from "react-router-dom";
 import { Home } from "../pages/home";
 import { AdvertiserProfile } from "../pages/advertiser";
@@ -11,10 +10,9 @@ export const RoutesMain = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/advertiser/" element={<AdvertiserProfile />} />
+      <Route path="/advertiser/:id" element={<AdvertiserProfile />} />
       <Route path="/product/:id" element={<Product />} />
       <Route path="/register" element={<Register />} />
     </Routes>
   );
 };
-

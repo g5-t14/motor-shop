@@ -16,8 +16,6 @@ export const Register = () => {
     mode: "onChange",
   });
 
-  console.log(errors);
-
   const { userRegister, loading } = useRegister();
 
   // const handleRegistry = (data)=> {
