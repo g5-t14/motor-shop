@@ -1,4 +1,3 @@
-import { HTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 
 interface CarSeller {
@@ -9,54 +8,44 @@ interface CarSeller {
 
 interface CardProps {
   id: number;
-  name: string;
   brand: string;
+  model: string;
   year: string;
-  mileage: number;
+  fuel: string;
+  mileage: string;
+  color: string;
   fipe_table: number;
+  price: number;
   description: string;
+  cover_img: string;
   is_active: string;
-  fuel: number;
-  value: number;
   user_seller: CarSeller;
 }
-/*
-{
-  id: "eec9d452-9fc3-4679-b331-3806215edd9a",
-  name: "bolt ev premier 203cv (elétrico)",
-  brand: "chevrolet",
-  year: "2022",
-  mileage: "1500",
-  fipe_table: 285000,
-  description: "Lorem ipso lom",
-  is_active: true,
-  fuel: 3,
-  value: 282045,
-},
-*/
+
 
 export const Card = ({
-  brand,
-  description,
-  fipe_table,
-  fuel,
   id,
-  is_active,
-  mileage,
-  name,
-  value,
+  brand,
+  model,
   year,
+  fuel,
+  mileage,
+  color,
+  fipe_table,
+  price,
+  description,
+  cover_img,
+  is_active,
   user_seller,
 }: CardProps) => {
-  const fuels = ["Flex", "Elétrico", "Híbrido"];
 
-  const formatAdTitle = (brand: string, name: string): string => {
+  /*const formatAdTitle = (brand: string, model: string): string => {
     const formatedBrand = brand.charAt(0).toUpperCase() + brand.slice(1);
     const formatedName =
-      name.charAt(0).toUpperCase() + name.split(" ")[0].slice(1);
+      model.charAt(0).toUpperCase() + model.split(" ")[0].slice(1);
     return `${formatedBrand} - ${formatedName}`;
   };
-
+*/
   const showTag = (status: string) => {
     if (status == "true") {
       return (
@@ -83,7 +72,7 @@ export const Card = ({
       <div className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">
         {showTag(is_active)}
 
-        {value >= fipe_table - fipe_table * 0.05 && (
+        {price >= fipe_table - fipe_table * 0.05 && (
           <div className="font-medium text-14 leading-6 absolute top-[1px] right-0 bg-random7  rounded-[2px] w-4 h-[27px] text-white text-center">
             $
           </div>
@@ -91,19 +80,21 @@ export const Card = ({
 
         <img
           className="w-full"
-          src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+          src={cover_img}
           alt="Cars Photo"
         />
       </div>
       <div className="flex flex-col gap-4">
         <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1">
-          {formatAdTitle(brand, name)}
+          {
+          //formatAdTitle(brand, model)
+          }
         </h3>
         <p className="text-grey2 font-normal text-[14px] leading-6 truncate whitespace-normal line-clamp-2">
           {description}
         </p>
         <div className="flex items-center gap-2 ">
-          <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
+          <div className="rounded-full  w-8 h-8 flex items-center justify-center" style={{ backgroundColor: `${user_seller.user_color}` }}>
             <span className="text-white font-medium text-[14px]">
               {user_seller.name.charAt(0).toUpperCase()}
             </span>
@@ -122,7 +113,7 @@ export const Card = ({
             </span>
           </div>
           <span className="font-lexend text-[16px] leading-5 font-medium">
-            {value.toLocaleString("pt-br", {
+            {price.toLocaleString("pt-br", {
               style: "currency",
               currency: "BRL",
             })}

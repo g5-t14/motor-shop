@@ -1,12 +1,46 @@
 import { Card } from "../../components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
+import { apiLocal } from "../../services/api";
+
+export interface CarPictures {
+  picture_1: string,
+  picture_2: string,
+  picture_3: string | null,
+  picture_4: string | null,
+  picture_5: string | null,
+  picture_6: string | null
+}
+
+export interface CarSeller {
+id: number,
+name: string,
+user_color: string
+}
+
+export interface CarProps {
+id: number,
+brand: string,
+model: string,
+year: string,
+fuel: string,
+mileage: string,
+color: string,
+fipe_table: number,
+price: number,
+description: string,
+cover_img: string,
+is_active: boolean,
+pictures: CarPictures,
+user_seller: CarSeller
+}
 
 export const Home = () => {
+  const [cars, setCars] = useState<CarProps[]>([])
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,6 +58,16 @@ export const Home = () => {
     setCurrentPage(currentPage - 1);
   };
 
+  useEffect(()=>{
+    (async () => {
+      const response = await apiLocal.get<CarProps[]>(`ads`)    
+      const avaliableCars: CarProps[] =  response.data.filter(car => car.is_active) 
+      console.log(avaliableCars)
+      setCars(avaliableCars)
+    })()
+
+  },[])
+
   return (
     <>
       <HeaderPhoto />
@@ -34,21 +78,24 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {currentCards.map((ad) => (
+              {cars.map((ad) => (
                 <Card
                   key={ad.id}
-                  brand={ad.brand}
-                  description={ad.description}
-                  fipe_table={ad.fipe_table}
-                  fuel={ad.fuel}
                   id={ad.id}
-                  // (ad.is_active).toString()
-                  is_active={"none"}
-                  mileage={ad.mileage}
-                  name={ad.name}
-                  seller={ad.seller}
-                  value={ad.value}
+                  brand={ad.brand}
+                  model={ad.model}
                   year={ad.year}
+                  fuel={ad.fuel}
+                  mileage={ad.mileage}
+                  color={ad.color}
+                  fipe_table={ad.fipe_table}
+                  price={ad.price}
+                  description={ad.description}
+                  cover_img={ad.cover_img}
+                  is_active={"none"}
+                  // (ad.is_active).toString()
+                  user_seller={ad.user_seller}
+                  
                 />
               ))}
             </ul>
