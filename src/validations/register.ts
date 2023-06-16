@@ -3,12 +3,7 @@ import { z } from "zod";
 export const registerSchema = z.object({
   name: z.string().max(127).nonempty("Nome Obrigatório"),
   email: z.string().email().max(127).nonempty("Email Obrigatório"),
-  password: z
-    .string()
-    .max(60)
-    .regex(/.*[A-Z].*/, { message: "Precisa ter uma letra maiúscula*" })
-    .regex(/.*[a-z].*/, { message: "Precisa ter uma letra minúscula*" })
-    .regex(/.*\d.*/, { message: "Precisa conter um número*" }),
+  password: z.string().max(60),
   cpf: z.string().max(11).nonempty("Cpf obrigatório"),
   phone: z.string().max(11).nonempty("Telefone obrigatório"),
   birthdate: z.string().max(8).nonempty("Data de nascimento obrigatório"),
