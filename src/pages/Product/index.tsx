@@ -131,7 +131,7 @@ export const Product = () => {
               </section>
               <section className="flex flex-col gap-7 px-7 py-10 items-center rounded bg-grey10 mb-[18px]">
                 <div
-                  className={`bg-[${car.user_seller.user_color}] rounded-full w-[77px] h-[77px] flex items-center justify-center`}
+                  className="rounded-full w-[77px] h-[77px] flex items-center justify-center"  style={{ backgroundColor: `${car.user_seller.user_color}` }}
                 >
                   <span className="text-white font-medium text-[27px] leading-[40px]">
                     {car.user_seller.name.charAt(0).toUpperCase()}
