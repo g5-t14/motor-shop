@@ -15,7 +15,7 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
-  async function userLogin(data: LoginData) {
+  const userLogin = async (data: LoginData) => {
     try {
       const response = await apiLocal.post("/login", data);
       const { token, user_id } = response.data;
@@ -26,7 +26,7 @@ export const Login = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <>

@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useRegister } from "../../hooks/userRegister";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
 import { InputForm } from "../../components/Input/forms";
 import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
+import { ModalRegister } from "../../components/ModalRegister";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -21,17 +22,29 @@ export const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+
   const { userRegister, loading } = useRegister();
+
+  // const handleRegistry = (data)=> {
+
+  // console.log(data)
+
+  // useRegister(data)
+
+  // }
+
   return (
-    <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center bg-grey7 p-[15px]">
-      <div className="w-full flex py-[55px] ">
-        <main className="w-full flex flex-col jutify-center items-center px-[50px]">
+    <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
+      <div className="w-full flex py-[55px]">
+        <main className="w-full flex flex-col jutify-center items-center">
           <form
             onSubmit={handleSubmit(userRegister)}
             className="w-auto bg-grey10 pl-[48px] pr-[48px] pt-[44px] pb-[44px] rounded"
@@ -291,9 +304,22 @@ export const Register = () => {
           border-brand1 text-white hover:bg-brand2 
           font:bold hover:border-brand2 font-bold"
                 type="submit"
+                onClick={toggleModal}
               >
                 {loading ? "Registrando..." : "Finalizar cadastro"}
               </button>
+
+              {isSubmitSuccessful ? (
+                <ModalRegister toggleModal={toggleModal} />
+              ) : (
+                <p></p>
+              )}
+
+              <p>Já possui Cadastro ?</p>
+
+              <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
+                <Link to={"/login"}>Ir para Login</Link>
+              </div>
             </div>
           </form>
         </main>

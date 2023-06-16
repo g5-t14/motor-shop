@@ -8,7 +8,6 @@ interface InputProps {
   register?: object;
   defaultValue?: string;
   loading?: boolean;
-  error?: ReactNode;
 }
 
 export function InputForm({
@@ -19,8 +18,7 @@ export function InputForm({
   register,
   defaultValue,
   loading,
-}: // error,
-InputProps) {
+}: InputProps) {
   return (
     <fieldset className="flex  flex-col relative gap-2 border-none">
       <label className="font-bold text-[14px]" htmlFor={id}>
@@ -40,7 +38,6 @@ InputProps) {
         defaultValue={defaultValue}
         disabled={loading}
       />
-      {/* {error} */}
     </fieldset>
   );
 }
