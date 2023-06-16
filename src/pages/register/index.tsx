@@ -18,21 +18,8 @@ export const Register = () => {
     mode: "onChange",
   });
 
-
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
-
-
-  console.log(isSubmitSuccessful);
-
-  const { userRegister, loading } = useRegister();
-
-  // const handleRegistry = (data)=> {
-
-  // console.log(data)
-
-  // useRegister(data)
-
 
   const { userRegister, loading } = useRegister();
 
@@ -154,14 +141,18 @@ export const Register = () => {
 
             <div className="flex justify-between items-center">
               <button
-                onClick={(event)=>{event.preventDefault()}}
+                onClick={(event) => {
+                  event.preventDefault();
+                }}
                 className=" bg-grey5 border-grey2 border-solid  text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="true"
               >
                 Vendedor
               </button>
               <button
-                onClick={(event)=>{event.preventDefault()}}
+                onClick={(event) => {
+                  event.preventDefault();
+                }}
                 className="bg-grey5 border-grey2 border-solid text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="false"
               >
