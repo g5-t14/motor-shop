@@ -1,38 +1,35 @@
 import { useForm } from "react-hook-form";
 import { useRegister } from "../../hooks/userRegister";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
 import { InputForm } from "../../components/Input/forms";
 import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
+import { useState } from "react";
+import { ModalRegister } from "../../components/ModalRegister";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+
   const { userRegister, loading } = useRegister();
-
-  // const handleRegistry = (data)=> {
-
-  // console.log(data)
-
-  // useRegister(data)
-
-  // }
 
   return (
     <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
       <div className="w-full flex py-[55px]">
-        <main className="w-full flex flex-col jutify-center items-center">
+        <main className="w-full flex flex-col justify-center items-center">
           <form
             onSubmit={handleSubmit(userRegister)}
-            className="  p-8 w-[70%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-md max-w-sm "
+            className="  p-8 w-[70%] box-border top-20 flex flex-col gap-1.5 max-w-360 rounded-3xl shadow-lg max-w-sm "
           >
             <h2 className="font-bold text-lg">Cadastro</h2>
 
@@ -142,31 +139,26 @@ export const Register = () => {
               }
             />
 
-            <select
-              className="box-border h-[40px] w-[100%] outline-none p-0 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
-            >
-              <option
-                className="box-border h-[40px] w-[100%] outline-none 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
+            <div className="flex justify-between items-center">
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                }}
+                className=" bg-grey5 border-grey2 border-solid  text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="true"
               >
                 Vendedor
-              </option>
-              <option
-                className="box-border h-[40px] w-[100%] outline-none 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
+              </button>
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                }}
+                className="bg-grey5 border-grey2 border-solid text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="false"
               >
-                Client
-              </option>
-            </select>
+                Cliente
+              </button>
+            </div>
 
             <InputForm
               id="cep"
@@ -264,26 +256,26 @@ export const Register = () => {
               </p>
             </div>
 
-            <div className="flex flex-col flex-auto items-center justify-center">
+            <div className="flex flex-col flex-auto items-center justify-between">
               <button
-                className="w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-brand1 
-          border-brand1 text-white hover:bg-brand2 
-          font:bold hover:border-brand2 "
+                className=" bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1"
                 type="submit"
+                onClick={toggleModal}
               >
                 {loading ? "Cadastrando..." : "Cadastrar"}
               </button>
 
+              {isSubmitSuccessful ? (
+                <ModalRegister toggleModal={toggleModal} />
+              ) : (
+                <p></p>
+              )}
+
               <p>Já possui Cadastro ?</p>
 
-              <span
-                className="flex align-center justify-center items-center w-[100%] h-[48px] my-20 rounded-2xl flex-grow-0 bg-grey10 
-border-solid 
-border-grey1  text-black hover:bg-grey4 
-font:bold hover:border-brand2 cursor-pointer "
-              >
-                <Link to={"/login"}>Fazer Login</Link>
-              </span>
+              <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
+                <Link to={"/login"}>Ir para Login</Link>
+              </div>
             </div>
           </form>
         </main>

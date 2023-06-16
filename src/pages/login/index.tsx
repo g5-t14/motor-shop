@@ -5,17 +5,25 @@ import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input/default";
 import { apiLocal } from "../../services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { ModalLogin } from "../../components/ModalLogin";
 
 export const Login = () => {
-  const { register, handleSubmit } = useForm<LoginData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+  
+  const navigate = useNavigate()
 
-  const navigate = useNavigate();
-
-  async function userLogin(data: LoginData) {
+  const userLogin = async (data: LoginData) => {
     try {
       const response = await apiLocal.post("/login", data);
       const { token, user_id } = response.data;
@@ -26,7 +34,7 @@ export const Login = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <>
@@ -55,10 +63,16 @@ export const Login = () => {
           <PurpleButton size="big" type="submit">
             Entrar
           </PurpleButton>
+          {isSubmitSuccessful ? (
+            <ModalLogin toggleModal={toggleModal} />
+          ) : (
+            <p></p>
+          )}
           <p className="text-center">Ainda não possui conta?</p>
-          <BorderGreyButton size="big" type="button">
-            Cadastrar
-          </BorderGreyButton>
+
+          <div className=" bg-none border-grey4 text-grey0 hover:bg-grey1 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1">
+                <Link to={"/register"}>Fazer Registro</Link>
+              </div>
         </form>
       </main>
       <Footer />
