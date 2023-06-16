@@ -20,7 +20,7 @@ export const Login = () => {
   });
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
-  const navigate = useNavigate();
+  
 
   const userLogin = async (data: LoginData) => {
     try {

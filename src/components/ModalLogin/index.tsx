@@ -1,6 +1,7 @@
 import { Modal } from "../Modal";
 import { useNavigate } from "react-router-dom";
 import { PurpleButton } from "../Button";
+import { Link } from "react-router-dom";
 
 interface ModalRegisterTaskProps {
   toggleModal: () => void;
@@ -23,12 +24,14 @@ export const ModalLogin = ({ toggleModal }: ModalRegisterTaskProps) => {
             Seu Login foi feito com sucesso!
           </span>
           <p> Agora você poderá ver seus negócios crescendo em grande escala</p>
-          <PurpleButton size="big" onClick={() => navigate("/")}>
+          <Link
+            className=" bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-[20%] rounded-2x1"
+            to={"/"}
+          >
             Ir para home
-          </PurpleButton>
+          </Link>
         </div>
       </div>
     </Modal>
   );
 };
-

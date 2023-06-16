@@ -6,8 +6,7 @@ import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
 import { useState } from "react";
 import { ModalRegister } from "../../components/ModalRegister";
-import { BorderGreyButton, PurpleButton } from "../../components/Button";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const {
@@ -21,7 +20,7 @@ export const Register = () => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
-  const navigate = useNavigate();
+
 
   console.log(isSubmitSuccessful);
 
@@ -143,31 +142,22 @@ export const Register = () => {
               }
             />
 
-            <select
-              className="box-border h-[40px] w-[100%] outline-none p-0 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
-            >
-              <option
-                className="box-border h-[40px] w-[100%] outline-none 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
+            <div className="flex justify-between items-center">
+              <button
+                onClick={(event)=>{event.preventDefault()}}
+                className=" bg-grey5 border-grey2 border-solid  text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="true"
               >
                 Vendedor
-              </option>
-              <option
-                className="box-border h-[40px] w-[100%] outline-none 16px 
-          border-solid 
-          border-2px 
-          rounded-2xl"
+              </button>
+              <button
+                onClick={(event)=>{event.preventDefault()}}
+                className="bg-grey5 border-grey2 border-solid text-grey0 hover:bg-brand1 hover:border-grey1 hover:text-whiteFixed  h-[40px] w-[40%] focus:bg-brand1 focus:text-whiteFixed px-4 rounded-1xl"
                 value="false"
               >
-                Client
-              </option>
-            </select>
+                Cliente
+              </button>
+            </div>
 
             <InputForm
               id="cep"
@@ -265,7 +255,7 @@ export const Register = () => {
               </p>
             </div>
 
-            <div className="flex flex-col flex-auto items-center justify-center">
+            <div className="flex flex-col flex-auto items-center justify-between">
               <button
                 className=" bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-full rounded-2x1"
                 type="submit"
