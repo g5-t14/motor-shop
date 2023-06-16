@@ -18,11 +18,21 @@ export const Register = () => {
     mode: "onChange",
   });
 
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
 
 
   console.log(isSubmitSuccessful);
+
+  const { userRegister, loading } = useRegister();
+
+  // const handleRegistry = (data)=> {
+
+  // console.log(data)
+
+  // useRegister(data)
+
 
   const { userRegister, loading } = useRegister();
 
