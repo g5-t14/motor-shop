@@ -12,15 +12,14 @@ export const AdvertiserProfile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userInfo, setUserInfo] = useState<UserData[]>([]);
   const [adArray, setAdArray] = useState<UserAdsResponse[]>([]);
-  const cardsPerPage = 20;
-  const totalPages = Math.ceil(mockData.length / cardsPerPage);
+  const cardsPerPage = 8;
+  const totalPages = Math.ceil(adArray.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = mockData.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = adArray.slice(indexOfFirstCard, indexOfLastCard);
 
   const token = localStorage.getItem("user-token");
   const userId = localStorage.getItem("user-id");
-
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -109,9 +108,9 @@ export const AdvertiserProfile = () => {
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
-          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto ">
+          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
             {adArray?.length > 0 ? (
-              adArray?.map((ad) => (
+              currentCards.map((ad) => (
                 <Card
                   key={ad.id}
                   brand={ad.brand}
@@ -121,10 +120,12 @@ export const AdvertiserProfile = () => {
                   id={ad.id}
                   is_active={"none"}
                   mileage={ad.mileage}
-                  name={ad.model}
+                  model={ad.model}
                   user_seller={ad.user_seller}
-                  value={ad.price}
+                  price={ad.price}
                   year={ad.year}
+                  color={ad.user_seller.user_color}
+                  cover_img={ad.cover_img}
                 />
               ))
             ) : (

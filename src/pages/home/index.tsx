@@ -8,47 +8,47 @@ import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 
 export interface CarPictures {
-  picture_1: string,
-  picture_2: string,
-  picture_3: string | null,
-  picture_4: string | null,
-  picture_5: string | null,
-  picture_6: string | null
+  picture_1: string;
+  picture_2: string;
+  picture_3: string | null;
+  picture_4: string | null;
+  picture_5: string | null;
+  picture_6: string | null;
 }
 
 export interface CarSeller {
-id: number,
-name: string,
-user_color: string
+  id: number;
+  name: string;
+  user_color: string;
 }
 
 export interface CarProps {
-id: number,
-brand: string,
-model: string,
-year: string,
-fuel: string,
-mileage: string,
-color: string,
-fipe_table: number,
-price: number,
-description: string,
-cover_img: string,
-is_active: boolean,
-pictures: CarPictures,
-user_seller: CarSeller
+  id: number;
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  mileage: string;
+  color: string;
+  fipe_table: number;
+  price: number;
+  description: string;
+  cover_img: string;
+  is_active: boolean;
+  pictures: CarPictures;
+  user_seller: CarSeller;
 }
 
 export const Home = () => {
-  const [cars, setCars] = useState<CarProps[]>([])
+  const [cars, setCars] = useState<CarProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 12;
-  const totalPages = Math.ceil(mockData.length / cardsPerPage);
+  const totalPages = Math.ceil(cars.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = mockData.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = cars.slice(indexOfFirstCard, indexOfLastCard);
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -58,15 +58,16 @@ export const Home = () => {
     setCurrentPage(currentPage - 1);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     (async () => {
-      const response = await apiLocal.get<CarProps[]>(`ads`)    
-      const avaliableCars: CarProps[] =  response.data.filter(car => car.is_active) 
-      console.log(avaliableCars)
-      setCars(avaliableCars)
-    })()
-
-  },[])
+      const response = await apiLocal.get<CarProps[]>(`ads`);
+      const avaliableCars: CarProps[] = response.data.filter(
+        (car) => car.is_active
+      );
+      console.log(avaliableCars);
+      setCars(avaliableCars);
+    })();
+  }, []);
 
   return (
     <>
@@ -78,7 +79,7 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {cars.map((ad) => (
+              {currentCards.map((ad) => (
                 <Card
                   key={ad.id}
                   id={ad.id}
@@ -95,7 +96,6 @@ export const Home = () => {
                   is_active={"none"}
                   // (ad.is_active).toString()
                   user_seller={ad.user_seller}
-                  
                 />
               ))}
             </ul>
