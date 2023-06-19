@@ -21,6 +21,7 @@ export const Header = () => {
   const showMenu = () => {
     setActive(!active);
   };
+
   return (
     <>
       <header className="bg-grey10 text-white h-20 shadow-bottom relative sticky top-0 right-0 left-0 z-10">
@@ -45,7 +46,7 @@ export const Header = () => {
             </button>
           </nav>
 
-          <nav className="hidden md:block md:flex md:gap-11 items-center border-l-2 border-grey6 h-full pl-11">
+          <nav className="hidden md:flex md:gap-11 items-center border-l-2 border-grey6 h-full pl-11">
             <button
               type="button"
               className={`mr-4 border-none underline-hover font-semibold delay-1000 text-grey2 ${

@@ -25,3 +25,32 @@ export const userSchema = z.object({
 });
 
 export type UserData = z.infer<typeof userSchema>;
+
+export const profileSchema = userSchema.omit({
+  id: true,
+  is_seller: true,
+  cep: true,
+  state: true,
+  city: true,
+  street: true,
+  number: true,
+  complement: true,
+  user_color: true,
+});
+
+export type ProfileData = z.infer<typeof profileSchema>;
+
+export const addressSchema = userSchema.omit({
+  id: true,
+  name: true,
+  email: true,
+  password: true,
+  cpf: true,
+  phone: true,
+  birthdate: true,
+  description: true,
+  is_seller: true,
+  user_color: true,
+});
+
+export type AddressData = z.infer<typeof addressSchema>;
