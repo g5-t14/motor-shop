@@ -102,7 +102,7 @@ const AsideHome = () => {
                   onClick={() => {
                     setActiveFilter(name);
                     setActiveModelFilter(name);
-                    setSelectedModel(name); // Define o modelo selecionado
+                    setSelectedModel(name);
                   }}
                 >
                   {name}
