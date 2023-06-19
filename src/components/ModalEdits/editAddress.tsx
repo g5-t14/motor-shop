@@ -2,16 +2,23 @@ import { Input } from "../Input/default";
 import { useForm } from "react-hook-form";
 import { GrClose } from "react-icons/gr";
 import { GreyButton, PurpleButton } from "../Button";
+import { useUser } from "../../hooks/useUser";
+import { AddressData, addressSchema } from "../../validations/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const EditAddressModal = () => {
-  const {
-    register,
-    /* handleSubmit */
-  } = useForm();
+  const { addressEdit } = useUser();
+
+  const { register, handleSubmit } = useForm<AddressData>({
+    resolver: zodResolver(addressSchema),
+  });
 
   return (
     <div className="fixed z-50 top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center overflow-hidden">
-      <form className="box-border h-[700px] flex flex-col gap-4 w-full max-w-lg bg-whiteFixed p-4 rounded-md overflow-auto md:h-auto md:max-w-[33rem]">
+      <form
+        onSubmit={handleSubmit(addressEdit)}
+        className="box-border h-[700px] flex flex-col gap-4 w-full max-w-lg bg-whiteFixed p-4 rounded-md overflow-auto md:h-auto md:max-w-[33rem]"
+      >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar endereço</h2>
           <button className="text-grey4">
@@ -57,7 +64,7 @@ export const EditAddressModal = () => {
             label="Número"
             placeholder="Digite o número da sua rua"
             type="text"
-            register={register("birthdate")}
+            register={register("number")}
           />
           <Input
             id="complement"
