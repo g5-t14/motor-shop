@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { adData, adSchema } from "../../validations/ad";
 import { UserAdsResponse } from "../../providers/CarProvider";
 
-interface modelsRequest {
+export interface modelsRequest {
   id: string;
   name: string;
   fuel: number;

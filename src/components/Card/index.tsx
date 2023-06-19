@@ -22,7 +22,6 @@ interface CardProps {
   user_seller: CarSeller;
 }
 
-
 export const Card = ({
   id,
   brand,
@@ -38,7 +37,6 @@ export const Card = ({
   is_active,
   user_seller,
 }: CardProps) => {
-
   /*const formatAdTitle = (brand: string, model: string): string => {
     const formatedBrand = brand.charAt(0).toUpperCase() + brand.slice(1);
     const formatedName =
@@ -78,23 +76,22 @@ export const Card = ({
           </div>
         )}
 
-        <img
-          className="w-full"
-          src={cover_img}
-          alt="Cars Photo"
-        />
+        <img className="w-full" src={cover_img} alt="Cars Photo" />
       </div>
       <div className="flex flex-col gap-4">
         <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1">
           {
-          //formatAdTitle(brand, model)
+            //formatAdTitle(brand, model)
           }
         </h3>
         <p className="text-grey2 font-normal text-[14px] leading-6 truncate whitespace-normal line-clamp-2">
           {description}
         </p>
         <div className="flex items-center gap-2 ">
-          <div className="rounded-full  w-8 h-8 flex items-center justify-center" style={{ backgroundColor: `${user_seller.user_color}` }}>
+          <div
+            className="rounded-full  w-8 h-8 flex items-center justify-center"
+            style={{ backgroundColor: `${user_seller.user_color}` }}
+          >
             <span className="text-white font-medium text-[14px]">
               {user_seller.name.charAt(0).toUpperCase()}
             </span>

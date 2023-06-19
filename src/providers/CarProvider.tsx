@@ -18,8 +18,8 @@ export interface UserAdsResponse {
   brand: string;
   model: string;
   year: string;
-  fuel: number;
-  mileage: number;
+  fuel: string;
+  mileage: string;
   color: string;
   fipe_table: number;
   price: number;

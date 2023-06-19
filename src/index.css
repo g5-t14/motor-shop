@@ -5,7 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @keyframes slideFromRight {
   0% {
     opacity: 0;
@@ -49,10 +48,21 @@
   }
 
   .bg-duo {
-    @apply bg-gradient-to-b from-brand1 from-[450px] via-grey7 via-[450px] to-grey7 to-100%
+    @apply bg-gradient-to-b from-brand1 from-[450px] via-grey7 via-[450px] to-grey7 to-100%;
   }
 
   .bg-duo-big {
-    @apply bg-gradient-to-b from-brand1 from-[550px] via-grey7 via-[550px] to-grey7 to-100%
+    @apply bg-gradient-to-b from-brand1 from-[550px] via-grey7 via-[550px] to-grey7 to-100%;
   }
+}
+
+.active ~ button {
+  display: none;
+}
+.button-category {
+  display: none;
+}
+
+.button-category.active {
+  display: inline-block;
 }
