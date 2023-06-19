@@ -3,30 +3,17 @@ import { PurpleButton } from "../../components/Button";
 import { LoginData, loginSchema } from "../../validations/login";
 import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input/default";
-import { apiLocal } from "../../services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Login = () => {
+  const { userLogin } = useAuth()
+
   const { register, handleSubmit } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
-
-  const navigate = useNavigate();
-
-  const userLogin = async (data: LoginData) => {
-    try {
-      const response = await apiLocal.post("/login", data);
-      const { token, user_id } = response.data;
-      apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
-      localStorage.setItem("user-token", token);
-      localStorage.setItem("user-id", user_id);
-      navigate(`/advertiser/${user_id}`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <>

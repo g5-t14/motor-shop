@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/userAuth";
+import { useAuth } from "../hooks/useAuth";
 
-export const ProtectedRoutes = ()=>{
+export const ProtectedRoutes = () => {
   const { tokenLoading, userExists } = useAuth();
 
   if (tokenLoading) {
@@ -9,4 +9,4 @@ export const ProtectedRoutes = ()=>{
   }
 
   return userExists ? <Outlet /> : <Navigate to="/login" />;
-}
+};
