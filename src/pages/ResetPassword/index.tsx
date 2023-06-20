@@ -17,7 +17,7 @@ export const ResetPassword = () => {
 
   const sendNewPassword = async (newPassword:any) => {
     try {
-      const response = await apiLocal.post(`/users/resetPassword/${token}`,newPassword)
+      const response = await apiLocal.patch(`/users/resetPassword/${token}`,newPassword)
       console.log(response)
     } catch (error) {
       console.log(error)
