@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
 import { Api } from "../services/apiMotors";
 import { useNavigate } from "react-router-dom";
 import { RegisterData } from "../validations/register";
@@ -10,6 +16,8 @@ interface RegisterProviderProps {
 interface RegisterContextValues {
   userRegister: (data: RegisterData) => void;
   loading: boolean;
+  setSelectedOption: Dispatch<SetStateAction<string>>;
+  selectedOption: string;
 }
 
 export const RegisterContext = createContext<RegisterContextValues>(
@@ -19,10 +27,13 @@ export const RegisterContext = createContext<RegisterContextValues>(
 export const RegisterProvider = ({ children }: RegisterProviderProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("true");
 
   const userRegister = async (data: RegisterData) => {
     try {
       setLoading(true);
+
+      data.is_seller = selectedOption === "false";
       await Api.post("/users", data);
     } catch (error) {
       console.error(error);
@@ -32,7 +43,9 @@ export const RegisterProvider = ({ children }: RegisterProviderProps) => {
   };
 
   return (
-    <RegisterContext.Provider value={{ userRegister, loading }}>
+    <RegisterContext.Provider
+      value={{ userRegister, loading, setSelectedOption, selectedOption }}
+    >
       {children}
     </RegisterContext.Provider>
   );

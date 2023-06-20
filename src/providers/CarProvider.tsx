@@ -38,6 +38,7 @@ export interface UserAdsResponse {
     id: number;
     name: string;
     user_color: string;
+    description: string;
   };
 }
 

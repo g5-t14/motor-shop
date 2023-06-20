@@ -13,13 +13,14 @@ interface CarPictures {
   picture_6: string | null;
 }
 
-interface CarSeller {
+export interface CarSeller {
   id: number;
   name: string;
   user_color: string;
+  description: string;
 }
 
-interface CarProps {
+export interface CarProps {
   id: number;
   brand: string;
   model: string;
@@ -131,7 +132,8 @@ export const Product = () => {
               </section>
               <section className="flex flex-col gap-7 px-7 py-10 items-center rounded bg-grey10 mb-[18px]">
                 <div
-                  className="rounded-full w-[77px] h-[77px] flex items-center justify-center"  style={{ backgroundColor: `${car.user_seller.user_color}` }}
+                  className="rounded-full w-[77px] h-[77px] flex items-center justify-center"
+                  style={{ backgroundColor: `${car.user_seller.user_color}` }}
                 >
                   <span className="text-white font-medium text-[27px] leading-[40px]">
                     {car.user_seller.name.charAt(0).toUpperCase()}
