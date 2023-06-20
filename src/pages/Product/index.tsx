@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { BlackButton, PurpleButton } from "../../components/Button";
+import { PurpleButton } from "../../components/Button";
 import { Footer } from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { apiLocal } from "../../services/api";
