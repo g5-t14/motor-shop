@@ -5,9 +5,9 @@ import {
   createContext,
   useState,
 } from "react";
-import { Api } from "../services/apiMotors";
 import { useNavigate } from "react-router-dom";
 import { RegisterData } from "../validations/register";
+import { apiLocal } from "../services/api";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -34,7 +34,7 @@ export const RegisterProvider = ({ children }: RegisterProviderProps) => {
       setLoading(true);
 
       data.is_seller = selectedOption === "false";
-      await Api.post("/users", data);
+      await apiLocal.post("/users", data);
     } catch (error) {
       console.error(error);
     } finally {

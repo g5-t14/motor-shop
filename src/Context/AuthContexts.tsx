@@ -14,6 +14,7 @@ interface AuthContextValues {
   setUserData: (value: UserData) => void;
   userExists: boolean;
   logout: () => void;
+  tokenLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextValues>(
@@ -24,12 +25,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({} as UserData);
   const [userExists, setUserExists] = useState(false);
-
+  const [tokenLoading, setTokenLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("user-token");
       const id = localStorage.getItem("user-id");
       if (!token || !id) {
+        setTokenLoading(false);
         return;
       }
       try {
@@ -41,6 +43,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setTokenLoading(false);
       }
     })();
   }, []);
@@ -52,6 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem("user-token", token);
       localStorage.setItem("user-id", user_id);
+
       navigate(`/advertiser/${user_id}`);
     } catch (error) {
       console.error(error);
@@ -71,6 +76,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUserData,
         userExists,
         logout,
+        tokenLoading,
       }}
     >
       {children}

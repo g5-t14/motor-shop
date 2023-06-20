@@ -9,6 +9,11 @@ import { ModalRegister } from "../../components/ModalRegister";
 import { Link } from "react-router-dom";
 
 export const Register = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+
+  const { userRegister, loading, setSelectedOption, selectedOption } =
+    useRegister();
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
@@ -21,12 +26,6 @@ export const Register = () => {
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
-
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const toggleModal = () => setIsOpenModal(!isOpenModal);
-
-  const { userRegister, loading, setSelectedOption, selectedOption } =
-    useRegister();
 
   return (
     <>
