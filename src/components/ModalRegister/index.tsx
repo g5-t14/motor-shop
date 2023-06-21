@@ -1,6 +1,4 @@
 import { Modal } from "../Modal";
-import { useNavigate } from "react-router-dom";
-import { PurpleButton } from "../Button";
 import { Link } from "react-router-dom";
 
 interface ModalRegisterTaskProps {
@@ -8,7 +6,6 @@ interface ModalRegisterTaskProps {
 }
 
 export const ModalRegister = ({ toggleModal }: ModalRegisterTaskProps) => {
-  const navigate = useNavigate();
 
   return (
     <Modal toggleModal={toggleModal}>
