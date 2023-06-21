@@ -8,19 +8,19 @@ import { ProtectedRoutes } from "./protectedRoutes";
 export const RoutesMain = () => {
   return (
     <Routes>
-        <Route
-          path="/register"
-          element={
-            <RegisterProvider>
-              <Register />
-            </RegisterProvider>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/register"
+        element={
+          <RegisterProvider>
+            <Register />
+          </RegisterProvider>
+        }
+      />
+      <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/" element={<Home />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

@@ -2,11 +2,11 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const ProtectedRoutes = () => {
-  const { tokenLoading, userExists } = useAuth();
+  const { tokenLoading } = useAuth();
 
   if (tokenLoading) {
     return <p>Carregando...</p>;
   }
 
-  return userExists ? <Outlet /> : <Navigate to="/login" />;
+  return <Outlet />;
 };

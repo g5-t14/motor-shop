@@ -1,7 +1,7 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { apiLocal } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
-import { AddressData, ProfileData } from "../validations/user";
+import { AddressData, ProfileData, UserData } from "../validations/user";
 
 interface ContactProviderProps {
   children: ReactNode;
@@ -13,6 +13,7 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
+  userLogged: UserData;
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -22,6 +23,25 @@ export const UserContext = createContext<ProfileProviderValues>(
 export const UserProvider = ({ children }: ContactProviderProps) => {
   const [editProfileModal, setEditProfileModal] = useState(false);
   const { userData, setUserData, logout } = useAuth();
+  const userId = localStorage.getItem("user-id");
+  const [userLogged, setUserLogged] = useState<UserData>({
+    name: "",
+    description: "",
+    id: 0,
+    user_color: "",
+    number: "",
+    email: "",
+    password: "",
+    cpf: "",
+    phone: "",
+    birthdate: "",
+    is_seller: false,
+    cep: "",
+    state: "",
+    city: "",
+    street: "",
+    complement: "",
+  });
 
   const profileEdit = async (data: ProfileData) => {
     try {
@@ -33,6 +53,16 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiLocal.get(`/users/${userId}`);
+        setUserLogged(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -60,6 +90,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         profileEdit,
         addressEdit,
         deleteProfile,
+        userLogged,
       }}
     >
       {children}

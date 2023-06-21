@@ -7,6 +7,7 @@ import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { adData, adSchema } from "../../validations/ad";
 import { UserAdsResponse } from "../../providers/CarProvider";
+import { CarProps } from "../../pages/home";
 
 export interface modelsRequest {
   id: string;
@@ -19,7 +20,7 @@ export interface modelsRequest {
 
 interface ModalCreateAdTaskProps {
   toggleModal: () => void;
-  setAds: React.Dispatch<React.SetStateAction<UserAdsResponse[]>>;
+  setAds: React.Dispatch<React.SetStateAction<CarProps[]>>;
 }
 
 const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {

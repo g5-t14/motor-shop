@@ -1,23 +1,40 @@
 import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
-import { mockData } from "../../mock";
 import ModalCreateAd from "../../components/ModalCreateAd";
 import { apiLocal } from "../../services/api";
 import { UserData } from "../../validations/user";
-import { UserAdsResponse } from "../../providers/CarProvider";
+import { useParams } from "react-router-dom";
+import { CarProps } from "../home";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userInfo, setUserInfo] = useState<UserData[]>([]);
-  const [adArray, setAdArray] = useState<UserAdsResponse[]>([]);
+  const [userInfo, setUserInfo] = useState<UserData>({
+    name: "",
+    description: "",
+    id: 0,
+    user_color: "",
+    number: "",
+    email: "",
+    password: "",
+    cpf: "",
+    phone: "",
+    birthdate: "",
+    is_seller: false,
+    cep: "",
+    state: "",
+    city: "",
+    street: "",
+    complement: "",
+  });
+  const [adArray, setAdArray] = useState<CarProps[]>([]);
   const cardsPerPage = 8;
   const totalPages = Math.ceil(adArray.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = adArray.slice(indexOfFirstCard, indexOfLastCard);
-
+  const currentCards = adArray?.slice(indexOfFirstCard, indexOfLastCard);
+  const { id } = useParams();
   const token = localStorage.getItem("user-token");
   const userId = localStorage.getItem("user-id");
   const toggleModal = () => setIsOpenModal(!isOpenModal);
@@ -28,31 +45,20 @@ export const AdvertiserProfile = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (!token) {
-          return;
-        }
-        apiLocal.defaults.headers.common.Authorization = `Bearer ${token}`;
-        const response = await apiLocal.get(`/users/${userId}`);
-        const ads = [response.data];
-        setUserInfo(ads);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-    (async () => {
-      try {
-        if (!token) {
-          return;
-        }
-        apiLocal.defaults.headers.common.Authorization = `Bearer ${token}`;
-        const response = await apiLocal.get<UserAdsResponse[]>(
-          `/ads/seller/${userId}`
-        );
-
+        const response = await apiLocal.get(`/ads/seller/${id}`);
         const ad = response.data;
         setAdArray(ad);
       } catch (error) {
         console.log(error);
+      }
+    })();
+
+    (async () => {
+      try {
+        const response = await apiLocal.get(`/users/${id}`);
+        setUserInfo(response.data);
+      } catch (err) {
+        console.log(err);
       }
     })();
   }, []);
@@ -71,40 +77,40 @@ export const AdvertiserProfile = () => {
   const previousPage = () => {
     setCurrentPage(currentPage - 1);
   };
-  const bgColor = userInfo?.[0]?.user_color;
+  const bgColor = userInfo?.user_color;
   return (
     <>
       <div className="bg-brand1 h-[357px]">
-        {userInfo?.map((user) => (
+        <div
+          key={userInfo?.id}
+          className="bg-grey10 h-auto min-h-[370px] w-11/12 mx-auto max-w-[1240px] transform translate-y-[100px] pl-[28px] pt-[40px] rounded pr-[30px] pb-[42px] mb-[200px]"
+        >
           <div
-            key={user.id}
-            className="bg-grey10 h-auto w-11/12 mx-auto max-w-[1240px] transform translate-y-[100px] pl-[28px] pt-[40px] rounded pr-[30px] pb-[42px] mb-[200px]"
+            className="bg-purple-500 w-[104px] h-[104px] rounded-full"
+            style={{ backgroundColor: bgColor }}
           >
-            <div
-              className="bg-purple-500 w-[104px] h-[104px] rounded-full"
-              style={{ backgroundColor: bgColor }}
-            >
-              <p className="text-white text-4xl flex items-center justify-center h-full">
-                {getInitials(user.name)}
-              </p>
-            </div>
-            <div className="flex mb-[24px] mt-[24px]">
-              <h3 className="text-xl font-bold mr-3">{user.name}</h3>
-              <div className="text-sm h-8 font-600 w-28 bg-brand4 text-brand1 flex justify-center items-center rounded">
-                Anunciante
-              </div>
-            </div>
-            <p className="mt-2 text-grey2 font-400 leading-7 text-justify">
-              {user.description}
+            <p className="text-white text-4xl flex items-center justify-center h-full">
+              {getInitials(userInfo?.name)}
             </p>
+          </div>
+          <div className="flex mb-[24px] mt-[24px]">
+            <h3 className="text-xl font-bold mr-3">{userInfo?.name}</h3>
+            <div className="text-sm h-8 font-600 w-28 bg-brand4 text-brand1 flex justify-center items-center rounded">
+              Anunciante
+            </div>
+          </div>
+          <p className="mt-2 text-grey2 font-400 leading-7 text-justify">
+            {userInfo?.description}
+          </p>
+          {userId === id && (
             <button
               className="mt-[39px] px-4 py-2 rounded-md border-2 border-brand1 text-brand1 bg-transparent"
               onClick={toggleModal}
             >
               Criar anúncio
             </button>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
@@ -124,7 +130,7 @@ export const AdvertiserProfile = () => {
                   user_seller={ad.user_seller}
                   price={ad.price}
                   year={ad.year}
-                  color={ad.user_seller.user_color}
+                  color={ad.color}
                   cover_img={ad.cover_img}
                 />
               ))

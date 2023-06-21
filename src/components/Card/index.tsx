@@ -76,7 +76,11 @@ export const Card = ({
           </div>
         )}
 
-        <img className="w-full" src={cover_img} alt="Cars Photo" />
+        <img
+          className="w-full max-h-[152px]"
+          src={cover_img}
+          alt="Cars Photo"
+        />
       </div>
       <div className="flex flex-col gap-4">
         <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1">
@@ -87,19 +91,21 @@ export const Card = ({
         <p className="text-grey2 font-normal text-[14px] leading-6 truncate whitespace-normal line-clamp-2">
           {description}
         </p>
-        <div className="flex items-center gap-2 ">
-          <div
-            className="rounded-full  w-8 h-8 flex items-center justify-center"
-            style={{ backgroundColor: `${user_seller.user_color}` }}
-          >
-            <span className="text-white font-medium text-[14px]">
-              {user_seller.name.charAt(0).toUpperCase()}
+        {user_seller && (
+          <div className="flex items-center gap-2 ">
+            <div
+              className="rounded-full w-8 h-8 flex items-center justify-center"
+              style={{ backgroundColor: user_seller.user_color }}
+            >
+              <span className="text-white font-medium text-[14px]">
+                {user_seller.name.charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <span className="text-grey2 font-medium text-[14px] leading-6">
+              {user_seller.name}
             </span>
           </div>
-          <span className="text-grey2 font-medium text-[14px] leading-6">
-            {user_seller.name}
-          </span>
-        </div>
+        )}
         <div className="flex justify-between">
           <div className="flex gap-3">
             <span className="pt-1 pb-1 pl-2 pr-2 bg-brand4 text-brand1 rounded font-medium text-[14px] leading-6">
@@ -110,10 +116,11 @@ export const Card = ({
             </span>
           </div>
           <span className="font-lexend text-[16px] leading-5 font-medium">
-            {price.toLocaleString("pt-br", {
-              style: "currency",
-              currency: "BRL",
-            })}
+            {price &&
+              price.toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL",
+              })}
           </span>
         </div>
       </div>
