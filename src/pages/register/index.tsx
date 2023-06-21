@@ -6,7 +6,7 @@ import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ModalRegister } from "../../components/ModalRegister";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -21,7 +21,7 @@ export const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -204,11 +204,7 @@ export const Register = () => {
                   {loading ? "Registrando..." : "Finalizar cadastro"}
                 </button>
 
-                {isSubmitSuccessful ? (
-                  <ModalRegister toggleModal={toggleModal} />
-                ) : (
-                  <p></p>
-                )}
+                {isSubmitSuccessful ? (<ModalRegister toggleModal={toggleModal} />) : (<p></p>)}
               </div>
             </form>
           </main>
