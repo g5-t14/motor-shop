@@ -8,11 +8,14 @@ interface ContactProviderProps {
 }
 
 interface ProfileProviderValues {
-  editProfileModal: boolean;
-  setEditProfileModal: (value: boolean) => void;
+  editProfileModal: () => void;
+  editAddressModal: () => void;
+  profileModal: boolean;
+  addressModal: boolean;
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
+  teste: (data: ProfileData) => void
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -20,15 +23,28 @@ export const UserContext = createContext<ProfileProviderValues>(
 );
 
 export const UserProvider = ({ children }: ContactProviderProps) => {
-  const [editProfileModal, setEditProfileModal] = useState(false);
   const { userData, setUserData, logout } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [profileModal, setProfileModal] = useState(false);
+  const [addressModal, setAddressModal] = useState(false);
+
+  const editProfileModal = () => {
+    setProfileModal(!profileModal);
+  };
+
+  const editAddressModal = () => {
+    setAddressModal(!addressModal);
+  };
+
+  function teste(data: ProfileData) {
+    console.log(data)
+  }
 
   const profileEdit = async (data: ProfileData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
-      setEditProfileModal(false);
       setUserData(response.data);
+      editProfileModal();
     } catch (error) {
       console.error(error);
     }
@@ -47,8 +63,8 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
-      setEditProfileModal(false);
       setUserData(response.data);
+      editAddressModal();
     } catch (error) {
       console.error(error);
     }
@@ -66,11 +82,14 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   return (
     <UserContext.Provider
       value={{
+        profileModal,
+        addressModal,
         editProfileModal,
-        setEditProfileModal,
+        editAddressModal,
         profileEdit,
         addressEdit,
-        deleteProfile
+        deleteProfile,
+        teste
       }}
     >
       {children}

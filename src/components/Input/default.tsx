@@ -3,10 +3,11 @@ interface InputProps {
   label: string;
   placeholder: string;
   type: "text" | "password" | "email" | "tel" | "number";
+  defaultValue?: string;
   register: object;
 }
 
-export function Input({ id, label, type, placeholder, register }: InputProps) {
+export function Input({ id, label, type, placeholder, defaultValue, register }: InputProps) {
   return (
     <fieldset className="flex flex-col gap-2 border-none">
       <label htmlFor={id} className="font-500 text-sm text-grey0">
@@ -17,6 +18,7 @@ export function Input({ id, label, type, placeholder, register }: InputProps) {
         type={type}
         placeholder={placeholder}
         id={id}
+        defaultValue={defaultValue}
         {...register}
       />
     </fieldset>
