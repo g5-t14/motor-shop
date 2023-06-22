@@ -1,4 +1,11 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginData } from "../validations/login";
 import { UserData } from "../validations/user";
@@ -15,6 +22,8 @@ interface AuthContextValues {
   userExists: boolean;
   logout: () => void;
   tokenLoading: boolean;
+  setTokenLoading: Dispatch<SetStateAction<boolean>>;
+  isUserLoggedIn: boolean;
 }
 
 export const AuthContext = createContext<AuthContextValues>(
@@ -26,45 +35,73 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userData, setUserData] = useState({} as UserData);
   const [userExists, setUserExists] = useState(false);
   const [tokenLoading, setTokenLoading] = useState(true);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);/* 
+  const token = localStorage.getItem("user-token");
+  const idUser = localStorage.getItem("user-id"); */
+  const resetUser = {
+    name: "",
+    description: "",
+    id: 0,
+    user_color: "",
+    number: "",
+    email: "",
+    password: "",
+    cpf: "",
+    phone: "",
+    birthdate: "",
+    is_seller: false,
+    cep: "",
+    state: "",
+    city: "",
+    street: "",
+    complement: "",
+  };
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("user-token");
-      const id = localStorage.getItem("user-id");
-      if (!token || !id) {
-        setTokenLoading(false);
-        return;
-      }
-      try {
-        apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
-        const { data, status } = await apiLocal.get(`/users/${id}`);
-        if (status === 200) {
+      const idUser = localStorage.getItem("user-id");
+
+      if (token) {
+        try {
+          const { data } = await apiLocal.get(`/users/${idUser}`);
           setUserData(data);
-          setUserExists(true);
+          setIsUserLoggedIn(true);
+        } catch (error) {
+          console.log(error);
+          setIsUserLoggedIn(false);
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setTokenLoading(false);
       }
     })();
   }, []);
 
-  const userLogin = async (data: LoginData) => {
+  const userLogin = async (dataUser: LoginData) => {
     try {
-      const response = await apiLocal.post("/login", data);
+      const response = await apiLocal.post("/login", dataUser);
       const { token, user_id } = response.data;
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem("user-token", token);
       localStorage.setItem("user-id", user_id);
-
-      navigate(`/advertiser/${user_id}`);
+      const { data, status } = await apiLocal.get(`/users/${user_id}`);
+      if (data.is_seller) {
+        navigate(`/advertiser/${user_id}`);
+      } else {
+        navigate("/");
+      }
+      if (status === 200) {
+        setUserData(data);
+        setUserExists(true);
+        setIsUserLoggedIn(true);
+      }
     } catch (error) {
       console.error(error);
+      setIsUserLoggedIn(false);
     }
   };
 
   const logout = () => {
+    setUserData(resetUser);
     localStorage.clear();
+    setIsUserLoggedIn(false);
     navigate("/login");
   };
 
@@ -77,6 +114,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         userExists,
         logout,
         tokenLoading,
+        setTokenLoading,
+        isUserLoggedIn,
       }}
     >
       {children}

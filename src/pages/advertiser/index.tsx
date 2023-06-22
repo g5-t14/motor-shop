@@ -6,6 +6,7 @@ import { apiLocal } from "../../services/api";
 import { UserData } from "../../validations/user";
 import { useParams } from "react-router-dom";
 import { CarProps } from "../home";
+import { Header } from "../../components/Header";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -35,7 +36,6 @@ export const AdvertiserProfile = () => {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = adArray?.slice(indexOfFirstCard, indexOfLastCard);
   const { id } = useParams();
-  const token = localStorage.getItem("user-token");
   const userId = localStorage.getItem("user-id");
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const nextPage = () => {
@@ -80,6 +80,7 @@ export const AdvertiserProfile = () => {
   const bgColor = userInfo?.user_color;
   return (
     <>
+      <Header />
       <div className="bg-brand1 h-[357px]">
         <div
           key={userInfo?.id}

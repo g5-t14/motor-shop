@@ -64,7 +64,7 @@ export const Card = ({
 
   return (
     <Link
-      to={"product/" + id}
+      to={"/product/" + id}
       className="min-w-[312px] min-h-[350px] w-[312px] h-[350px] flex flex-col gap-4 mb-[85px]"
     >
       <div className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">

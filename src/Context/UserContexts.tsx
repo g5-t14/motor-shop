@@ -13,7 +13,6 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
-  userLogged: UserData;
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -23,25 +22,7 @@ export const UserContext = createContext<ProfileProviderValues>(
 export const UserProvider = ({ children }: ContactProviderProps) => {
   const [editProfileModal, setEditProfileModal] = useState(false);
   const { userData, setUserData, logout } = useAuth();
-  const userId = localStorage.getItem("user-id");
-  const [userLogged, setUserLogged] = useState<UserData>({
-    name: "",
-    description: "",
-    id: 0,
-    user_color: "",
-    number: "",
-    email: "",
-    password: "",
-    cpf: "",
-    phone: "",
-    birthdate: "",
-    is_seller: false,
-    cep: "",
-    state: "",
-    city: "",
-    street: "",
-    complement: "",
-  });
+  const [loading, setLoading] = useState(true);
 
   const profileEdit = async (data: ProfileData) => {
     try {
@@ -53,16 +34,16 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     (async () => {
       try {
-        const response = await apiLocal.get(`/users/${userId}`);
-        setUserLogged(response.data);
+        const response = await apiLocal.get(`/users/${userData.id}`);
+        setUserData(response.data);
       } catch (err) {
         console.log(err);
       }
     })();
-  }, []);
+  }, []); */
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -89,8 +70,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         setEditProfileModal,
         profileEdit,
         addressEdit,
-        deleteProfile,
-        userLogged,
+        deleteProfile
       }}
     >
       {children}

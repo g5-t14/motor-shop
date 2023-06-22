@@ -7,16 +7,13 @@ import { BorderGreyButton } from "../Button";
 import { IoMdLogOut } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
-import { apiLocal } from "../../services/api";
-import { UserContext } from "../../Context/UserContexts";
-import { useUser } from "../../hooks/useUser";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Header = () => {
-  const { userLogged } = useUser();
+  const { userData, logout, isUserLoggedIn } = useAuth();
   const [active, setActive] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
-  const isUserLoggedIn =
-    localStorage.getItem("user-token") && localStorage.getItem("user-id");
+
   const navigate = useNavigate();
 
   const loginHandler = () => {
@@ -31,20 +28,26 @@ export const Header = () => {
     setActive(!active);
   };
 
+  const homeHandler = () => {
+    navigate("/");
+  };
   const showDropdown = () => {
     setDropdownActive(!dropdownActive);
   };
   const getInitials = (name: string) => {
-    const names = name.split(" ");
-    if (names.length === 1) {
-      return names[0].charAt(0).toUpperCase();
-    } else if (names.length > 1) {
-      const firstInitial = names[0].charAt(0).toUpperCase();
-      const lastInitial = names[names.length - 1].charAt(0).toUpperCase();
-      return `${firstInitial}${lastInitial}`;
+    if (name) {
+      const names = name.split(" ");
+      if (names.length === 1) {
+        return names[0].charAt(0).toUpperCase();
+      } else if (names.length > 1) {
+        const firstInitial = names[0].charAt(0).toUpperCase();
+        const lastInitial = names[names.length - 1].charAt(0).toUpperCase();
+        return `${firstInitial}${lastInitial}`;
+      }
     }
     return "";
   };
+
   return (
     <>
       <header className="bg-grey10 text-white h-20 shadow-bottom relative sticky top-0 right-0 left-0 z-10">
@@ -53,6 +56,7 @@ export const Header = () => {
             src={logo}
             alt="Logo"
             className={`w-13 h-8 ${active ? "opacity-50" : ""}`}
+            onClick={homeHandler}
           />
 
           <nav className="md:hidden relative">
@@ -79,11 +83,11 @@ export const Header = () => {
                 >
                   <div
                     className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white"
-                    style={{ backgroundColor: userLogged.user_color }}
+                    style={{ backgroundColor: userData.user_color }}
                   >
-                    {getInitials(userLogged.name)}
+                    {getInitials(userData.name)}
                   </div>
-                  <span className="ml-2 text-[14px]">{userLogged.name}</span>
+                  <span className="ml-2 text-[14px]">{userData.name}</span>
                 </button>
                 {dropdownActive && (
                   <div className="absolute right-0 mt-[200px] w-[250px] bg-white rounded-md shadow-lg flex flex-col justify-items-end">
@@ -102,7 +106,10 @@ export const Header = () => {
                         <MdDeleteOutline />
                       </span>
                     </button>
-                    <button className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center">
+                    <button
+                      className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
+                      onClick={() => logout()}
+                    >
                       Sair da conta
                       <span className="text-[18px]">
                         <IoMdLogOut />
@@ -164,11 +171,11 @@ export const Header = () => {
                   <div className="w-full flex items-center">
                     <div
                       className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white"
-                      style={{ backgroundColor: userLogged.user_color }}
+                      style={{ backgroundColor: userData.user_color }}
                     >
-                      {getInitials(userLogged.name)}
+                      {getInitials(userData.name)}
                     </div>
-                    <span className="ml-2 text-[14px]">{userLogged.name}</span>
+                    <span className="ml-2 text-[14px]">{userData.name}</span>
                   </div>
                   <button
                     className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center
@@ -185,7 +192,10 @@ export const Header = () => {
                       <MdDeleteOutline />
                     </span>
                   </button>
-                  <button className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center">
+                  <button
+                    className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
+                    onClick={() => logout()}
+                  >
                     Sair da conta
                     <span className="text-[18px]">
                       <IoMdLogOut />

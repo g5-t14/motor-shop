@@ -6,7 +6,8 @@ import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ModalRegister } from "../../components/ModalRegister";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Header } from "../../components/Header";
 
 export const Register = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -29,6 +30,7 @@ export const Register = () => {
 
   return (
     <>
+      <Header />
       <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center bg-grey7">
         <div className="w-full flex py-[55px]">
           <main className="w-full flex flex-col jutify-center items-center">
@@ -144,24 +146,6 @@ export const Register = () => {
               <div className="flex space-x-4 mb-[24px] w-full justify-center">
                 <label
                   className={`flex items-center rounded h-[48px] w-[152px] ${
-                    selectedOption === "true" ? "bg-brand1 text-white" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    className="hidden"
-                    name="userType"
-                    value="true"
-                    checked={selectedOption === "true"}
-                    onChange={handleOptionChange}
-                  />
-                  <div className="border-2 border-grey3 text-[16px]  h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
-                    Comprador
-                  </div>
-                </label>
-
-                <label
-                  className={`flex items-center rounded h-[48px] w-[152px] ${
                     selectedOption === "false" ? "bg-brand1 text-white" : ""
                   }`}
                 >
@@ -171,6 +155,24 @@ export const Register = () => {
                     name="userType"
                     value="false"
                     checked={selectedOption === "false"}
+                    onChange={handleOptionChange}
+                  />
+                  <div className="border-2 border-grey3 text-[16px]  h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
+                    Comprador
+                  </div>
+                </label>
+
+                <label
+                  className={`flex items-center rounded h-[48px] w-[152px] ${
+                    selectedOption === "true" ? "bg-brand1 text-white" : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    className="hidden"
+                    name="userType"
+                    value="false"
+                    checked={selectedOption === "true"}
                     onChange={handleOptionChange}
                   />
                   <div className="border-2 border-grey3 text-[16px] h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
@@ -188,7 +190,7 @@ export const Register = () => {
               />
               <InputForm
                 id="Confirmpassword"
-                type="Confirmpassword"
+                type="password"
                 label="Confirmar Senha"
                 placeholder="Digite sua senha"
               />

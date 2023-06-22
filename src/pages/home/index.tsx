@@ -6,6 +6,7 @@ import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
+import { Header } from "../../components/Header";
 
 export interface CarPictures {
   picture_1: string;
@@ -64,13 +65,14 @@ export const Home = () => {
       const avaliableCars: CarProps[] = response.data.filter(
         (car) => car.is_active
       );
-      console.log(avaliableCars);
+
       setCars(avaliableCars);
     })();
   }, []);
 
   return (
     <>
+      <Header />
       <HeaderPhoto />
       <div className="pl-4 pr-4 h-full flex flex-col justify-between items-center">
         <div className="w-full flex py-[55px]">

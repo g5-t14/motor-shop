@@ -11,7 +11,7 @@ function App() {
     <>
       <UserProvider>
         <AuthProvider>
-          <Header />
+          {/* <Header /> */}
           <CarProvider>
             <RegisterProvider>
               <RoutesMain />
