@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       if (token) {
         try {
+          apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
           const { data } = await apiLocal.get(`/users/${idUser}`);
           setUserData(data);
           setIsUserLoggedIn(true);
