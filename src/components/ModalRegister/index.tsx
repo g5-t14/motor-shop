@@ -8,24 +8,28 @@ interface ModalRegisterTaskProps {
 }
 
 export const ModalRegister = ({ toggleModal }: ModalRegisterTaskProps) => {
-  const navigate = useNavigate();
-
   return (
     <Modal toggleModal={toggleModal}>
-      <div className="bg-neutral-100 top-[250px]  w-full h-[55%] max-w-[520px]  rounded-2xl p-10 flex-col justify-between">
-        <div className="flex w-full justify-between items-end">
+      <div className="bg-neutral-100 h-[290px] max-w-[520px] mt-[100px]  rounded py-[15px] px-[24px] flex-col">
+        <div className="flex w-full justify-between items-center h-[28px] mb-[40px]">
           <h1 className="font-bold">Sucesso!</h1>
-          <span className="text-brand3 cursor-pointer " onClick={toggleModal}>
+          <button
+            className="text-brand3 cursor-pointer "
+            onClick={() => toggleModal()}
+          >
             X
-          </span>
+          </button>
         </div>
-        <div className="h-full flex flex-col justify-between">
-          <span className="text-sm font-bold">
+        <div className="h-full flex flex-col">
+          <span className="text-[16px] font-medium mb-[22px] lexend text-grey1">
             Sua conta foi feito com sucesso !
           </span>
-          <p> Agora você poderá ver seus negócios crescendo em grande escala</p>
+          <p className="leading-7 text-[16px]font-normal text-grey2 mb-[20px]">
+            {" "}
+            Agora você poderá ver seus negócios crescendo em grande escala
+          </p>
           <Link
-            className="bg-brand1 text-grey6 hover:bg-brand2 hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center w-[20%] rounded-2x1"
+            className="bg-brand1 text-grey6 text-semibold hover:bg-brand1 w-[132px]  hover:border-grey1 hover:text-whiteFixed  flex justify-center h-[40px] items-center rounded"
             to={"/login"}
           >
             Ir para login
