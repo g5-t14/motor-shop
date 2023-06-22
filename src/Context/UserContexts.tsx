@@ -34,6 +34,16 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
+  /* useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiLocal.get(`/users/${userData.id}`);
+        setUserData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []); */
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -60,7 +70,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         setEditProfileModal,
         profileEdit,
         addressEdit,
-        deleteProfile,
+        deleteProfile
       }}
     >
       {children}

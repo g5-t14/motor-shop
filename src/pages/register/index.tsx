@@ -22,7 +22,7 @@ export const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -206,11 +206,7 @@ export const Register = () => {
                   {loading ? "Registrando..." : "Finalizar cadastro"}
                 </button>
 
-                {isSubmitSuccessful ? (
-                  <ModalRegister toggleModal={toggleModal} />
-                ) : (
-                  <p></p>
-                )}
+                {isSubmitSuccessful? (isOpenModal &&  <ModalRegister toggleModal={toggleModal} />) : (<p></p>)}
               </div>
             </form>
           </main>

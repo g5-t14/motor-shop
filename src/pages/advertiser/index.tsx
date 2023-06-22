@@ -36,7 +36,6 @@ export const AdvertiserProfile = () => {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = adArray?.slice(indexOfFirstCard, indexOfLastCard);
   const { id } = useParams();
-
   const userId = localStorage.getItem("user-id");
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const nextPage = () => {
