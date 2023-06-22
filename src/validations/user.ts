@@ -36,6 +36,8 @@ export const profileSchema = userSchema.omit({
   number: true,
   complement: true,
   user_color: true,
+  password: true,
+  cpf: true,
 });
 
 export type ProfileData = z.infer<typeof profileSchema>;

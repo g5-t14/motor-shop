@@ -22,7 +22,7 @@ export const Login = () => {
       <main className="h-[100vh] bg-grey7 flex flex-col justify-center items-center">
         <form
           onSubmit={handleSubmit(userLogin)}
-          className="box-border flex flex-col gap-3 w-full max-w-[360px] bg-whiteFixed px-[49px] py-[44px] rounded-4 max-w-[412px]"
+          className="box-border flex flex-col gap-3 w-full bg-whiteFixed px-[49px] py-[44px] rounded-4 max-w-[412px]"
         >
           <h1 className="mb-[32px] lexend text-[24px] font-medium">Login</h1>
 

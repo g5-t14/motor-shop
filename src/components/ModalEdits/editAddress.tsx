@@ -5,12 +5,15 @@ import { GreyButton, PurpleButton } from "../Button";
 import { useUser } from "../../hooks/useUser";
 import { AddressData, addressSchema } from "../../validations/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "../../hooks/useAuth";
 
 export const EditAddressModal = () => {
-  const { addressEdit } = useUser();
+  const { addressEdit, toggleAddressModal } = useUser();
+  const { userData } = useAuth();
 
   const { register, handleSubmit } = useForm<AddressData>({
     resolver: zodResolver(addressSchema),
+    mode: "onChange",
   });
 
   return (
@@ -21,7 +24,11 @@ export const EditAddressModal = () => {
       >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar endereço</h2>
-          <button className="text-grey4">
+          <button
+            onClick={toggleAddressModal}
+            type="button"
+            className="text-grey4"
+          >
             <GrClose />
           </button>
         </div>
@@ -34,6 +41,7 @@ export const EditAddressModal = () => {
           placeholder="Digite seu CEP"
           type="text"
           register={register("cep")}
+          defaultValue={userData.cep}
         />
         <div className="flex gap-4">
           <Input
@@ -42,6 +50,7 @@ export const EditAddressModal = () => {
             placeholder="Digite seu estado"
             type="text"
             register={register("state")}
+            defaultValue={userData.state}
           />
           <Input
             id="city"
@@ -49,6 +58,7 @@ export const EditAddressModal = () => {
             placeholder="Digite sua cidade"
             type="text"
             register={register("city")}
+            defaultValue={userData.city}
           />
         </div>
         <Input
@@ -57,6 +67,7 @@ export const EditAddressModal = () => {
           placeholder="Digite o nome da sua rua"
           type="text"
           register={register("street")}
+          defaultValue={userData.street}
         />
         <div className="flex gap-4">
           <Input
@@ -65,6 +76,7 @@ export const EditAddressModal = () => {
             placeholder="Digite o número da sua rua"
             type="text"
             register={register("number")}
+            defaultValue={userData.number}
           />
           <Input
             id="complement"
@@ -72,11 +84,16 @@ export const EditAddressModal = () => {
             placeholder="Digite o complemento"
             type="text"
             register={register("complement")}
+            defaultValue={userData.complement}
           />
         </div>
         <div className="flex justify-end gap-4">
-          <GreyButton size="big">Cancelar</GreyButton>
-          <PurpleButton size="big">Salvar alterações</PurpleButton>
+          <GreyButton onClick={toggleAddressModal} type="button" size="big">
+            Cancelar
+          </GreyButton>
+          <PurpleButton type="submit" size="big">
+            Salvar alterações
+          </PurpleButton>
         </div>
       </form>
     </div>

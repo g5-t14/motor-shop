@@ -35,9 +35,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userData, setUserData] = useState({} as UserData);
   const [userExists, setUserExists] = useState(false);
   const [tokenLoading, setTokenLoading] = useState(true);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);/* 
-  const token = localStorage.getItem("user-token");
-  const idUser = localStorage.getItem("user-id"); */
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const resetUser = {
     name: "",
     description: "",
@@ -59,12 +57,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("user-token");
-      const idUser = localStorage.getItem("user-id");
-
       if (token) {
         try {
           apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
-          const { data } = await apiLocal.get(`/users/${idUser}`);
+          const { data } = await apiLocal.get("/users/profile");
           setUserData(data);
           setIsUserLoggedIn(true);
         } catch (error) {

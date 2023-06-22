@@ -6,7 +6,7 @@ import dropDown from "./../../assets/DropDown.png";
 import { BorderGreyButton } from "../Button";
 import { IoMdLogOut } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
-import { MdDeleteOutline } from "react-icons/md";
+import { BiMap } from "react-icons/bi";
 import { useAuth } from "../../hooks/useAuth";
 import { useUser } from "../../hooks/useUser";
 import { EditProfileModal } from "../ModalEdits/editProfile";
@@ -14,7 +14,7 @@ import { EditAddressModal } from "../ModalEdits/editAddress";
 
 export const Header = () => {
   const { userData, logout, isUserLoggedIn } = useAuth();
-  const { profileModal, addressModal, editProfileModal, editAddressModal } =
+  const { profileModal, addressModal, toggleProfileModal, toggleAddressModal } =
     useUser();
   const [active, setActive] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -99,7 +99,7 @@ export const Header = () => {
                     <button
                       className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center
                     "
-                      onClick={editProfileModal}
+                      onClick={toggleProfileModal}
                     >
                       Editar perfil{" "}
                       <span className="text-[18px]">
@@ -108,11 +108,11 @@ export const Header = () => {
                     </button>
                     <button
                       className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
-                      onClick={editAddressModal}
+                      onClick={toggleAddressModal}
                     >
                       Editar endereço
                       <span className="text-[18px]">
-                        <MdDeleteOutline />
+                        <BiMap />
                       </span>
                     </button>
                     <button
@@ -187,7 +187,7 @@ export const Header = () => {
                     <span className="ml-2 text-[14px]">{userData.name}</span>
                   </div>
                   <button
-                    onClick={editProfileModal}
+                    onClick={toggleProfileModal}
                     className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center
                  "
                   >
@@ -198,11 +198,11 @@ export const Header = () => {
                   </button>
                   <button
                     className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
-                    onClick={editAddressModal}
+                    onClick={toggleAddressModal}
                   >
                     Editar endereço
                     <span className="text-[18px]">
-                      <MdDeleteOutline />
+                      <BiMap />
                     </span>
                   </button>
                   <button
