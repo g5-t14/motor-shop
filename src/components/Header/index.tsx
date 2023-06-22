@@ -8,9 +8,14 @@ import { IoMdLogOut } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import { useAuth } from "../../hooks/useAuth";
+import { useUser } from "../../hooks/useUser";
+import { EditProfileModal } from "../ModalEdits/editProfile";
+import { EditAddressModal } from "../ModalEdits/editAddress";
 
 export const Header = () => {
   const { userData, logout, isUserLoggedIn } = useAuth();
+  const { profileModal, addressModal, editProfileModal, editAddressModal } =
+    useUser();
   const [active, setActive] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
@@ -94,13 +99,17 @@ export const Header = () => {
                     <button
                       className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center
                     "
+                      onClick={editProfileModal}
                     >
                       Editar perfil{" "}
                       <span className="text-[18px]">
                         <AiOutlineEdit />
                       </span>
                     </button>
-                    <button className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center">
+                    <button
+                      className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
+                      onClick={editAddressModal}
+                    >
                       Editar endereço
                       <span className="text-[18px]">
                         <MdDeleteOutline />
@@ -178,6 +187,7 @@ export const Header = () => {
                     <span className="ml-2 text-[14px]">{userData.name}</span>
                   </div>
                   <button
+                    onClick={editProfileModal}
                     className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center
                  "
                   >
@@ -186,7 +196,10 @@ export const Header = () => {
                       <AiOutlineEdit />
                     </span>
                   </button>
-                  <button className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center">
+                  <button
+                    className="block px-4 py-2 text-gray-800 h-[50px] hover:bg-gray-100 flex gap-[5px] items-center justify-center"
+                    onClick={editAddressModal}
+                  >
                     Editar endereço
                     <span className="text-[18px]">
                       <MdDeleteOutline />
@@ -206,6 +219,8 @@ export const Header = () => {
             </div>
           </div>
         )}
+        {profileModal ? <EditProfileModal /> : null}
+        {addressModal ? <EditAddressModal /> : null}
       </header>
     </>
   );

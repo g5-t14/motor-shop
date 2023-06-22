@@ -6,12 +6,15 @@ import { GreyButton, PurpleButton, RedButton } from "../Button";
 import { useUser } from "../../hooks/useUser";
 import { ProfileData, profileSchema } from "../../validations/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "../../hooks/useAuth";
 
 export const EditProfileModal = () => {
-  const { profileEdit } = useUser();
+  const { profileEdit, editProfileModal } = useUser();
+  const { userData } = useAuth();
 
   const { register, handleSubmit } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema),
+    mode: "onChange",
   });
 
   return (
@@ -22,7 +25,7 @@ export const EditProfileModal = () => {
       >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar perfil</h2>
-          <button className="text-grey4">
+          <button type="button" onClick={editProfileModal} className="text-grey4">
             <GrClose />
           </button>
         </div>
@@ -33,6 +36,7 @@ export const EditProfileModal = () => {
           placeholder="Digite seu nome"
           type="text"
           register={register("name")}
+          defaultValue={userData.name}
         />
         <Input
           id="email"
@@ -40,6 +44,7 @@ export const EditProfileModal = () => {
           placeholder="Digite seu email"
           type="email"
           register={register("email")}
+          defaultValue={userData.email}
         />
         <Input
           id="cpf"
@@ -47,6 +52,7 @@ export const EditProfileModal = () => {
           placeholder="Digite seu CPF"
           type="text"
           register={register("cpf")}
+          defaultValue={userData.cpf}
         />
         <Input
           id="cel"
@@ -54,6 +60,7 @@ export const EditProfileModal = () => {
           placeholder="Digite seu celular"
           type="text"
           register={register("phone")}
+          defaultValue={userData.phone}
         />
         <Input
           id="birthdate"
@@ -61,17 +68,21 @@ export const EditProfileModal = () => {
           placeholder="Digite sua data de nascimento"
           type="text"
           register={register("birthdate")}
+          defaultValue={userData.birthdate}
         />
         <TextArea
           id="description"
           label="Descrição"
           placeholder="Digite uma descrição para seu perfil"
           register={register("description")}
+          defaultValue={userData.description}
         />
         <div className="flex flex-col gap-4 md:flex-row md:gap-2 md:justify-between">
-          <GreyButton size="big">Cancelar</GreyButton>
+          <GreyButton type="button" onClick={editProfileModal} size="big">Cancelar</GreyButton>
           <RedButton size="big">Excluir perfil</RedButton>
-          <PurpleButton size="big">Salvar alterações</PurpleButton>
+          <PurpleButton size="big" type="submit">
+            Salvar alterações
+          </PurpleButton>
         </div>
       </form>
     </div>

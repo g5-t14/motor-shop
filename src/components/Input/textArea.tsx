@@ -2,10 +2,11 @@ interface InputProps {
   id: string;
   label: string;
   placeholder: string;
+  defaultValue?: string;
   register: object;
 }
 
-export function TextArea({ id, label, placeholder, register }: InputProps) {
+export function TextArea({ id, label, placeholder, defaultValue, register }: InputProps) {
   return (
     <fieldset className="flex flex-col gap-2 border-none">
       <label htmlFor={id} className="font-500 text-sm text-grey0">
@@ -15,6 +16,7 @@ export function TextArea({ id, label, placeholder, register }: InputProps) {
         className="h-20 w-full px-6 py-4 resize-none outline-none bg-whiteFixed text-grey1 rounded-4 border-2 border-grey4 hover:bg-grey9 focus:border-brand1"
         placeholder={placeholder}
         id={id}
+        defaultValue={defaultValue}
         {...register}
       />
     </fieldset>
