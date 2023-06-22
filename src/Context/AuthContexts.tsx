@@ -35,9 +35,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userData, setUserData] = useState({} as UserData);
   const [userExists, setUserExists] = useState(false);
   const [tokenLoading, setTokenLoading] = useState(true);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);/* 
   const token = localStorage.getItem("user-token");
-  const idUser = localStorage.getItem("user-id");
+  const idUser = localStorage.getItem("user-id"); */
   const resetUser = {
     name: "",
     description: "",
