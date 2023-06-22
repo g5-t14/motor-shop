@@ -7,9 +7,11 @@ import { useUser } from "../../hooks/useUser";
 import { ProfileData, profileSchema } from "../../validations/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../hooks/useAuth";
+import { ConfirmDelete } from "./confirmDelete";
 
 export const EditProfileModal = () => {
-  const { profileEdit, editProfileModal } = useUser();
+  const { profileEdit, toggleProfileModal, deleteModal, toggleDeleteModal } =
+    useUser();
   const { userData } = useAuth();
 
   const { register, handleSubmit } = useForm<ProfileData>({
@@ -25,7 +27,11 @@ export const EditProfileModal = () => {
       >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar perfil</h2>
-          <button type="button" onClick={editProfileModal} className="text-grey4">
+          <button
+            type="button"
+            onClick={toggleProfileModal}
+            className="text-grey4"
+          >
             <GrClose />
           </button>
         </div>
@@ -45,14 +51,6 @@ export const EditProfileModal = () => {
           type="email"
           register={register("email")}
           defaultValue={userData.email}
-        />
-        <Input
-          id="cpf"
-          label="CPF"
-          placeholder="Digite seu CPF"
-          type="text"
-          register={register("cpf")}
-          defaultValue={userData.cpf}
         />
         <Input
           id="cel"
@@ -78,13 +76,18 @@ export const EditProfileModal = () => {
           defaultValue={userData.description}
         />
         <div className="flex flex-col gap-4 md:flex-row md:gap-2 md:justify-between">
-          <GreyButton type="button" onClick={editProfileModal} size="big">Cancelar</GreyButton>
-          <RedButton size="big">Excluir perfil</RedButton>
+          <GreyButton type="button" onClick={toggleProfileModal} size="big">
+            Cancelar
+          </GreyButton>
+          <RedButton type="button" onClick={toggleDeleteModal} size="big">
+            Excluir perfil
+          </RedButton>
           <PurpleButton size="big" type="submit">
             Salvar alterações
           </PurpleButton>
         </div>
       </form>
+      {deleteModal ? <ConfirmDelete /> : null}
     </div>
   );
 };
