@@ -6,9 +6,10 @@ import { Input } from "../../components/Input/default";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { Header } from "../../components/Header";
 
 export const Login = () => {
-  const { userLogin } = useAuth()
+  const { userLogin } = useAuth();
 
   const { register, handleSubmit } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
@@ -17,6 +18,7 @@ export const Login = () => {
 
   return (
     <>
+      <Header />
       <main className="h-[100vh] bg-grey7 flex flex-col justify-center items-center">
         <form
           onSubmit={handleSubmit(userLogin)}

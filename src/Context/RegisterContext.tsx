@@ -33,7 +33,7 @@ export const RegisterProvider = ({ children }: RegisterProviderProps) => {
     try {
       setLoading(true);
 
-      data.is_seller = selectedOption === "false";
+      data.is_seller = selectedOption === "true";
       await apiLocal.post("/users", data);
     } catch (error) {
       console.error(error);
