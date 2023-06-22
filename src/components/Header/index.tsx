@@ -7,7 +7,6 @@ import { BorderGreyButton } from "../Button";
 import { IoMdLogOut } from "react-icons/io";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
-
 import { useAuth } from "../../hooks/useAuth";
 
 export const Header = () => {

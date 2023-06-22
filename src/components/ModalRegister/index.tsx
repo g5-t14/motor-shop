@@ -1,6 +1,4 @@
 import { Modal } from "../Modal";
-import { useNavigate } from "react-router-dom";
-import { PurpleButton } from "../Button";
 import { Link } from "react-router-dom";
 
 interface ModalRegisterTaskProps {
@@ -8,7 +6,6 @@ interface ModalRegisterTaskProps {
 }
 
 export const ModalRegister = ({ toggleModal }: ModalRegisterTaskProps) => {
-  const navigate = useNavigate();
 
   return (
     <Modal toggleModal={toggleModal}>
@@ -19,7 +16,7 @@ export const ModalRegister = ({ toggleModal }: ModalRegisterTaskProps) => {
             X
           </span>
         </div>
-        <div className="h-full flex flex-col justify-between">
+        <div className="h-full flex flex-col my-12 gap-6">
           <span className="text-sm font-bold">
             Sua conta foi feito com sucesso !
           </span>

@@ -160,7 +160,6 @@ export const Product = () => {
                   </Link>
                 </section>
               </div>
-
               <div className="md:max-w-[750px]">
                 <section className="flex flex-col gap-6 px-7 py-9 rounded bg-grey10 mb-[42px]">
                   <h1 className="font-semibold text-[20px] leading-[25px] font-lexend">

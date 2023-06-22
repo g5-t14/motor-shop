@@ -13,6 +13,7 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
+  userLogged: UserData;
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -34,6 +35,16 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiLocal.get(`/users/${userId}`);
+        setUserLogged(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -61,6 +72,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         profileEdit,
         addressEdit,
         deleteProfile,
+        userLogged,
       }}
     >
       {children}
