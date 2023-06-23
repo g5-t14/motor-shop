@@ -17,10 +17,6 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
-<<<<<<< HEAD
-  teste: (data: ProfileData) => void;
-=======
->>>>>>> d78256e62bd955884b070005c2f9cada3baf6537
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -41,20 +37,9 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     setAddressModal(!addressModal);
   };
 
-<<<<<<< HEAD
-  function teste(data: ProfileData) {
-    console.log(data);
-  }
-=======
-  const toggleDeleteModal = () => {
-    setDeleteModal(!deleteModal);
-  };
->>>>>>> d78256e62bd955884b070005c2f9cada3baf6537
-
   const profileEdit = async (data: ProfileData) => {
     try {
-      console.log("casa");
-      const response = await apiLocal.patch(`users/${userData.id}`, data);
+      const response = await apiLocal.patch(`/users/${userData.id}`, data);
       setUserData(response.data);
       toggleProfileModal();
     } catch (error) {
@@ -62,19 +47,6 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
-<<<<<<< HEAD
-  //  useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const response = await apiLocal.get(`/users/${userData.id}`);
-  //         setUserData(response.data);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     })();
-  //   }, []);
-=======
->>>>>>> d78256e62bd955884b070005c2f9cada3baf6537
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -108,13 +80,12 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         profileEdit,
         addressEdit,
         deleteProfile,
-<<<<<<< HEAD
-        teste,
-=======
->>>>>>> d78256e62bd955884b070005c2f9cada3baf6537
       }}
     >
       {children}
     </UserContext.Provider>
   );
 };
+function toggleDeleteModal() {
+  throw new Error("Function not implemented.");
+}
