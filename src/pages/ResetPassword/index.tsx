@@ -10,9 +10,16 @@ import { Input } from "../../components/Input/default";
 import { Footer } from "../../components/Footer";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
+import { useUser } from "../../hooks/useUser";
+import { ResetModal } from "../../components/ModalReset/reset";
+import { ErrorResetModal } from "../../components/ModalReset/resetError";
 
 export const ResetPassword = () => {
+  const {resetModal, toggleResetModal, errorResetModal, toggleErrorResetModal} = useUser()
+
   const { token } = useParams();
+
+  
 
   const { register, handleSubmit } = useForm<UpdatePasswordData>({
     resolver: zodResolver(newPasswordSchema),
@@ -26,8 +33,10 @@ export const ResetPassword = () => {
         newPassword
       );
       console.log(response);
+      toggleResetModal()
     } catch (error) {
       console.log(error);
+      toggleErrorResetModal()
     }
   };
 
@@ -71,6 +80,8 @@ export const ResetPassword = () => {
           </PurpleButton>
         </form>
       </main>
+      {resetModal ? <ResetModal /> : null}
+      {errorResetModal ? <ErrorResetModal /> : null}
       <Footer />
     </>
   );

@@ -4,6 +4,9 @@ import {
   RecoverPasswordData,
   forgotPasswordSchema,
 } from "../../validations/forgotPassword";
+import { ErrorForgotModal } from "../../components/ModalReset/error";
+import { ForgotModal } from "../../components/ModalReset/forgot";
+import { useUser } from "../../hooks/useUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PurpleButton } from "../../components/Button";
 import { Input } from "../../components/Input/default";
@@ -12,6 +15,8 @@ import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
 
 export const ForgotPassword = () => {
+  const {forgotModal,toggleForgotModal, errorForgotModal, toggleErrorForgotModal} = useUser()
+
   const { register, handleSubmit } = useForm<RecoverPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
     mode: "onChange",
@@ -21,11 +26,13 @@ export const ForgotPassword = () => {
     try {
       const response = await apiLocal.post(
         "/users/resetPassword",
-        formData.email
+        formData
       );
-      console.log(response);
+      console.log(response)
+      toggleForgotModal()
     } catch (error) {
-      console.log(error);
+      toggleErrorForgotModal()
+      console.log(error)
     }
   };
 
@@ -56,7 +63,7 @@ export const ForgotPassword = () => {
             Lembrei a senha
           </Link>
 
-          <PurpleButton size="big" type="submit">
+          <PurpleButton size="big" type="submit" >
             Recuperar
           </PurpleButton>
           <p className="text-center text-[14px] my-[24px]">
@@ -70,6 +77,8 @@ export const ForgotPassword = () => {
           </Link>
         </form>
       </main>
+      {errorForgotModal ? <ErrorForgotModal /> : null}
+      {forgotModal ? <ForgotModal /> : null}
       <Footer />
     </>
   );
