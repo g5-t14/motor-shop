@@ -32,10 +32,6 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
-  searchBrand: CarProps[];
-  setSelectedBrand: Dispatch<SetStateAction<string>>;
-  selectedBrand: string;
-  brandSearch: (brand: string) => void;
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -47,8 +43,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const [profileModal, setProfileModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
-  const [searchBrand, setSearchBrand] = useState<CarProps[]>([]);
+
   const [forgotModal, setForgotModal] = useState(false);
   const [errorForgotModal, setErrorForgotModal] = useState(false);
   const [resetModal, setResetModal] = useState(false);
@@ -85,23 +80,6 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
       toggleProfileModal();
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const brandSearch = async (brand: string) => {
-    try {
-      const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
-      setSearchBrand(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const colorSearch = async (color: string) => {
-    try {
-      const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
-      setSearchBrand(response.data);
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -146,10 +124,6 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         profileEdit,
         addressEdit,
         deleteProfile,
-        setSelectedBrand,
-        searchBrand,
-        selectedBrand,
-        brandSearch,
       }}
     >
       {children}

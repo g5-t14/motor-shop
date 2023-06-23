@@ -25,9 +25,9 @@ export interface CarProps {
   id: number;
   brand: string;
   model: string;
-  year: number;
+  year: string;
   fuel: string;
-  mileage: number;
+  mileage: string;
   color: string;
   fipe_table: number;
   price: number;

@@ -1,17 +1,28 @@
 import { SetStateAction, useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
-import { api } from "../../../../services/api";
+import { api, apiLocal } from "../../../../services/api";
 import { useUser } from "../../../../hooks/useUser";
+import { CarProps } from "../../../Product";
 
 const AsideHome = () => {
-  const { cars } = useCar();
-  const { setSelectedBrand, searchBrand, selectedBrand, brandSearch } =
-    useUser();
+  const {
+    cars,
+    filters,
+    setFilters,
+    allCars,
+    setAllCars,
+    setSelectedBrand,
+    searchBrand,
+    selectedBrand,
+    brandSearch,
+    setArrayFilter,
+    arrayFilter,
+    setSearchBrand,
+  } = useCar();
   const [activeFilter, setActiveFilter] = useState("");
   const [showModels, setShowModels] = useState(false);
   const [activeModelFilter, setActiveModelFilter] = useState("");
   const [modelFilter, setModelFilter] = useState<string[]>([]);
-
   const [selectedModel, setSelectedModel] = useState("");
   const [activeColorFilter, setActiveColorFilter] = useState("");
   const [colorsActive, setColorsActive] = useState(false);
@@ -19,71 +30,80 @@ const AsideHome = () => {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [yearsActive, setYearsActive] = useState(false);
 
-  const clickFilter = (category: string, filter: SetStateAction<string>) => {
-    setActiveCategory(category);
-    setActiveFilter(filter);
-    setShowModels(true);
-    setActiveModelFilter("");
-    setYearsActive(category === "Ano");
-    setFiltersActive(true);
+  const clickFilter = (category: string, filter: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [category.toLowerCase()]: filter,
+    }));
   };
   const clickColorFilter = (color: string) => {
-    setActiveColorFilter(color);
-    setFiltersActive(true);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      color: color,
+    }));
   };
 
   const getModels = async (brand: string) => {
     try {
-      const response = await api.get(`/cars?brand=${brand}`);
+      const response = await apiLocal.get(`/ads?brand=${brand}`);
       const modelNames = response.data.map((model: any) => {
-        const firstName = model.name.split(" ")[0];
+        const firstName = model.model.split(" ")[0];
         return firstName.charAt(0).toUpperCase() + firstName.slice(1);
       });
       const uniqueNames = Array.from(new Set<string>(modelNames));
       setModelFilter(uniqueNames);
       setActiveModelFilter("");
+
+      const carsByBrand = allCars.filter(
+        (car: CarProps) => car.brand === brand
+      );
+      setArrayFilter(carsByBrand);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const filteredCars = selectedBrand
-    ? cars.filter((car) => car === selectedBrand)
-    : cars;
-
+  const filteredCars = selectedBrand ? arrayFilter : allCars;
+  setSearchBrand(filteredCars);
   const filteredModels = selectedModel
     ? modelFilter.filter((model) => model === selectedModel)
     : modelFilter;
+
   return (
     <aside className="w-[454px] flex flex-col pl-5">
       <div className="mt-5">
         <h2 className="text-[28px] font-bold mb-2 text-[28px] lexend">Marca</h2>
         <div className="overflow-auto h-175">
-          {filteredCars.map((car, index) => {
-            const isBrandActive =
-              activeFilter === car || (showModels && selectedBrand === car);
-            const isActiveCategory = activeCategory === car;
-
-            return (
-              <button
-                key={index}
-                className={`block py-0 px-3 text-grey3 font-bold border-0 bg-transparent mb-0 hover:underline ${
-                  isBrandActive ? "underline" : ""
-                } ${isActiveCategory ? "active" : ""}`}
-                onClick={() => {
-                  setSelectedBrand(car);
-                  brandSearch(car);
-                  clickFilter("Marca", car);
-                  getModels(car);
-                }}
-              >
-                {car
-                  .split(" ")
-                  .map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
-                  .join(" ")}
-              </button>
-            );
-          })}
+          {filteredCars.map(
+            (car: CarProps, index: number, array: CarProps[]) => {
+              const isBrandActive =
+                activeFilter === car?.brand ||
+                (showModels && selectedBrand === car?.brand);
+              const isActiveCategory = activeCategory === car?.brand;
+              return (
+                <button
+                  key={index}
+                  className={`block py-0 px-3 text-grey3 font-bold border-0 bg-transparent mb-0 hover:underline ${
+                    isBrandActive ? "underline" : ""
+                  } ${isActiveCategory ? "active" : ""}`}
+                  onClick={() => {
+                    setSelectedBrand(car?.brand);
+                    brandSearch(car.brand);
+                    clickFilter("Marca", car.brand);
+                    getModels(car.brand);
+                  }}
+                >
+                  {car.brand
+                    .split(" ")
+                    .map(
+                      (word: string) =>
+                        word.slice(0, 1).toUpperCase() + word.slice(1)
+                    )
+                    .join(" ")}
+                </button>
+              );
+            }
+          )}
         </div>
       </div>
       {showModels && (
