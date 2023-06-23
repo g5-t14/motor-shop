@@ -25,7 +25,11 @@ export const EditProfileModal = () => {
       >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar perfil</h2>
-          <button type="button" onClick={editProfileModal} className="text-grey4">
+          <button
+            type="button"
+            onClick={editProfileModal}
+            className="text-grey4"
+          >
             <GrClose />
           </button>
         </div>
@@ -78,7 +82,9 @@ export const EditProfileModal = () => {
           defaultValue={userData.description}
         />
         <div className="flex flex-col gap-4 md:flex-row md:gap-2 md:justify-between">
-          <GreyButton type="button" onClick={editProfileModal} size="big">Cancelar</GreyButton>
+          <GreyButton type="button" onClick={editProfileModal} size="big">
+            Cancelar
+          </GreyButton>
           <RedButton size="big">Excluir perfil</RedButton>
           <PurpleButton size="big" type="submit">
             Salvar alterações

@@ -15,7 +15,7 @@ interface ProfileProviderValues {
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
-  teste: (data: ProfileData) => void
+  teste: (data: ProfileData) => void;
 }
 
 export const UserContext = createContext<ProfileProviderValues>(
@@ -37,12 +37,13 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   };
 
   function teste(data: ProfileData) {
-    console.log(data)
+    console.log(data);
   }
 
   const profileEdit = async (data: ProfileData) => {
     try {
-      const response = await apiLocal.patch(`/users/${userData.id}`, data);
+      console.log("casa");
+      const response = await apiLocal.patch(`users/${userData.id}`, data);
       setUserData(response.data);
       editProfileModal();
     } catch (error) {
@@ -50,16 +51,16 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
-  /* useEffect(() => {
-    (async () => {
-      try {
-        const response = await apiLocal.get(`/users/${userData.id}`);
-        setUserData(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []); */
+  //  useEffect(() => {
+  //     (async () => {
+  //       try {
+  //         const response = await apiLocal.get(`/users/${userData.id}`);
+  //         setUserData(response.data);
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     })();
+  //   }, []);
   const addressEdit = async (data: AddressData) => {
     try {
       const response = await apiLocal.patch(`/users/${userData.id}`, data);
@@ -89,7 +90,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         profileEdit,
         addressEdit,
         deleteProfile,
-        teste
+        teste,
       }}
     >
       {children}
