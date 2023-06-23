@@ -7,6 +7,7 @@ import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
+import { useUser } from "../../hooks/useUser";
 
 export interface CarPictures {
   picture_1: string;
@@ -42,6 +43,7 @@ export interface CarProps {
 
 export const Home = () => {
   const [cars, setCars] = useState<CarProps[]>([]);
+  const { searchBrand } = useUser();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,7 +83,7 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {currentCards.map((ad) => (
+              {searchBrand.map((ad) => (
                 <Card
                   key={ad.id}
                   id={ad.id}

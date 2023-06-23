@@ -1,15 +1,17 @@
 import { SetStateAction, useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
 import { api } from "../../../../services/api";
-import { modelsRequest } from "../../../../components/ModalCreateAd";
+import { useUser } from "../../../../hooks/useUser";
 
 const AsideHome = () => {
   const { cars } = useCar();
+  const { setSelectedBrand, searchBrand, selectedBrand, brandSearch } =
+    useUser();
   const [activeFilter, setActiveFilter] = useState("");
   const [showModels, setShowModels] = useState(false);
   const [activeModelFilter, setActiveModelFilter] = useState("");
   const [modelFilter, setModelFilter] = useState<string[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState("");
+
   const [selectedModel, setSelectedModel] = useState("");
   const [activeColorFilter, setActiveColorFilter] = useState("");
   const [colorsActive, setColorsActive] = useState(false);
@@ -48,6 +50,7 @@ const AsideHome = () => {
   const filteredCars = selectedBrand
     ? cars.filter((car) => car === selectedBrand)
     : cars;
+
   const filteredModels = selectedModel
     ? modelFilter.filter((model) => model === selectedModel)
     : modelFilter;
@@ -68,9 +71,10 @@ const AsideHome = () => {
                   isBrandActive ? "underline" : ""
                 } ${isActiveCategory ? "active" : ""}`}
                 onClick={() => {
+                  setSelectedBrand(car);
+                  brandSearch(car);
                   clickFilter("Marca", car);
                   getModels(car);
-                  setSelectedBrand(car);
                 }}
               >
                 {car
@@ -139,7 +143,7 @@ const AsideHome = () => {
                   isColorActive ? "underline" : ""
                 }`}
                 onClick={() => {
-                  clickFilter("Cor", color);
+                  clickFilter("color", color);
                   clickColorFilter(color);
                   setFiltersActive(false);
                   setColorsActive(true);
