@@ -1,14 +1,17 @@
+import { ReactNode } from "react";
+
 interface InputProps {
   id: string;
   label: string;
   placeholder: string;
   defaultValue?: string;
-  register: object;
+  register?: object;
+  error?: ReactNode
 }
 
-export function TextArea({ id, label, placeholder, defaultValue, register }: InputProps) {
+export function TextArea({ id, label, placeholder, defaultValue, register, error }: InputProps) {
   return (
-    <fieldset className="flex flex-col gap-2 border-none">
+    <fieldset className="relative flex flex-col gap-2 border-none">
       <label htmlFor={id} className="font-500 text-sm text-grey0">
         {label}
       </label>
@@ -19,6 +22,7 @@ export function TextArea({ id, label, placeholder, defaultValue, register }: Inp
         defaultValue={defaultValue}
         {...register}
       />
+      {error}
     </fieldset>
   );
 }
