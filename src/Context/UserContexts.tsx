@@ -1,7 +1,14 @@
-import { ReactNode, createContext, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
 import { apiLocal } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { AddressData, ProfileData } from "../validations/user";
+import { CarProps } from "../pages/home";
 
 interface ContactProviderProps {
   children: ReactNode;
@@ -40,6 +47,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const [profileModal, setProfileModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
   const [forgotModal, setForgotModal] = useState(false);
   const [errorForgotModal, setErrorForgotModal] = useState(false);
   const [resetModal, setResetModal] = useState(false);
@@ -69,10 +77,6 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
 
   const toggleAddressModal = () => {
     setAddressModal(!addressModal);
-  };
-
-  const toggleDeleteModal = () => {
-    setDeleteModal(!deleteModal);
   };
 
   const toggleSucessRegisterModal = () => {
@@ -144,3 +148,6 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
     </UserContext.Provider>
   );
 };
+function toggleDeleteModal() {
+  throw new Error("Function not implemented.");
+}

@@ -7,6 +7,8 @@ import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
+import { useUser } from "../../hooks/useUser";
+import { useCar } from "../../hooks/useCar";
 
 export interface CarPictures {
   picture_1: string;
@@ -21,6 +23,7 @@ export interface CarSeller {
   id: number;
   name: string;
   user_color: string;
+  description: string;
 }
 
 export interface CarProps {
@@ -43,6 +46,7 @@ export interface CarProps {
 export const Home = () => {
   const [cars, setCars] = useState<CarProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const { searchBrand } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 12;
@@ -65,7 +69,6 @@ export const Home = () => {
       const avaliableCars: CarProps[] = response.data.filter(
         (car) => car.is_active
       );
-
       setCars(avaliableCars);
     })();
   }, []);
@@ -81,7 +84,7 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {currentCards.map((ad) => (
+              {searchBrand.map((ad) => (
                 <Card
                   key={ad.id}
                   id={ad.id}

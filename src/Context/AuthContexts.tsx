@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginData } from "../validations/login";
 import { UserData } from "../validations/user";
 import { apiLocal } from "../services/api";
+import { CarProps } from "../pages/home";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userExists, setUserExists] = useState(false);
   const [tokenLoading, setTokenLoading] = useState(true);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
   const resetUser = {
     name: "",
     description: "",
