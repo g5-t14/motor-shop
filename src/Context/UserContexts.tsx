@@ -22,6 +22,8 @@ interface ProfileProviderValues {
   toggleResetModal: () => void;
   toggleErrorForgotModal: () => void;
   toggleErrorResetModal: () => void;
+  toggleSucessRegisterModal: () => void;
+  toggleErrorRegisterModal: () => void;
   errorResetModal: boolean;
   resetModal: boolean;
   errorForgotModal: boolean;
@@ -29,6 +31,8 @@ interface ProfileProviderValues {
   addressModal: boolean;
   deleteModal: boolean;
   forgotModal: boolean;
+  registerSucessModal: boolean;
+  registerErrorModal: boolean;
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
@@ -48,6 +52,8 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const [errorForgotModal, setErrorForgotModal] = useState(false);
   const [resetModal, setResetModal] = useState(false);
   const [errorResetModal, setErrorResetModal] = useState(false);
+  const [registerSucessModal, setRegisterSucessModal] = useState(false);
+  const [registerErrorModal, setRegisterErrorModal] = useState(false);
 
   const toggleErrorResetModal = () => {
     setErrorResetModal(!errorResetModal);
@@ -71,6 +77,14 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
 
   const toggleAddressModal = () => {
     setAddressModal(!addressModal);
+  };
+
+  const toggleSucessRegisterModal = () => {
+    setRegisterSucessModal(!registerSucessModal);
+  };
+
+  const toggleErrorRegisterModal = () => {
+    setRegisterErrorModal(!registerErrorModal);
   };
 
   const profileEdit = async (data: ProfileData) => {
@@ -114,6 +128,10 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
         errorForgotModal,
         toggleErrorForgotModal,
         toggleForgotModal,
+        toggleSucessRegisterModal,
+        toggleErrorRegisterModal,
+        registerSucessModal,
+        registerErrorModal,
         forgotModal,
         profileModal,
         addressModal,

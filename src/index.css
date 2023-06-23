@@ -54,6 +54,10 @@
   .bg-duo-big {
     @apply bg-gradient-to-b from-brand1 from-[550px] via-grey7 via-[550px] to-grey7 to-100%;
   }
+
+  .span-error {
+    @apply absolute bottom-[-16px] right-0 text-[12px];
+  }
 }
 
 .active ~ button {

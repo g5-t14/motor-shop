@@ -11,7 +11,11 @@ import { Header } from "../../components/Header";
 export const Login = () => {
   const { userLogin } = useAuth();
 
-  const { register, handleSubmit } = useForm<LoginData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
@@ -24,7 +28,7 @@ export const Login = () => {
           onSubmit={handleSubmit(userLogin)}
           className="box-border flex flex-col gap-3 w-full bg-whiteFixed px-[49px] py-[44px] rounded-4 max-w-[412px]"
         >
-          <h1 className="mb-[32px] lexend text-[24px] font-medium">Login</h1>
+          <h1 className="mb-[20px] lexend text-[24px] font-medium">Login</h1>
 
           <Input
             id="email"
@@ -32,6 +36,11 @@ export const Login = () => {
             placeholder="Digitar email"
             type="email"
             register={register("email")}
+            error={
+              errors.email?.message && (
+                <span className="span-error">{errors.email.message}</span>
+              )
+            }
           />
           <Input
             id="password"
@@ -39,6 +48,11 @@ export const Login = () => {
             placeholder="Digitar senha"
             type="password"
             register={register("password")}
+            error={
+              errors.password?.message && (
+                <span className="span-error">{errors.password.message}</span>
+              )
+            }
           />
           <Link
             to={"/forgotPassword"}

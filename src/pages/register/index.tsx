@@ -1,28 +1,45 @@
 import { useForm } from "react-hook-form";
 import { useRegister } from "../../hooks/userRegister";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputForm } from "../../components/Input/forms";
 import { RegisterData, registerSchema } from "../../validations/register";
 import { Footer } from "../../components/Footer";
-import { ChangeEvent, useEffect, useState } from "react";
-import { ModalRegister } from "../../components/ModalRegister";
-import { Link } from "react-router-dom";
+import { ChangeEvent } from "react";
 import { Header } from "../../components/Header";
+import { Input } from "../../components/Input/default";
+import { TextArea } from "../../components/Input/textArea";
+import { PurpleButton } from "../../components/Button";
+import { ModalSucess } from "../../components/ModalRegister/modalSucess";
+import { useUser } from "../../hooks/useUser";
+import { apiLocal } from "../../services/api";
+import { ModalError } from "../../components/ModalRegister/modalError";
 
 export const Register = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const toggleModal = () => setIsOpenModal(!isOpenModal);
-
-  const { userRegister, loading, setSelectedOption, selectedOption } =
-    useRegister();
+  const { setSelectedOption, selectedOption } = useRegister();
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
+  };
+  const {
+    toggleSucessRegisterModal,
+    registerSucessModal,
+    toggleErrorRegisterModal,
+    registerErrorModal,
+  } = useUser();
+
+  const userRegister = async (data: RegisterData) => {
+    try {
+      data.is_seller = selectedOption === "true";
+      await apiLocal.post("/users", data);
+      toggleSucessRegisterModal();
+    } catch (error) {
+      toggleErrorRegisterModal();
+      console.error(error);
+    }
   };
 
   const {
     register,
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { errors },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -36,178 +53,227 @@ export const Register = () => {
           <main className="w-full flex flex-col jutify-center items-center">
             <form
               onSubmit={handleSubmit(userRegister)}
-              className="w-auto bg-grey10 pl-[48px] pr-[48px] pt-[44px] pb-[44px] rounded"
+              className="flex flex-col gap-4 w-auto bg-grey10 pl-[48px] pr-[48px] pt-[44px] pb-[44px] rounded"
             >
-              <h2 className="font-bold text-[24px] lexend mb-[32px]">
+              <h2 className="mb-[20px] lexend text-[24px] font-medium">
                 Cadastro
               </h2>
-
-              <p className="text-sm mb-[24px] font-bold">
-                Informações pessoais
-              </p>
-              <InputForm
+              <p className="text-sm font-bold">Informações pessoais</p>
+              <Input
                 id="name"
-                type="name"
                 label="Nome"
                 placeholder="Digite seu nome"
+                type="text"
                 register={register("name")}
+                error={
+                  errors.name?.message && (
+                    <span className="span-error">{errors.name.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="email"
-                type="email"
                 label="Email"
-                placeholder="Digite seu Email"
+                placeholder="Digitar email"
+                type="email"
                 register={register("email")}
+                error={
+                  errors.email?.message && (
+                    <span className="span-error">{errors.email.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="cpf"
-                type="cpf"
-                label="Cpf"
-                placeholder="Digite seu Cpf"
+                label="CPF"
+                placeholder="Digite seu CPF"
+                type="text"
                 register={register("cpf")}
+                error={
+                  errors.cpf?.message && (
+                    <span className="span-error">{errors.cpf.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="phone"
-                type="phone"
                 label="Telefone"
-                placeholder="Digite seu Telefone"
+                placeholder="Digite seu telefone"
+                type="text"
                 register={register("phone")}
+                error={
+                  errors.phone?.message && (
+                    <span className="span-error">{errors.phone.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="birthdate"
-                type="birthdate"
                 label="Data de nascimento"
                 placeholder="Digite sua data de nascimento"
+                type="text"
                 register={register("birthdate")}
+                error={
+                  errors.birthdate?.message && (
+                    <span className="span-error">
+                      {errors.birthdate.message}
+                    </span>
+                  )
+                }
               />
-
-              <InputForm
+              <TextArea
                 id="description"
-                type="description"
                 label="Descrição"
-                placeholder="Digite uma descrição para o seu perfil"
+                placeholder="Digitar descrição"
                 register={register("description")}
+                error={
+                  errors.description?.message && (
+                    <span className="span-error">
+                      {errors.description.message}
+                    </span>
+                  )
+                }
               />
-              <p className="text-sm mb-[24px] font-bold">
-                Informações pessoais
-              </p>
-              <InputForm
+              <p className="text-sm font-bold">Informações de endereço</p>
+              <Input
                 id="cep"
-                type="cep"
-                label="Cep"
-                placeholder="Digite o seu cep"
+                label="CEP"
+                placeholder="Digite o seu CEP"
+                type="text"
                 register={register("cep")}
+                error={
+                  errors.cep?.message && (
+                    <span className="span-error">{errors.cep.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="state"
-                type="state"
                 label="Estado"
-                placeholder="Insira o seu estado"
+                placeholder="Digite o seu estado"
+                type="text"
                 register={register("state")}
+                error={
+                  errors.state?.message && (
+                    <span className="span-error">{errors.state.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="city"
-                type="city"
                 label="Cidade"
-                placeholder="Digite o nome da sua cidade"
+                placeholder="Digite a sua cidade"
+                type="text"
                 register={register("city")}
+                error={
+                  errors.city?.message && (
+                    <span className="span-error">{errors.city.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="street"
-                type="street"
                 label="Rua"
-                placeholder="Digite o nome da sua rua"
+                placeholder="Digite a sua rua"
+                type="text"
                 register={register("street")}
+                error={
+                  errors.street?.message && (
+                    <span className="span-error">{errors.street.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="number"
-                type="number"
                 label="Número"
                 placeholder="Digite o numero da sua rua"
+                type="number"
                 register={register("number")}
+                error={
+                  errors.number?.message && (
+                    <span className="span-error">{errors.number.message}</span>
+                  )
+                }
               />
-
-              <InputForm
+              <Input
                 id="complement"
-                type="complement"
                 label="Complemento"
-                placeholder="Digite o complemento Ex:última casa da rua"
+                placeholder="Digite o complemento Ex: Última casa da rua"
+                type="text"
                 register={register("complement")}
+                error={
+                  errors.complement?.message && (
+                    <span className="span-error">
+                      {errors.complement.message}
+                    </span>
+                  )
+                }
               />
-              <p className="text-sm mb-[24px] font-bold">Tipo de conta</p>
-              <div className="flex space-x-4 mb-[24px] w-full justify-center">
-                <label
-                  className={`flex items-center rounded h-[48px] w-[152px] ${
-                    selectedOption === "false" ? "bg-brand1 text-white" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    className="hidden"
-                    name="userType"
-                    value="false"
-                    checked={selectedOption === "false"}
-                    onChange={handleOptionChange}
-                  />
-                  <div className="border-2 border-grey3 text-[16px]  h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
-                    Comprador
-                  </div>
-                </label>
+              <div>
+                <p className="text-sm mb-[16px] font-bold">Tipo de conta</p>
+                <div className="flex gap-4">
+                  <label
+                    className={`flex items-center rounded h-[48px] w-[152px] ${
+                      selectedOption === "false" ? "bg-brand1 text-white" : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      className="hidden"
+                      name="userType"
+                      value="false"
+                      checked={selectedOption === "false"}
+                      onChange={handleOptionChange}
+                    />
+                    <div className="border-2 border-grey3 text-[16px]  h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
+                      Comprador
+                    </div>
+                  </label>
 
-                <label
-                  className={`flex items-center rounded h-[48px] w-[152px] ${
-                    selectedOption === "true" ? "bg-brand1 text-white" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    className="hidden"
-                    name="userType"
-                    value="false"
-                    checked={selectedOption === "true"}
-                    onChange={handleOptionChange}
-                  />
-                  <div className="border-2 border-grey3 text-[16px] h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
-                    Anunciante
-                  </div>
-                </label>
+                  <label
+                    className={`flex items-center rounded h-[48px] w-[152px] ${
+                      selectedOption === "true" ? "bg-brand1 text-white" : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      className="hidden"
+                      name="userType"
+                      value="true"
+                      checked={selectedOption === "true"}
+                      onChange={handleOptionChange}
+                    />
+                    <div className="border-2 border-grey3 text-[16px] h-[48px] w-[152px] font-bold rounded-md px-4 py-2 cursor-pointer flex justify-center items-center">
+                      Anunciante
+                    </div>
+                  </label>
+                </div>
               </div>
-
-              <InputForm
+              <Input
                 id="password"
-                type="password"
                 label="Senha"
                 placeholder="Digite sua senha"
-                register={register("password")}
-              />
-              <InputForm
-                id="Confirmpassword"
                 type="password"
-                label="Confirmar Senha"
-                placeholder="Digite sua senha"
+                register={register("password")}
+                error={
+                  errors.password?.message && (
+                    <span className="span-error">
+                      {errors.password.message}
+                    </span>
+                  )
+                }
               />
-
-              <div className="flex flex-col flex-auto items-center justify-center">
-                <button
-                  className="w-[100%] h-[48px] rounded flex-grow-0 bg-brand1 
-          border-brand1 text-white hover:bg-brand2 
-          font:bold hover:border-brand2 font-bold"
-                  type="submit"
-                  onClick={toggleModal}
-                >
-                  {loading ? "Registrando..." : "Finalizar cadastro"}
-                </button>
-
-                {isSubmitSuccessful? (isOpenModal &&  <ModalRegister toggleModal={toggleModal} />) : (<p></p>)}
-              </div>
+              <Input
+                id="confirmPassword"
+                label="Confirmar senha"
+                placeholder="Digite sua senha"
+                type="password"
+              />
+              <PurpleButton type="submit" size="big">
+                Finalizar Cadastro
+              </PurpleButton>
+              {registerSucessModal ? <ModalSucess /> : null}
+              {registerErrorModal ? <ModalError /> : null}
             </form>
           </main>
         </div>
