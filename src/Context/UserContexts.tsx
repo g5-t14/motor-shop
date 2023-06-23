@@ -18,9 +18,17 @@ interface ProfileProviderValues {
   toggleProfileModal: () => void;
   toggleAddressModal: () => void;
   toggleDeleteModal: () => void;
+  toggleForgotModal: () => void;
+  toggleResetModal: () => void;
+  toggleErrorForgotModal: () => void;
+  toggleErrorResetModal: () => void;
+  errorResetModal: boolean;
+  resetModal: boolean;
+  errorForgotModal: boolean;
   profileModal: boolean;
   addressModal: boolean;
   deleteModal: boolean;
+  forgotModal: boolean;
   profileEdit: (data: ProfileData) => void;
   addressEdit: (data: AddressData) => void;
   deleteProfile: () => void;
@@ -41,6 +49,26 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchBrand, setSearchBrand] = useState<CarProps[]>([]);
+  const [forgotModal, setForgotModal] = useState(false);
+  const [errorForgotModal, setErrorForgotModal] = useState(false);
+  const [resetModal, setResetModal] = useState(false);
+  const [errorResetModal, setErrorResetModal] = useState(false);
+
+  const toggleErrorResetModal = () => {
+    setErrorResetModal(!errorResetModal);
+  };
+
+  const toggleResetModal = () => {
+    setResetModal(!resetModal);
+  };
+
+  const toggleForgotModal = () => {
+    setForgotModal(!forgotModal);
+  };
+
+  const toggleErrorForgotModal = () => {
+    setErrorForgotModal(!errorForgotModal);
+  };
 
   const toggleProfileModal = () => {
     setProfileModal(!profileModal);
@@ -101,6 +129,14 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   return (
     <UserContext.Provider
       value={{
+        errorResetModal,
+        toggleErrorResetModal,
+        resetModal,
+        toggleResetModal,
+        errorForgotModal,
+        toggleErrorForgotModal,
+        toggleForgotModal,
+        forgotModal,
         profileModal,
         addressModal,
         deleteModal,
