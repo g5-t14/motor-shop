@@ -50,10 +50,7 @@ export const Product = () => {
       const picturesFiltered = Object.values(carPictures).filter(
         (element) => element != null
       );
-      // console.log(picturesFiltered)
       setCarPictures(picturesFiltered);
-
-      //console.log((response.data.pictures))
       setCar(response.data);
     })();
   }, []);
