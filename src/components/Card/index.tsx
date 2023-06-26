@@ -44,6 +44,7 @@ export const Card = ({
     return `${formatedBrand} - ${formatedName}`;
   };
 */
+
   const showTag = (status: string) => {
     if (status == "true") {
       return (

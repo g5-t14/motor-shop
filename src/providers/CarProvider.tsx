@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useState, useEffect, Dispatch } from "react";
 import { api, apiLocal } from "../services/api";
 import { CarProps } from "../pages/home";
+import { useAuth } from "../hooks/useAuth";
 
 interface CarProviderProps {
   children: ReactNode;
@@ -63,11 +64,14 @@ interface CarContextValues {
   sortBy: string;
   setPriceSortBy: React.Dispatch<React.SetStateAction<string>>;
   priceSortBy: string;
+  toggleEditModalAds: () => void;
+  adsEdit: (data: CarProps, id: number) => void;
 }
 export const CarContext = createContext({} as CarContextValues);
 
 export const CarProvider = ({ children }: CarProviderProps) => {
   const [cars, setCars] = useState<string[]>([]);
+  const { setUserData } = useAuth();
   const [ad, setAd] = useState<UserAdsResponse | null>(null);
   const [allCars, setAllCars] = useState<CarProps[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -75,6 +79,11 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   const [arrayFilter, setArrayFilter] = useState<CarProps[]>([]);
   const [sortBy, setSortBy] = useState("");
   const [priceSortBy, setPriceSortBy] = useState("");
+  const [modalEditAds, setModalEditAds] = useState(false);
+
+  const toggleEditModalAds = () => {
+    setModalEditAds(!modalEditAds);
+  };
 
   const [filters, setFilters] = useState<Filters>({
     brand: "",
@@ -117,6 +126,16 @@ export const CarProvider = ({ children }: CarProviderProps) => {
       console.log(err);
     }
   };
+  const adsEdit = async (data: CarProps, id: number) => {
+    try {
+      const response = await apiLocal.patch(`/ads/${id}`, data);
+      setUserData(response.data);
+      toggleEditModalAds();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CarContext.Provider
       value={{
@@ -140,6 +159,8 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         sortBy,
         priceSortBy,
         setPriceSortBy,
+        adsEdit,
+        toggleEditModalAds,
       }}
     >
       {children}

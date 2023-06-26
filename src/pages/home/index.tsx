@@ -49,7 +49,7 @@ export const Home = () => {
   const { searchBrand, allCars } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 6;
+  const cardsPerPage = 9;
   const totalPages = Math.ceil(allCars.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;

@@ -21,6 +21,13 @@ export interface CarSeller {
   description: string;
 }
 
+export interface Comments {
+  user_id: number;
+  id: number;
+  description: string;
+  createAt: Date;
+}
+
 export interface CarProps {
   id: number;
   brand: string;
@@ -36,6 +43,7 @@ export interface CarProps {
   is_active: boolean;
   pictures: CarPictures;
   user_seller: CarSeller;
+  commets: Comments;
 }
 
 export const Product = () => {

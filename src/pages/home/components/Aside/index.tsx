@@ -4,6 +4,8 @@ import { apiLocal } from "../../../../services/api";
 
 import { CarProps } from "../../../Product";
 
+
+
 const AsideHome = () => {
   const {
     allCars,
@@ -41,6 +43,12 @@ const AsideHome = () => {
     "Branco",
   ];
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const clickFilter = async (category: string, filter: string) => {
     const updatedFilters = {
       ...selectedFilters,
@@ -101,7 +109,7 @@ const AsideHome = () => {
     try {
       const response = await apiLocal.get(`/ads?brand=${brand}`);
 
-      const modelNames = response.data.map((model: any) => {
+      const modelNames = response.data.map((model: CarProps) => {
         const firstName = model.model.split(" ")[0];
         return firstName.charAt(0).toUpperCase() + firstName.slice(1);
       });
@@ -325,7 +333,6 @@ const AsideHome = () => {
             setSelectedFilters({});
             setModelFilter([]);
             setActiveFilter("");
-            console.log("testando");
             setFiltersActive(false);
           }}
         >
