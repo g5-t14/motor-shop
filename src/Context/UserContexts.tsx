@@ -1,14 +1,12 @@
 import {
-  Dispatch,
   ReactNode,
-  SetStateAction,
   createContext,
   useState,
 } from "react";
 import { apiLocal } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
 import { AddressData, ProfileData } from "../validations/user";
-import { CarProps } from "../pages/home";
+
 
 interface ContactProviderProps {
   children: ReactNode;
@@ -46,7 +44,7 @@ export const UserProvider = ({ children }: ContactProviderProps) => {
   const { userData, setUserData, logout } = useAuth();
   const [profileModal, setProfileModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal] = useState(false);
 
   const [forgotModal, setForgotModal] = useState(false);
   const [errorForgotModal, setErrorForgotModal] = useState(false);

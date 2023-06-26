@@ -1,13 +1,11 @@
 import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
-import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
-import { useUser } from "../../hooks/useUser";
 import { useCar } from "../../hooks/useCar";
 
 export interface CarPictures {
@@ -49,11 +47,13 @@ export const Home = () => {
   const { searchBrand, allCars } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
+
   const cardsPerPage = 6;
   const totalPages = Math.ceil(allCars.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = allCars.slice(indexOfFirstCard, indexOfLastCard);
+
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);

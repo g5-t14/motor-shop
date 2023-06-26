@@ -1,13 +1,11 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
 import { apiLocal } from "../../../../services/api";
-
 import { CarProps } from "../../../Product";
 
 const AsideHome = () => {
   const {
     allCars,
-    setAllCars,
     setSelectedBrand,
     selectedBrand,
     brandSearch,
@@ -25,6 +23,7 @@ const AsideHome = () => {
   const [activeColorFilter, setActiveColorFilter] = useState("");
   const [filtersActive, setFiltersActive] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("");
+
   const colors = [
     "Preto",
     "Cinza",
@@ -40,6 +39,7 @@ const AsideHome = () => {
     "Rosa",
     "Branco",
   ];
+
 
   const clickFilter = async (category: string, filter: string) => {
     const updatedFilters = {
@@ -102,6 +102,7 @@ const AsideHome = () => {
       const response = await apiLocal.get(`/ads?brand=${brand}`);
 
       const modelNames = response.data.map((model: any) => {
+
         const firstName = model.model.split(" ")[0];
         return firstName.charAt(0).toUpperCase() + firstName.slice(1);
       });
@@ -184,6 +185,7 @@ const AsideHome = () => {
               </button>
             );
           })}
+
         </div>
       </div>
       {modelFilter.length > 0 && (

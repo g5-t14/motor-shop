@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginData } from "../validations/login";
 import { UserData } from "../validations/user";
 import { apiLocal } from "../services/api";
-import { CarProps } from "../pages/home";
+
 
 interface AuthProviderProps {
   children: ReactNode;

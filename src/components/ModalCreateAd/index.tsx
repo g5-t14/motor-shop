@@ -1,11 +1,11 @@
 import { Modal } from "../Modal";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCar } from "../../hooks/useCar";
 import { api, apiLocal } from "../../services/api";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
-import { adData, adSchema } from "../../validations/ad";
+import { adSchema } from "../../validations/ad";
 import { UserAdsResponse } from "../../providers/CarProvider";
 import { CarProps } from "../../pages/home";
 
@@ -24,14 +24,14 @@ interface ModalCreateAdTaskProps {
 }
 
 const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {
-  const { cars, setAd } = useCar();
+  const { cars} = useCar();
   const [infoCar, setInfoCars] = useState<modelsRequest>();
   const [selectedBrand, setSelectedBrand] = useState("");
   const [models, setModels] = useState<modelsRequest[]>([]);
   const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
   const token = localStorage.getItem("user-token");
   const idLogged = localStorage.getItem("user-id");
-  const createAd = async (data: any) => {
+  const createAd = async (data: object) => {
     try {
       apiLocal.defaults.headers.common.authorization = `Bearer ${token}`;
       await apiLocal.post("/ads", data);
@@ -48,7 +48,6 @@ const ModalCreateAd = ({ toggleModal, setAds }: ModalCreateAdTaskProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm({
     resolver: zodResolver(adSchema),
     mode: "onBlur",

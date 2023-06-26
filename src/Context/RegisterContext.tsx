@@ -5,7 +5,6 @@ import {
   createContext,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { RegisterData } from "../validations/register";
 import { apiLocal } from "../services/api";
 
@@ -25,7 +24,6 @@ export const RegisterContext = createContext<RegisterContextValues>(
 );
 
 export const RegisterProvider = ({ children }: RegisterProviderProps) => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("true");
 
