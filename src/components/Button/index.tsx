@@ -7,6 +7,7 @@ import { PurpleButton } from "./purple";
 import { PurpleOpacityButton } from "./purpleOpacity";
 import { RedButton } from "./red";
 import { ClearButton } from "./clear";
+import {BorderBlackButton} from "./bordedBlack"
 
 export {
   BlackButton,
@@ -18,4 +19,5 @@ export {
   PurpleOpacityButton,
   RedButton,
   ClearButton,
+  BorderBlackButton
 };
