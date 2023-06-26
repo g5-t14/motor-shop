@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { BorderBlackButton } from "../../../components/Button";
 
 interface CarSeller {
   id: number;
@@ -23,7 +23,7 @@ interface CardProps {
   user_seller: CarSeller;
 }
 
-export const Card = ({
+export const CardAdvertiser = ({
   id,
   year,
   mileage,
@@ -34,7 +34,7 @@ export const Card = ({
   is_active,
   user_seller,
 }: CardProps) => {
-
+  const localId = localStorage.getItem("user-id");
 
   const showTag = (status: string) => {
     if (status == "true") {
@@ -54,12 +54,20 @@ export const Card = ({
     }
   };
 
+  const verifyToEdit = (localId: string,userId: number): boolean => {
+    if(parseInt(localId) == userId){
+      return true
+    }
+    return false
+  }
+
+
   return (
-    <Link
-      to={"/product/" + id}
+    <div
+      
       className="min-w-[312px] min-h-[350px] w-[312px] h-[350px] flex flex-col gap-4 mb-[85px]"
     >
-      <div className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">
+      <Link to={"/product/" + id} className="relative w-full border-2 border-transparent hover:border-2 hover:border-brand1">
         {showTag(is_active)}
 
         {price >= fipe_table - fipe_table * 0.05 && (
@@ -73,7 +81,7 @@ export const Card = ({
           src={cover_img}
           alt="Cars Photo"
         />
-      </div>
+      </Link>
       <div className="flex flex-col gap-4">
         <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1">
         </h3>
@@ -112,7 +120,17 @@ export const Card = ({
               })}
           </span>
         </div>
+
+        {
+          localId ?
+          verifyToEdit(localId, user_seller.id) &&
+          <div className="flex gap-4">
+            <BorderBlackButton onClick={() => {console.log("hello")}} size="medium">Editar</BorderBlackButton>
+            <BorderBlackButton size="medium">Ver detalhes</BorderBlackButton>
+          </div>
+          : null
+        }
       </div>
-    </Link>
+    </div>
   );
 };
