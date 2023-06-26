@@ -70,3 +70,6 @@
 .button-category.active {
   display: inline-block;
 }
+.hidden {
+  display: none;
+}

@@ -44,14 +44,16 @@ export interface CarProps {
 export const Home = () => {
   const [cars, setCars] = useState<CarProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const { searchBrand } = useCar();
+  const { searchBrand, allCars } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 12;
-  const totalPages = Math.ceil(cars.length / cardsPerPage);
-  
-  
-  
+
+  const cardsPerPage = 6;
+  const totalPages = Math.ceil(allCars.length / cardsPerPage);
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = allCars.slice(indexOfFirstCard, indexOfLastCard);
+
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -82,7 +84,7 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {searchBrand.map((ad) => (
+              {currentCards.map((ad) => (
                 <Card
                   key={ad.id}
                   id={ad.id}

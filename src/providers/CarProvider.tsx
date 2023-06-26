@@ -57,6 +57,12 @@ interface CarContextValues {
   arrayFilter: CarProps[];
   setArrayFilter: React.Dispatch<React.SetStateAction<CarProps[]>>;
   setSearchBrand: React.Dispatch<React.SetStateAction<CarProps[]>>;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<object>>;
+  selectedFilters: object;
+  setSortBy: React.Dispatch<React.SetStateAction<string>>;
+  sortBy: string;
+  setPriceSortBy: React.Dispatch<React.SetStateAction<string>>;
+  priceSortBy: string;
 }
 export const CarContext = createContext({} as CarContextValues);
 
@@ -67,6 +73,9 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchBrand, setSearchBrand] = useState<CarProps[]>([]);
   const [arrayFilter, setArrayFilter] = useState<CarProps[]>([]);
+  const [sortBy, setSortBy] = useState("");
+  const [priceSortBy, setPriceSortBy] = useState("");
+
   const [filters, setFilters] = useState<Filters>({
     brand: "",
     model: "",
@@ -75,6 +84,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
     fuel: "",
     mileage: "",
   });
+  const [selectedFilters, setSelectedFilters] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -98,7 +108,10 @@ export const CarProvider = ({ children }: CarProviderProps) => {
       }
     })();
   }, []);
-  const brandSearch = async () => {
+
+
+  const brandSearch = async (brand: string) => {
+
     try {
       const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
       setSearchBrand(response.data);
@@ -123,6 +136,12 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         arrayFilter,
         setArrayFilter,
         setSearchBrand,
+        setSelectedFilters,
+        selectedFilters,
+        setSortBy,
+        sortBy,
+        priceSortBy,
+        setPriceSortBy,
       }}
     >
       {children}
