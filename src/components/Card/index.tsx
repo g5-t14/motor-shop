@@ -24,12 +24,8 @@ interface CardProps {
 
 export const Card = ({
   id,
-  brand,
-  model,
   year,
-  fuel,
   mileage,
-  color,
   fipe_table,
   price,
   description,

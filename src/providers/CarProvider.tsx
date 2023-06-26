@@ -98,7 +98,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
       }
     })();
   }, []);
-  const brandSearch = async (brand: string) => {
+  const brandSearch = async () => {
     try {
       const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
       setSearchBrand(response.data);

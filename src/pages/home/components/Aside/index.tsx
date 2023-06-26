@@ -1,18 +1,13 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
-import { api, apiLocal } from "../../../../services/api";
-import { useUser } from "../../../../hooks/useUser";
+import { apiLocal } from "../../../../services/api";
 import { CarProps } from "../../../Product";
 
 const AsideHome = () => {
   const {
-    cars,
-    filters,
     setFilters,
     allCars,
-    setAllCars,
     setSelectedBrand,
-    searchBrand,
     selectedBrand,
     brandSearch,
     setArrayFilter,
@@ -28,7 +23,37 @@ const AsideHome = () => {
   const [colorsActive, setColorsActive] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const [yearsActive, setYearsActive] = useState(false);
+  
+
+  interface TAdsRequest {
+    brand: string,
+    model: string,
+    year: string,
+    fuel: string,
+    mileage: string,
+    color: [
+      "Preto",
+      "Cinza",
+      "Marrom",
+      "Vermelho",
+      "Laranja",
+      "Amarelo",
+      "VerdeClaro",
+      "VerdeEscuro",
+      "AzulClaro",
+      "AzulEscuro",
+      "Roxo",
+      "Rosa",
+      "Branco",
+    ],
+    fipe_table: number,
+    price: number,
+    description: string,
+    cover_img: string,
+    is_active: boolean,
+    pictures: string,
+}
+  
 
   const clickFilter = (category: string, filter: string) => {
     setFilters((prevFilters) => ({
@@ -46,7 +71,7 @@ const AsideHome = () => {
   const getModels = async (brand: string) => {
     try {
       const response = await apiLocal.get(`/ads?brand=${brand}`);
-      const modelNames = response.data.map((model: any) => {
+      const modelNames = response.data.map((model:TAdsRequest) => {
         const firstName = model.model.split(" ")[0];
         return firstName.charAt(0).toUpperCase() + firstName.slice(1);
       });
@@ -75,7 +100,7 @@ const AsideHome = () => {
         <h2 className="text-[28px] font-bold mb-2 text-[28px] lexend">Marca</h2>
         <div className="overflow-auto h-175">
           {filteredCars.map(
-            (car: CarProps, index: number, array: CarProps[]) => {
+            (car: CarProps, index: number) => {
               const isBrandActive =
                 activeFilter === car?.brand ||
                 (showModels && selectedBrand === car?.brand);

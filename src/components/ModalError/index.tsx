@@ -19,7 +19,7 @@ export const ModalError = ({ toggleModal }: ModalErrorProps) => {
     }
 
     return (
-        <Modal toggleModal={toggleModal} blockClosgin>
+        <Modal toggleModal={toggleModal}>
             Você não está autenticado!
             <button onClick={handleCloseAndRedirect}>Ir para o login</button>
         </Modal>
