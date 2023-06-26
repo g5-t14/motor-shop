@@ -1,10 +1,7 @@
 import { SetStateAction, useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
 import { apiLocal } from "../../../../services/api";
-
 import { CarProps } from "../../../Product";
-
-
 
 const AsideHome = () => {
   const {
@@ -27,6 +24,7 @@ const AsideHome = () => {
   const [activeColorFilter, setActiveColorFilter] = useState("");
   const [filtersActive, setFiltersActive] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("");
+
   const colors = [
     "Preto",
     "Cinza",
@@ -43,12 +41,6 @@ const AsideHome = () => {
     "Branco",
   ];
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
   const clickFilter = async (category: string, filter: string) => {
     const updatedFilters = {
       ...selectedFilters,

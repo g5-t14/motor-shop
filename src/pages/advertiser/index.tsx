@@ -1,4 +1,3 @@
-import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import ModalCreateAd from "../../components/ModalCreateAd";
@@ -7,6 +6,7 @@ import { UserData } from "../../validations/user";
 import { useParams } from "react-router-dom";
 import { CarProps } from "../home";
 import { Header } from "../../components/Header";
+import { CardAdvertiser } from "./components/cardAdvertiser";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -118,7 +118,7 @@ export const AdvertiserProfile = () => {
           <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
             {adArray?.length > 0 ? (
               currentCards.map((ad) => (
-                <Card
+                <CardAdvertiser
                   key={ad.id}
                   brand={ad.brand}
                   description={ad.description}

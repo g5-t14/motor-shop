@@ -1,13 +1,11 @@
 import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
-import { mockData } from "../../mock";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
-import { useUser } from "../../hooks/useUser";
 import { useCar } from "../../hooks/useCar";
 
 export interface CarPictures {

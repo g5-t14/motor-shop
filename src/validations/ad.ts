@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { picturesSchema, picturesSchemaRequest } from "./pictures.schema";
+
 
 export const adSchema = z.object({
   brand: z.string(),
