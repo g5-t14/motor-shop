@@ -8,7 +8,7 @@ import React, {
 import { api, apiLocal } from "../services/api";
 import { CarProps } from "../pages/home";
 import { useAuth } from "../hooks/useAuth";
-import { adData, adEdit, adTeste } from "../validations/ad";
+import { adData, adEdit } from "../validations/ad";
 
 interface CarProviderProps {
   children: ReactNode;
@@ -74,7 +74,7 @@ interface CarContextValues {
   setPriceSortBy: React.Dispatch<React.SetStateAction<string>>;
   priceSortBy: string;
   toggleEditModalAds: () => void;
-  adsEdit: (data: adData) => void;
+  adsEdit: (data: adEdit) => void;
   modalEditAds: boolean;
   infoCarId: CarProps | null;
   retrieveEdit: (id: number) => void;
@@ -158,7 +158,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   }, []);
   const retrieveEdit = async (id: number) => {
     if (id) {
-      const foundObject = array.find((objeto) => objeto.id === id);
+      const foundObject = adArray.find((objeto) => objeto.id === id);
       if (foundObject) {
         return setInfoCarId(foundObject);
       }
@@ -166,7 +166,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
     return null;
   };
 
-  const adsEdit = async (data: adData) => {
+  const adsEdit = async (data: adEdit) => {
     try {
       if (selectedOption) {
         data.is_active = selectedOption === "true";
@@ -174,15 +174,12 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         data.is_active = selectedOption === "false";
       }
       const response = await apiLocal.patch(`/ads/${infoCarId?.id}`, data);
-      setAdArray((prevAdArray) => {
-        const updatedAdArray = prevAdArray.map((ad) => {
-          if (ad.id === response.data.id) {
-            return response.data;
-          }
-          return ad;
-        });
-        return updatedAdArray;
+
+      const filteredAds = adArray.map((ad) => {
+        return ad.id === infoCarId?.id ? { ...ad, ...response.data } : ad;
       });
+
+      setAdArray(filteredAds);
       toggleEditModalAds();
     } catch (error) {
       console.error(error);
@@ -200,6 +197,12 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   const deleteAds = async () => {
     try {
       await apiLocal.delete(`/ads/${infoCarId?.id}`);
+
+      const filteredAds = adArray.filter((ad) => {
+        return ad.id !== infoCarId?.id;
+      });
+
+      setAdArray(filteredAds);
       toggleDeleteAds();
       toggleEditModalAds();
     } catch (error) {

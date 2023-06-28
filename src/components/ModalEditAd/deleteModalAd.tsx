@@ -21,7 +21,7 @@ export const DeleteModalAd = () => {
         <h2 className="text-black font-semibold font-lexend text-[16px] mb-[15px] ">
           Tem certeza que deseja remover este anúncio?
         </h2>
-        <p className="text-black font-normal text-[16px] leading-7 text-grey2 mb-[25px]">
+        <p className="font-normal text-[16px] leading-7 text-grey2 mb-[25px]">
           Essa ação não pode ser desfeita. Isso excluirá permanentemente sua
           conta e removerá seus dados de nossos servidores.
         </p>
