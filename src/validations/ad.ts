@@ -49,4 +49,22 @@ export const editSchema = z.object({
   description: z.string(),
   cover_img: z.string(),
 });
+
+export const editAdSchema = z.object({
+  is_active: z.boolean(),
+  pictures: z.object({
+    picture_1: z.string(),
+    picture_2: z.string(),
+    picture_3: z.string().nullish(),
+    picture_4: z.string().nullish(),
+    picture_5: z.string().nullish(),
+    picture_6: z.string().nullish(),
+  }),
+  mileage: z.string(),
+  price: z.number(),
+  description: z.string(),
+  cover_img: z.string(),
+});
+
 export type adData = z.infer<typeof adSchema>;
+export type adEdit = z.infer<typeof editAdSchema>;

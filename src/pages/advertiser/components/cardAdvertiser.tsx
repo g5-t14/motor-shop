@@ -37,7 +37,7 @@ export const CardAdvertiser = ({
   is_active,
   user_seller,
 }: CardProps) => {
-  const localId = localStorage.getItem("user-id");
+  const localId = Number(localStorage.getItem("user-id"));
   const { toggleEditModalAds, retrieveEdit, setIdCard } = useCar();
 
   const showTag = (status: boolean) => {
@@ -123,25 +123,20 @@ export const CardAdvertiser = ({
                 })}
             </span>
           </div>
-
-          {localId
-            ? verifyToEdit(localId, user_seller.id) && (
-                <div className="flex gap-4">
-                  <BorderBlackButton
-                    onClick={() => {
-                      retrieveEdit(id);
-                      toggleEditModalAds();
-                    }}
-                    size="medium"
-                  >
-                    Editar
-                  </BorderBlackButton>
-                  <BorderBlackButton size="medium">
-                    Ver detalhes
-                  </BorderBlackButton>
-                </div>
-              )
-            : null}
+          {localId === user_seller?.id ? (
+            <div className="flex gap-4">
+              <BorderBlackButton
+                onClick={() => {
+                  retrieveEdit(id);
+                  toggleEditModalAds();
+                }}
+                size="medium"
+              >
+                Editar
+              </BorderBlackButton>
+              <BorderBlackButton size="medium">Ver detalhes</BorderBlackButton>
+            </div>
+          ) : null}
         </div>
       </div>
     </>
