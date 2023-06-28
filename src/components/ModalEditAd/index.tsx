@@ -3,7 +3,12 @@ import { useCar } from "../../hooks/useCar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
-import { adData, adSchema } from "./../../validations/ad";
+import {
+  adData,
+  adSchema,
+  adUpdateData,
+  editSchema,
+} from "./../../validations/ad";
 import { DeleteModalAd } from "./deleteModalAd";
 
 const ModalEditAds = () => {
@@ -52,7 +57,7 @@ const ModalEditAds = () => {
     ));
   };
   const { register, handleSubmit } = useForm<adData>({
-    resolver: zodResolver(adSchema),
+    resolver: zodResolver(editSchema),
     mode: "onChange",
   });
 
