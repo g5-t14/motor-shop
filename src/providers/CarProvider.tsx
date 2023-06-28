@@ -158,7 +158,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   }, []);
   const retrieveEdit = async (id: number) => {
     if (id) {
-      const foundObject = array.find((objeto) => objeto.id === id);
+      const foundObject = adArray.find((objeto) => objeto.id === id);
       if (foundObject) {
         return setInfoCarId(foundObject);
       }
