@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-
 interface CarSeller {
   id: number;
   name: string;
@@ -34,8 +33,6 @@ export const Card = ({
   is_active,
   user_seller,
 }: CardProps) => {
-
-
   const showTag = (status: string) => {
     if (status == "true") {
       return (
@@ -75,8 +72,7 @@ export const Card = ({
         />
       </div>
       <div className="flex flex-col gap-4">
-        <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1">
-        </h3>
+        <h3 className="truncate font-semibold text-[16px] leading-5 text-grey1"></h3>
         <p className="text-grey2 font-normal text-[14px] leading-6 truncate whitespace-normal line-clamp-2">
           {description}
         </p>

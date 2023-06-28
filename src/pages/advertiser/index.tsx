@@ -7,9 +7,12 @@ import { useParams } from "react-router-dom";
 import { CarProps } from "../home";
 import { Header } from "../../components/Header";
 import { CardAdvertiser } from "./components/cardAdvertiser";
+import { useCar } from "../../hooks/useCar";
+import ModalEditAds from "../../components/ModalEditAd";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const { adArray, setAdArray } = useCar();
   const [currentPage, setCurrentPage] = useState(1);
   const [userInfo, setUserInfo] = useState<UserData>({
     name: "",
@@ -29,8 +32,8 @@ export const AdvertiserProfile = () => {
     street: "",
     complement: "",
   });
-  const [adArray, setAdArray] = useState<CarProps[]>([]);
-  const cardsPerPage = 8;
+
+  const cardsPerPage = 6;
   const totalPages = Math.ceil(adArray.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -41,6 +44,7 @@ export const AdvertiserProfile = () => {
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
+  const { modalEditAds, deleteModal } = useCar();
 
   useEffect(() => {
     (async () => {
@@ -61,7 +65,7 @@ export const AdvertiserProfile = () => {
         console.log(err);
       }
     })();
-  }, []);
+  }, [setAdArray, id]);
   const getInitials = (name: string) => {
     const names = name.split(" ");
     if (names.length === 1) {
@@ -78,6 +82,7 @@ export const AdvertiserProfile = () => {
     setCurrentPage(currentPage - 1);
   };
   const bgColor = userInfo?.user_color;
+
   return (
     <>
       <Header />
@@ -125,7 +130,7 @@ export const AdvertiserProfile = () => {
                   fipe_table={ad.fipe_table}
                   fuel={ad.fuel}
                   id={ad.id}
-                  is_active={"none"}
+                  is_active={ad.is_active}
                   mileage={ad.mileage}
                   model={ad.model}
                   user_seller={ad.user_seller}
@@ -169,10 +174,12 @@ export const AdvertiserProfile = () => {
         {isOpenModal && (
           <ModalCreateAd toggleModal={toggleModal} setAds={setAdArray} />
         )}
+
         <div style={{ width: "100%" }}>
           <Footer />
         </div>
       </div>
+      {modalEditAds ? <ModalEditAds /> : null}
     </>
   );
 };
