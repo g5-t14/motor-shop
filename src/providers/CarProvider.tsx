@@ -1,7 +1,14 @@
-import { ReactNode, createContext, useState, useEffect, Dispatch } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useState,
+  useEffect,
+  Dispatch,
+} from "react";
 import { api, apiLocal } from "../services/api";
 import { CarProps } from "../pages/home";
 import { useAuth } from "../hooks/useAuth";
+import { adData, adEdit, adTeste } from "../validations/ad";
 
 interface CarProviderProps {
   children: ReactNode;
@@ -45,16 +52,18 @@ export interface UserAdsResponse {
 }
 interface CarContextValues {
   cars: string[];
+  setAdArray: React.Dispatch<React.SetStateAction<CarProps[]>>;
   setAd: React.Dispatch<React.SetStateAction<UserAdsResponse | null>>;
   ad: UserAdsResponse | null;
-  allCars: CarProps[];
   setFilters: Dispatch<React.SetStateAction<Filters>>;
   filters: Filters;
+  adArray: CarProps[];
+  allCars: CarProps[];
+  brandSearch: (brand: string) => void;
   setAllCars: React.Dispatch<React.SetStateAction<CarProps[]>>;
   searchBrand: CarProps[];
   setSelectedBrand: Dispatch<React.SetStateAction<string>>;
   selectedBrand: string;
-  brandSearch: (brand: string) => void;
   arrayFilter: CarProps[];
   setArrayFilter: React.Dispatch<React.SetStateAction<CarProps[]>>;
   setSearchBrand: React.Dispatch<React.SetStateAction<CarProps[]>>;
@@ -65,13 +74,24 @@ interface CarContextValues {
   setPriceSortBy: React.Dispatch<React.SetStateAction<string>>;
   priceSortBy: string;
   toggleEditModalAds: () => void;
-  adsEdit: (data: CarProps, id: number) => void;
+  adsEdit: (data: adData) => void;
+  modalEditAds: boolean;
+  infoCarId: CarProps | null;
+  retrieveEdit: (id: number) => void;
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  idCard: number;
+  setIdCard: React.Dispatch<React.SetStateAction<number>>;
+  toggleDeleteAds: () => void;
+  deleteAds: () => void;
+  deleteModal: boolean;
 }
 export const CarContext = createContext({} as CarContextValues);
 
 export const CarProvider = ({ children }: CarProviderProps) => {
   const [cars, setCars] = useState<string[]>([]);
   const { setUserData } = useAuth();
+  const [adArray, setAdArray] = useState<CarProps[]>([]);
   const [ad, setAd] = useState<UserAdsResponse | null>(null);
   const [allCars, setAllCars] = useState<CarProps[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -80,11 +100,11 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   const [sortBy, setSortBy] = useState("");
   const [priceSortBy, setPriceSortBy] = useState("");
   const [modalEditAds, setModalEditAds] = useState(false);
-
-  const toggleEditModalAds = () => {
-    setModalEditAds(!modalEditAds);
-  };
-
+  const [selectedOption, setSelectedOption] = useState("true");
+  const [infoCarId, setInfoCarId] = useState<CarProps | null>(null);
+  const [idCard, setIdCard] = useState(0);
+  const [array, setArray] = useState<CarProps[]>([]);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     brand: "",
     model: "",
@@ -93,6 +113,16 @@ export const CarProvider = ({ children }: CarProviderProps) => {
     fuel: "",
     mileage: "",
   });
+  const idLogged = localStorage.getItem("user-id");
+
+  const toggleEditModalAds = () => {
+    setModalEditAds(!modalEditAds);
+  };
+
+  const toggleDeleteAds = () => {
+    setDeleteModal(!deleteModal);
+  };
+
   const [selectedFilters, setSelectedFilters] = useState({});
 
   useEffect(() => {
@@ -116,11 +146,50 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         console.log(error);
       }
     })();
+    (async () => {
+      try {
+        const response = await apiLocal.get(`/ads`);
+        const command = response.data;
+        setArray(command);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
+  const retrieveEdit = async (id: number) => {
+    if (id) {
+      const foundObject = array.find((objeto) => objeto.id === id);
+      if (foundObject) {
+        return setInfoCarId(foundObject);
+      }
+    }
+    return null;
+  };
 
+  const adsEdit = async (data: adData) => {
+    try {
+      if (selectedOption) {
+        data.is_active = selectedOption === "true";
+      } else {
+        data.is_active = selectedOption === "false";
+      }
+      const response = await apiLocal.patch(`/ads/${infoCarId?.id}`, data);
+      setAdArray((prevAdArray) => {
+        const updatedAdArray = prevAdArray.map((ad) => {
+          if (ad.id === response.data.id) {
+            return response.data;
+          }
+          return ad;
+        });
+        return updatedAdArray;
+      });
+      toggleEditModalAds();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const brandSearch = async (brand: string) => {
-
     try {
       const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
       setSearchBrand(response.data);
@@ -128,10 +197,10 @@ export const CarProvider = ({ children }: CarProviderProps) => {
       console.log(err);
     }
   };
-  const adsEdit = async (data: CarProps, id: number) => {
+  const deleteAds = async () => {
     try {
-      const response = await apiLocal.patch(`/ads/${id}`, data);
-      setUserData(response.data);
+      await apiLocal.delete(`/ads/${infoCarId?.id}`);
+      toggleDeleteAds();
       toggleEditModalAds();
     } catch (error) {
       console.error(error);
@@ -144,25 +213,37 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         cars,
         setAd,
         ad,
+        setAdArray,
+        adArray,
         allCars,
-        setFilters,
-        filters,
         setAllCars,
         setSelectedBrand,
         searchBrand,
         selectedBrand,
-        brandSearch,
         arrayFilter,
         setArrayFilter,
         setSearchBrand,
         setSelectedFilters,
         selectedFilters,
+        filters,
+        setFilters,
         setSortBy,
+        brandSearch,
+        setSelectedOption,
         sortBy,
         priceSortBy,
         setPriceSortBy,
         adsEdit,
+        retrieveEdit,
         toggleEditModalAds,
+        idCard,
+        setIdCard,
+        infoCarId,
+        modalEditAds,
+        selectedOption,
+        toggleDeleteAds,
+        deleteAds,
+        deleteModal,
       }}
     >
       {children}
