@@ -33,7 +33,7 @@ export const AdvertiserProfile = () => {
     complement: "",
   });
 
-  const cardsPerPage = 6;
+  const cardsPerPage = 10;
   const totalPages = Math.ceil(adArray.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -122,24 +122,33 @@ export const AdvertiserProfile = () => {
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
           <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
             {adArray?.length > 0 ? (
-              currentCards.map((ad) => (
-                <CardAdvertiser
-                  key={ad.id}
-                  brand={ad.brand}
-                  description={ad.description}
-                  fipe_table={ad.fipe_table}
-                  fuel={ad.fuel}
-                  id={ad.id}
-                  is_active={ad.is_active}
-                  mileage={ad.mileage}
-                  model={ad.model}
-                  user_seller={ad.user_seller}
-                  price={ad.price}
-                  year={ad.year}
-                  color={ad.color}
-                  cover_img={ad.cover_img}
-                />
-              ))
+              currentCards.map((ad) => {
+                const isCurrentUserSeller =
+                  Number(userId) === ad.user_seller.id;
+                const isActiveAd = ad.is_active;
+
+                if (isCurrentUserSeller || isActiveAd) {
+                  return (
+                    <CardAdvertiser
+                      key={ad.id}
+                      brand={ad.brand}
+                      description={ad.description}
+                      fipe_table={ad.fipe_table}
+                      fuel={ad.fuel}
+                      id={ad.id}
+                      is_active={ad.is_active}
+                      mileage={ad.mileage}
+                      model={ad.model}
+                      user_seller={ad.user_seller}
+                      price={ad.price}
+                      year={ad.year}
+                      color={ad.color}
+                      cover_img={ad.cover_img}
+                    />
+                  );
+                }
+                return null;
+              })
             ) : (
               <p className="text-[40px]">Nenhum anúncio disponível.</p>
             )}
