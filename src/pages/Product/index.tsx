@@ -118,7 +118,6 @@ export const Product = () => {
         `/comments/${id}`,
         commentDataToSend
       );
-      console.log(response)
       setComments([...comments,response.data])
 
     } catch (error) {
