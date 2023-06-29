@@ -1,69 +1,75 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
   }
-  a:hover {
-    color: #747bff;
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+.animate-slideFromRight {
+  animation: slideFromRight 0.3s ease-in-out forwards;
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
+.font-lexend {
+  font-family: "Lexend", sans-serif;
+}
+
+.color-gray {
+  color: #adb5bd;
+}
+.dark-gray {
+  color: #0b0d0d;
+}
+
+.shadow-bottom {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@layer components {
+  .btn-big {
+    @apply text-whiteFixed text-btgBigF font-600 h-btgBigH px-btnBigPad rounded-4 border-2 disabled:text-whiteFixed disabled:bg-grey5 disabled:border-grey5 disabled:hover:bg-grey5 disabled:hover:border-grey5;
   }
+
+  .btn-medium {
+    @apply w-fit text-whiteFixed text-btgMedF font-600 h-btgMedH px-btnMedPad rounded-4 border-2 disabled:text-whiteFixed disabled:bg-grey5 disabled:border-grey5 disabled:hover:bg-grey5 disabled:hover:border-grey5;
+  }
+
+  .bg-duo {
+    @apply bg-gradient-to-b from-brand1 from-[450px] via-grey7 via-[450px] to-grey7 to-100%;
+  }
+
+  .bg-duo-big {
+    @apply bg-gradient-to-b from-brand1 from-[550px] via-grey7 via-[550px] to-grey7 to-100%;
+  }
+
+  .span-error {
+    @apply absolute bottom-[-16px] right-0 text-[12px];
+  }
+}
+
+.active ~ button {
+  display: none;
+}
+.button-category {
+  display: none;
+}
+
+.button-category.active {
+  display: inline-block;
+}
+.hidden {
+  display: none;
 }
