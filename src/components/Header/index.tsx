@@ -35,6 +35,7 @@ export const Header = () => {
 
   const homeHandler = () => {
     navigate("/");
+    window.location.reload();
   };
   const showDropdown = () => {
     setDropdownActive(!dropdownActive);

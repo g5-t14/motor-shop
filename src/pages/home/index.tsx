@@ -82,25 +82,26 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {currentCards.map((ad) => (
-                <Card
-                  key={ad.id}
-                  id={ad.id}
-                  brand={ad.brand}
-                  model={ad.model}
-                  year={ad.year}
-                  fuel={ad.fuel}
-                  mileage={ad.mileage}
-                  color={ad.color}
-                  fipe_table={ad.fipe_table}
-                  price={ad.price}
-                  description={ad.description}
-                  cover_img={ad.cover_img}
-                  is_active={"none"}
-                  // (ad.is_active).toString()
-                  user_seller={ad.user_seller}
-                />
-              ))}
+              {currentCards
+                .filter((ad) => ad.is_active)
+                .map((ad) => (
+                  <Card
+                    key={ad.id}
+                    id={ad.id}
+                    brand={ad.brand}
+                    model={ad.model}
+                    year={ad.year}
+                    fuel={ad.fuel}
+                    mileage={ad.mileage}
+                    color={ad.color}
+                    fipe_table={ad.fipe_table}
+                    price={ad.price}
+                    description={ad.description}
+                    cover_img={ad.cover_img}
+                    is_active={ad.is_active}
+                    user_seller={ad.user_seller}
+                  />
+                ))}
             </ul>
           </main>
         </div>

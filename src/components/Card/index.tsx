@@ -18,7 +18,7 @@ interface CardProps {
   price: number;
   description: string;
   cover_img: string;
-  is_active: string;
+  is_active: boolean;
   user_seller: CarSeller;
 }
 
@@ -33,14 +33,14 @@ export const Card = ({
   is_active,
   user_seller,
 }: CardProps) => {
-  const showTag = (status: string) => {
-    if (status == "true") {
+  const showTag = (status: boolean) => {
+    if (status == true) {
       return (
         <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-brand1 text-white">
           Ativo
         </div>
       );
-    } else if (status == "false") {
+    } else if (status == false) {
       return (
         <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-grey4 text-white">
           Inativo
