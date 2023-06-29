@@ -143,7 +143,6 @@ export const AdvertiserProfile = () => {
                       year={ad.year}
                       color={ad.color}
                       cover_img={ad.cover_img}
-                      // Renderizar is_active somente para o user_seller
                       is_active={isCurrentUserSeller ? ad.is_active : undefined}
                     />
                   );
