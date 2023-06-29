@@ -67,7 +67,9 @@ export const Home = () => {
       const avaliableCars: CarProps[] = response.data.filter(
         (car) => car.is_active
       );
-      setCars(avaliableCars);
+      if(avaliableCars.length > 0){
+        setCars(avaliableCars);
+      }
     })();
   }, []);
 
