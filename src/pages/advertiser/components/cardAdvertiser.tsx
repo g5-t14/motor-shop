@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { BorderBlackButton } from "../../../components/Button";
 import { useCar } from "../../../hooks/useCar";
-import { useState } from "react";
-import ModalEditAds from "../../../components/ModalEditAd";
+import { useAuth } from "../../../hooks/useAuth";
 
 interface CarSeller {
   id: number;
@@ -37,7 +36,7 @@ export const CardAdvertiser = ({
   is_active,
   user_seller,
 }: CardProps) => {
-  const localId = Number(localStorage.getItem("user-id"));
+  const { userData } = useAuth();
   const { toggleEditModalAds, retrieveEdit, setIdCard } = useCar();
 
   const showTag = (status: boolean) => {
@@ -56,13 +55,6 @@ export const CardAdvertiser = ({
     } else {
       return;
     }
-  };
-
-  const verifyToEdit = (localId: string, userId: number): boolean => {
-    if (+localId == userId) {
-      return true;
-    }
-    return false;
   };
 
   return (
@@ -123,7 +115,7 @@ export const CardAdvertiser = ({
                 })}
             </span>
           </div>
-          {localId === user_seller?.id ? (
+          {userData.id === user_seller.id ? (
             <div className="flex gap-4">
               <BorderBlackButton
                 onClick={() => {
