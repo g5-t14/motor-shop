@@ -1,9 +1,15 @@
 import { Link, useParams } from "react-router-dom";
-import { PurpleButton } from "../../components/Button";
+import { GreyButton, PurpleButton } from "../../components/Button";
 import { Footer } from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
+import { Comment } from "../../components/Comment";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterCommentData, registerCommentSchema } from "../../validations/comment";
+import { string } from "zod";
+import { useAuth } from "../../hooks/useAuth";
 
 interface CarPictures {
   picture_1: string;
@@ -19,13 +25,6 @@ export interface CarSeller {
   name: string;
   user_color: string;
   description: string;
-}
-
-export interface Comments {
-  user_id: number;
-  id: number;
-  description: string;
-  createAt: Date;
 }
 
 export interface CarProps {
@@ -46,10 +45,42 @@ export interface CarProps {
   commets: Comments;
 }
 
+export interface Comments {
+  id: number
+  ad_id: number
+  user_id: number
+  created_at: string
+  description: string
+  username: string
+}
+
 export const Product = () => {
+
+  const getInitials = (name: string) => {
+    if (name) {
+      const names = name.split(" ");
+      if (names.length === 1) {
+        return names[0].charAt(0).toUpperCase();
+      } else if (names.length > 1) {
+        const firstInitial = names[0].charAt(0).toUpperCase();
+        const lastInitial = names[names.length - 1].charAt(0).toUpperCase();
+        return `${firstInitial}${lastInitial}`;
+      }
+    }
+    return "";
+  };
+
+  const { register, handleSubmit } = useForm<RegisterCommentData>({
+    resolver: zodResolver(registerCommentSchema),
+    //mode: "all",
+  });
+
+  const {isUserLoggedIn, userData} = useAuth()
   const { id } = useParams();
   const [carPictures, setCarPictures] = useState<string[]>([]);
   const [car, setCar] = useState<CarProps>();
+  const [comments, setComments] = useState<Comments[]>([])
+  const [commentData, setCommentData] = useState<string>()
 
   useEffect(() => {
     (async () => {
@@ -60,6 +91,8 @@ export const Product = () => {
       );
       setCarPictures(picturesFiltered);
       setCar(response.data);
+      const responseComments = await apiLocal.get(`comments/${id}`)
+      setComments(responseComments.data.comments)
     })();
   }, []);
 
@@ -69,6 +102,29 @@ export const Product = () => {
       name.charAt(0).toUpperCase() + name.split(" ")[0].slice(1);
     return `${formatedBrand} - ${formatedName}`;
   };
+
+  const addInComment = (buttonText: string) => {
+    if (commentData) {
+      setCommentData(commentData + " " + buttonText)
+    } else{
+      setCommentData(buttonText)
+    }
+    document.getElementById("teste")!.focus()
+  }
+
+  const registerComment = async (commentDataToSend: RegisterCommentData) => {
+    try {
+      const response = await apiLocal.post(
+        `/comments/${id}`,
+        commentDataToSend
+      );
+      
+      window.location.reload()
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -116,7 +172,7 @@ export const Product = () => {
                 </section>
               </div>
 
-              <div className="md:max-w-[750px] midson:max-w-[440px]">
+              <div className="md:max-w-[750px] midson:max-w-[440px] w-full">
                 <section className="rounded flex flex-col gap-8 px-7 py-9 bg-grey10 mb-[52px]">
                   <h2 className="text-[20px] leading-[25px] font-semibold font-lexend text-grey1">
                     Fotos
@@ -144,18 +200,14 @@ export const Product = () => {
                     style={{ backgroundColor: `${car.user_seller.user_color}` }}
                   >
                     <span className="text-white font-medium text-[27px] leading-[40px]">
-                      {car.user_seller.name.charAt(0).toUpperCase()}
+                      {getInitials(car.user_seller.name)}
                     </span>
                   </div>
                   <h2 className="text-[20px] leading-[25px] font-semibold font-lexend text-grey1">
                     {car.user_seller.name}
                   </h2>
-                  <p className="text-grey2 font-normal text-[16px] leading-[28px] truncate whitespace-normal line-clamp-3">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Rerum doloribus a, ullam velit dolorum consequatur vel,
-                    dolores, distinctio provident excepturi voluptas. Atque
-                    dolores ipsam tempore corporis consequatur quia assumenda
-                    voluptatum.
+                  <p className="text-grey2 font-normal text-[16px] leading-[28px] truncate whitespace-normal line-clamp-3 w-[440px] text-center">
+                    {car.user_seller.description}
                   </p>
                   <Link
                     className="bg-grey0 border-grey0 hover:bg-grey1 hover:border-grey1 btn-big flex items-center"
@@ -165,70 +217,63 @@ export const Product = () => {
                   </Link>
                 </section>
               </div>
-              <div className="md:max-w-[750px]">
+
+              <div className="md:max-w-[750px] w-full">
                 <section className="flex flex-col gap-6 px-7 py-9 rounded bg-grey10 mb-[42px]">
                   <h1 className="font-semibold text-[20px] leading-[25px] font-lexend">
                     Comentários
                   </h1>
                   <ul className="flex flex-col gap-11">
-                    <li className="flex flex-col gap-3">
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
-                          {
-                            // seller.charAt(0).toUpperCase()
-                          }
-                          <span className="text-white font-medium text-[14px]">
-                            G
-                          </span>
-                        </div>
-                        <span className="text-grey2 font-medium text-[14px] leading-6">
-                          {
-                            //seller
-                          }
-                          Giovanni Perotto
-                        </span>
-                        <div className="bg-grey4 w-1 h-1 rounded-full"></div>
-                        <span className="text-grey3 text-[12px] leading-6 font-normal">
-                          há 3 dias
-                        </span>
-                      </div>
-                      <p className="font-normal text-[14px] leading-6 text-grey2">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Veritatis ab tempore maxime earum esse, atque
-                        libero nostrum suscipit voluptatem possimus temporibus
-                        tenetur numquam consequatur cupiditate doloremque
-                        perspiciatis nesciunt ratione voluptate!
-                      </p>
-                    </li>
+                    {comments.map(comment => <Comment description={comment.description} posted_at={comment.created_at} username={comment.username} key={comment.id} />)}
+
                   </ul>
                 </section>
-
                 <section className="px-[26px] py-10 bg-grey10 rounded">
-                  <form className="flex flex-col gap-6">
+                  <form onSubmit={handleSubmit(registerComment)} className="flex flex-col gap-6">
+                    {
+                      isUserLoggedIn && (
+
                     <div className="flex items-center gap-2">
                       <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
                         <span className="text-white font-medium text-[14px]">
-                          G
+                          {getInitials(userData.name)}
                         </span>
                       </div>
                       <span className="text-grey2 font-medium text-[14px] leading-6">
-                        Giovanni Perotto
+                        {userData.name}
                       </span>
                     </div>
+                    )
+                    }
                     <textarea
-                      className="border-[1.5px] rounded border-grey7 px-4 py-3 min-h-[128px]"
+                      className="border-[1.5px] rounded border-grey7 px-4 py-3 min-h-[128px] resize-none"
                       placeholder="Digite seu comentário"
+                      value={commentData}
+                      id="teste"
+                      {...register("description")}
+                      onChange={e => setCommentData(e.target.value)}
                     />
-                    <PurpleButton children="Comentar" size="medium" />
+                    {isUserLoggedIn 
+                    ?
+                    <PurpleButton type="submit" children="Comentar" size="medium" />
+                    :
+                    <GreyButton children="Comentar"  size="medium" disabled/>
+                    }
                     <ul className="flex flex-wrap gap-2">
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        Gostei muito!
+                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                          Gostei muito!
+                        </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        Incrível!
+                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                          Incrível!
+                        </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        Recomendarei para meus amigos!
+                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                          Recomendarei para meus amigos!
+                        </button>
                       </li>
                     </ul>
                   </form>
