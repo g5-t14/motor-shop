@@ -118,8 +118,7 @@ export const Product = () => {
         `/comments/${id}`,
         commentDataToSend
       );
-      
-      window.location.reload()
+      setComments([...comments,response.data])
 
     } catch (error) {
       console.log(error)

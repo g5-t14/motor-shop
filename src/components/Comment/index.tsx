@@ -72,7 +72,7 @@ export const Comment = (data: CommentData) => {
       return `${sec} segundos atrás`
     }
 
-    return "Algo deu errado, tente atualizar a página"
+    return "Agora"
   }
 
   return (
