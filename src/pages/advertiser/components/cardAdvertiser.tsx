@@ -21,7 +21,7 @@ interface CardProps {
   price: number;
   description: string;
   cover_img: string;
-  is_active: boolean;
+  is_active: boolean | undefined;
   user_seller: CarSeller;
 }
 
@@ -39,7 +39,7 @@ export const CardAdvertiser = ({
   const { userData } = useAuth();
   const { toggleEditModalAds, retrieveEdit, setIdCard } = useCar();
 
-  const showTag = (status: boolean) => {
+  const showTag = (status: boolean | undefined) => {
     if (status == true) {
       return (
         <div className="font-medium text-14 leading-6 absolute top-[11px] left-4 pr-2 pl-2 bg-brand1 text-white">
