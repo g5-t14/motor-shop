@@ -33,7 +33,7 @@ export const AdvertiserProfile = () => {
     complement: "",
   });
 
-  const cardsPerPage = 10;
+  const cardsPerPage = 16;
   const totalPages = Math.ceil(adArray.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -136,7 +136,6 @@ export const AdvertiserProfile = () => {
                       fipe_table={ad.fipe_table}
                       fuel={ad.fuel}
                       id={ad.id}
-                      is_active={ad.is_active}
                       mileage={ad.mileage}
                       model={ad.model}
                       user_seller={ad.user_seller}
@@ -144,6 +143,8 @@ export const AdvertiserProfile = () => {
                       year={ad.year}
                       color={ad.color}
                       cover_img={ad.cover_img}
+                      // Renderizar is_active somente para o user_seller
+                      is_active={isCurrentUserSeller ? ad.is_active : undefined}
                     />
                   );
                 }

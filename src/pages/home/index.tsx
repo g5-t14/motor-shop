@@ -98,7 +98,7 @@ export const Home = () => {
                     price={ad.price}
                     description={ad.description}
                     cover_img={ad.cover_img}
-                    is_active={ad.is_active}
+                    is_active={"none"}
                     user_seller={ad.user_seller}
                   />
                 ))}
