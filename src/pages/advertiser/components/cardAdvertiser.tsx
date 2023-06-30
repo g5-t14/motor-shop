@@ -37,7 +37,7 @@ export const CardAdvertiser = ({
   user_seller,
 }: CardProps) => {
   const { userData } = useAuth();
-  const { toggleEditModalAds, retrieveEdit, setIdCard } = useCar();
+  const { toggleEditModalAds, retrieveEdit } = useCar();
 
   const showTag = (status: boolean | undefined) => {
     if (status == true) {
