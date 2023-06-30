@@ -11,7 +11,6 @@ import {
   RegisterCommentData,
   registerCommentSchema,
 } from "../../validations/comment";
-import { string } from "zod";
 import { useAuth } from "../../hooks/useAuth";
 
 interface CarPictures {
@@ -49,13 +48,16 @@ export interface CarProps {
   commets: Comments;
 }
 
+export interface CommentUser {
+  name: string;
+  user_color: string;
+}
+
 export interface Comments {
   id: number;
-  ad_id: number;
-  user_id: number;
-  created_at: string;
   description: string;
-  username: string;
+  created_at: string;
+  user: CommentUser;
 }
 
 export const Product = () => {
@@ -106,11 +108,12 @@ export const Product = () => {
     return `${formatedBrand} - ${formatedName}`;
   };
 
-  const addInComment = (buttonText: string) => {
+  const addInComment = (eventTarget: any) => {
+    const element: HTMLButtonElement = eventTarget;
     if (commentData) {
-      setCommentData(commentData + " " + buttonText);
+      setCommentData(commentData + " " + element.innerText);
     } else {
-      setCommentData(buttonText);
+      setCommentData(element.innerText);
     }
     document.getElementById("teste")!.focus();
   };
@@ -121,6 +124,7 @@ export const Product = () => {
         `/comments/${id}`,
         commentDataToSend
       );
+      setComments([...comments, response.data]);
 
       window.location.reload();
     } catch (error) {
@@ -238,9 +242,10 @@ export const Product = () => {
                   <ul className="flex flex-col gap-11">
                     {comments.map((comment) => (
                       <Comment
+                        user_color={comment.user.user_color}
                         description={comment.description}
                         posted_at={comment.created_at}
-                        username={comment.username}
+                        username={comment.user.name}
                         key={comment.id}
                       />
                     ))}
@@ -253,7 +258,10 @@ export const Product = () => {
                   >
                     {isUserLoggedIn && (
                       <div className="flex items-center gap-2">
-                        <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
+                        <div
+                          className="rounded-full w-8 h-8 flex items-center justify-center"
+                          style={{ backgroundColor: userData.user_color }}
+                        >
                           <span className="text-white font-medium text-[14px]">
                             {getInitials(userData.name)}
                           </span>
@@ -285,7 +293,7 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target.innerText);
+                            addInComment(e.target);
                           }}
                         >
                           Gostei muito!
@@ -295,7 +303,7 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target.innerText);
+                            addInComment(e.target);
                           }}
                         >
                           Incrível!
@@ -305,7 +313,7 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target.innerText);
+                            addInComment(e.target);
                           }}
                         >
                           Recomendarei para meus amigos!
