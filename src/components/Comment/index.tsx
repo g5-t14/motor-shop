@@ -2,6 +2,7 @@ interface CommentData {
   username: string
   posted_at: string
   description: string
+  user_color: string
 }
 
 export const Comment = (data: CommentData) => {
@@ -78,7 +79,7 @@ export const Comment = (data: CommentData) => {
   return (
     <li className="flex flex-col gap-3 w-full">
       <div className="flex items-center gap-2">
-        <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
+        <div className="rounded-full w-8 h-8 flex items-center justify-center" style={{ backgroundColor: data.user_color }}>
           <span className="text-white font-medium text-[14px]">
             {
               getInitials(data.username)
