@@ -129,6 +129,7 @@ export const Product = () => {
         commentDataToSend
       );
       setComments([...comments, response.data]);
+      setCommentData("");
     } catch (error) {
       console.log(error);
     }
