@@ -8,7 +8,6 @@ import { Comment } from "../../components/Comment";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterCommentData, registerCommentSchema } from "../../validations/comment";
-import { string } from "zod";
 import { useAuth } from "../../hooks/useAuth";
 
 interface CarPictures {
@@ -45,13 +44,16 @@ export interface CarProps {
   commets: Comments;
 }
 
+export interface CommentUser {
+  name: string
+  user_color: string
+}
+
 export interface Comments {
   id: number
-  ad_id: number
-  user_id: number
-  created_at: string
   description: string
-  username: string
+  created_at: string
+  user: CommentUser
 }
 
 export const Product = () => {
@@ -75,7 +77,7 @@ export const Product = () => {
     //mode: "all",
   });
 
-  const {isUserLoggedIn, userData} = useAuth()
+  const { isUserLoggedIn, userData } = useAuth()
   const { id } = useParams();
   const [carPictures, setCarPictures] = useState<string[]>([]);
   const [car, setCar] = useState<CarProps>();
@@ -103,11 +105,12 @@ export const Product = () => {
     return `${formatedBrand} - ${formatedName}`;
   };
 
-  const addInComment = (buttonText: string) => {
+  const addInComment = (eventTarget: any) => {
+    const element: HTMLButtonElement = eventTarget
     if (commentData) {
-      setCommentData(commentData + " " + buttonText)
-    } else{
-      setCommentData(buttonText)
+      setCommentData(commentData + " " + element.innerText)
+    } else {
+      setCommentData(element.innerText)
     }
     document.getElementById("teste")!.focus()
   }
@@ -118,7 +121,7 @@ export const Product = () => {
         `/comments/${id}`,
         commentDataToSend
       );
-      setComments([...comments,response.data])
+      setComments([...comments, response.data])
 
     } catch (error) {
       console.log(error)
@@ -223,7 +226,7 @@ export const Product = () => {
                     Comentários
                   </h1>
                   <ul className="flex flex-col gap-11">
-                    {comments.map(comment => <Comment description={comment.description} posted_at={comment.created_at} username={comment.username} key={comment.id} />)}
+                    {comments.map(comment => <Comment user_color={comment.user.user_color} description={comment.description} posted_at={comment.created_at} username={comment.user.name} key={comment.id} />)}
 
                   </ul>
                 </section>
@@ -232,17 +235,17 @@ export const Product = () => {
                     {
                       isUserLoggedIn && (
 
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
-                        <span className="text-white font-medium text-[14px]">
-                          {getInitials(userData.name)}
-                        </span>
-                      </div>
-                      <span className="text-grey2 font-medium text-[14px] leading-6">
-                        {userData.name}
-                      </span>
-                    </div>
-                    )
+                        <div className="flex items-center gap-2">
+                          <div className="rounded-full w-8 h-8 flex items-center justify-center" style={{ backgroundColor: userData.user_color }}>
+                            <span className="text-white font-medium text-[14px]">
+                              {getInitials(userData.name)}
+                            </span>
+                          </div>
+                          <span className="text-grey2 font-medium text-[14px] leading-6">
+                            {userData.name}
+                          </span>
+                        </div>
+                      )
                     }
                     <textarea
                       className="border-[1.5px] rounded border-grey7 px-4 py-3 min-h-[128px] resize-none"
@@ -252,25 +255,25 @@ export const Product = () => {
                       {...register("description")}
                       onChange={e => setCommentData(e.target.value)}
                     />
-                    {isUserLoggedIn 
-                    ?
-                    <PurpleButton type="submit" children="Comentar" size="medium" />
-                    :
-                    <GreyButton children="Comentar"  size="medium" disabled/>
+                    {isUserLoggedIn
+                      ?
+                      <PurpleButton type="submit" children="Comentar" size="medium" />
+                      :
+                      <GreyButton children="Comentar" size="medium" disabled />
                     }
                     <ul className="flex flex-wrap gap-2">
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button type="button" onClick={(e) => { addInComment(e.target) }}>
                           Gostei muito!
                         </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button type="button" onClick={(e) => { addInComment(e.target) }}>
                           Incrível!
                         </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button type="button" onClick={(e) => { addInComment(e.target) }}>
                           Recomendarei para meus amigos!
                         </button>
                       </li>
