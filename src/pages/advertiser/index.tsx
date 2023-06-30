@@ -4,7 +4,6 @@ import ModalCreateAd from "../../components/ModalCreateAd";
 import { apiLocal } from "../../services/api";
 import { UserData } from "../../validations/user";
 import { useParams } from "react-router-dom";
-import { CarProps } from "../home";
 import { Header } from "../../components/Header";
 import { CardAdvertiser } from "./components/cardAdvertiser";
 import { useCar } from "../../hooks/useCar";

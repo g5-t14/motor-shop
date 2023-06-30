@@ -7,8 +7,7 @@ import React, {
 } from "react";
 import { api, apiLocal } from "../services/api";
 import { CarProps } from "../pages/home";
-import { useAuth } from "../hooks/useAuth";
-import { adData, adEdit } from "../validations/ad";
+import { adEdit } from "../validations/ad";
 
 interface CarProviderProps {
   children: ReactNode;
@@ -85,12 +84,13 @@ interface CarContextValues {
   toggleDeleteAds: () => void;
   deleteAds: () => void;
   deleteModal: boolean;
+  array: CarProps[];
 }
 export const CarContext = createContext({} as CarContextValues);
 
 export const CarProvider = ({ children }: CarProviderProps) => {
   const [cars, setCars] = useState<string[]>([]);
-  const { setUserData } = useAuth();
+
   const [adArray, setAdArray] = useState<CarProps[]>([]);
   const [ad, setAd] = useState<UserAdsResponse | null>(null);
   const [allCars, setAllCars] = useState<CarProps[]>([]);
@@ -113,7 +113,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
     fuel: "",
     mileage: "",
   });
-  const idLogged = localStorage.getItem("user-id");
+  // const idLogged = localStorage.getItem("user-id");
 
   const toggleEditModalAds = () => {
     setModalEditAds(!modalEditAds);
@@ -186,7 +186,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
     }
   };
 
-  const brandSearch = async (brand: string) => {
+  const brandSearch = async () => {
     try {
       const response = await apiLocal.get(`/ads?brand=${selectedBrand}`);
       setSearchBrand(response.data);
@@ -229,6 +229,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         setSelectedFilters,
         selectedFilters,
         filters,
+        array,
         setFilters,
         setSortBy,
         brandSearch,
