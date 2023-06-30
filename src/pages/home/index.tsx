@@ -7,6 +7,8 @@ import { HeaderPhoto } from "../../components/HeaderPhoto";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
 import { useCar } from "../../hooks/useCar";
+import { useNavigate } from "react-router-dom";
+import { NoAds } from "../../components/NoAds";
 
 export interface CarPictures {
   picture_1: string;
@@ -47,11 +49,17 @@ export const Home = () => {
   const { searchBrand, allCars } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 9;
+  const cardsPerPage = 8;
   const totalPages = Math.ceil(allCars.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = allCars.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = allCars
+    .filter((ad) => ad.is_active === true)
+    .slice(indexOfFirstCard, indexOfLastCard);
+  const navigate = useNavigate();
+  const registerHandler = () => {
+    navigate("/register");
+  };
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -67,7 +75,7 @@ export const Home = () => {
       const avaliableCars: CarProps[] = response.data.filter(
         (car) => car.is_active
       );
-      if(avaliableCars.length > 0){
+      if (avaliableCars.length > 0) {
         setCars(avaliableCars);
       }
     })();
@@ -84,26 +92,34 @@ export const Home = () => {
           </aside>
           <main className="w-full md:overflow-hidden">
             <ul className="flex gap-3 w-full overflow-scroll md:overflow-hidden md:flex-wrap md:gap-12">
-              {currentCards
-                .filter((ad) => ad.is_active)
-                .map((ad) => (
-                  <Card
-                    key={ad.id}
-                    id={ad.id}
-                    brand={ad.brand}
-                    model={ad.model}
-                    year={ad.year}
-                    fuel={ad.fuel}
-                    mileage={ad.mileage}
-                    color={ad.color}
-                    fipe_table={ad.fipe_table}
-                    price={ad.price}
-                    description={ad.description}
-                    cover_img={ad.cover_img}
-                    is_active={"none"}
-                    user_seller={ad.user_seller}
-                  />
-                ))}
+              {currentCards.filter((ad) => ad.is_active).length === 0 ||
+              currentCards.length === 0 ? (
+                <NoAds
+                  text="seja um dos nossos anunciantes"
+                  click={registerHandler}
+                />
+              ) : (
+                currentCards
+                  .filter((ad) => ad.is_active)
+                  .map((ad) => (
+                    <Card
+                      key={ad.id}
+                      id={ad.id}
+                      brand={ad.brand}
+                      model={ad.model}
+                      year={ad.year}
+                      fuel={ad.fuel}
+                      mileage={ad.mileage}
+                      color={ad.color}
+                      fipe_table={ad.fipe_table}
+                      price={ad.price}
+                      description={ad.description}
+                      cover_img={ad.cover_img}
+                      is_active={"none"}
+                      user_seller={ad.user_seller}
+                    />
+                  ))
+              )}
             </ul>
           </main>
         </div>

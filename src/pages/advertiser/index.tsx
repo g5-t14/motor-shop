@@ -9,6 +9,7 @@ import { Header } from "../../components/Header";
 import { CardAdvertiser } from "./components/cardAdvertiser";
 import { useCar } from "../../hooks/useCar";
 import ModalEditAds from "../../components/ModalEditAd";
+import { NoAds } from "../../components/NoAds";
 
 export const AdvertiserProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -44,7 +45,7 @@ export const AdvertiserProfile = () => {
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-  const { modalEditAds, deleteModal } = useCar();
+  const { modalEditAds } = useCar();
 
   useEffect(() => {
     (async () => {
@@ -120,7 +121,7 @@ export const AdvertiserProfile = () => {
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
-          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
+          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto min-h-[550px] items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
             {adArray?.length > 0 ? (
               currentCards.map((ad) => {
                 const isCurrentUserSeller =
@@ -150,7 +151,7 @@ export const AdvertiserProfile = () => {
                 return null;
               })
             ) : (
-              <p className="text-[40px]">Nenhum anúncio disponível.</p>
+              <NoAds text="faça o seu primeiro anúncio" click={toggleModal} />
             )}
           </ul>
         </div>

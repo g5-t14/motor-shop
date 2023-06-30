@@ -3,13 +3,8 @@ import { useCar } from "../../hooks/useCar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
-import {
-  adData,
-  adSchema,
-  adUpdateData,
-  editSchema,
-} from "./../../validations/ad";
-import { DeleteModalAd } from "./deleteModalAd";
+import { adData, adEdit, adSchema, editSchema } from "./../../validations/ad";
+import { DeleteModal } from "./deleteModalAd";
 
 const ModalEditAds = () => {
   const {
@@ -20,7 +15,9 @@ const ModalEditAds = () => {
     setSelectedOption,
     deleteModal,
     toggleDeleteAds,
+    deleteAds,
   } = useCar();
+
   const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
 
   const idLogged = localStorage.getItem("user-id");
@@ -32,31 +29,31 @@ const ModalEditAds = () => {
   };
   const [imageCount, setImageCount] = useState(2);
 
-  const handleAddImage = () => {
-    setImageCount((prevCount) => prevCount + 1);
-    if (imageCount < 6) {
-      setGaleryInputs((prevInputs) => [
-        ...prevInputs,
-        `picture_${imageCount + 1}`,
-      ]);
-    }
-  };
-  const renderGalleryInputs = () => {
-    return galeryInputs.slice(2).map((fieldName, index) => (
-      <div className="flex flex-col" key={index}>
-        <label className="text-[14px] font-medium mb-[8px]">
-          {index + 3}º Imagem de galeria
-        </label>
-        <input
-          type="url"
-          id={`image${index + 3}`}
-          className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
-          {...register(`pictures.${fieldName}`)}
-        />
-      </div>
-    ));
-  };
-  const { register, handleSubmit } = useForm<adData>({
+  // const handleAddImage = () => {
+  //   setImageCount((prevCount) => prevCount + 1);
+  //   if (imageCount < 6) {
+  //     setGaleryInputs((prevInputs) => [
+  //       ...prevInputs,
+  //       `picture_${imageCount + 1}`,
+  //     ]);
+  //   }
+  // };
+  // const renderGalleryInputs = () => {
+  //   return galeryInputs.slice(2).map((fieldName, index) => (
+  //     <div className="flex flex-col" key={index}>
+  //       <label className="text-[14px] font-medium mb-[8px]">
+  //         {index + 3}º Imagem de galeria
+  //       </label>
+  //       <input
+  //         type="url"
+  //         id={`image${index + 3}`}
+  //         className="rounded border-[1.5px] border-grey7 p-[10px] text-grey3 text-[14px] mb-[20px]"
+  //         {...register(`pictures.${fieldName}`)}
+  //       />
+  //     </div>
+  //   ));
+  // };
+  const { register, handleSubmit } = useForm<adEdit>({
     resolver: zodResolver(editSchema),
     mode: "onChange",
   });
@@ -268,8 +265,8 @@ const ModalEditAds = () => {
                 />
               </div>
 
-              {renderGalleryInputs()}
-              {imageCount < 6 && (
+              {/* {renderGalleryInputs()} */}
+              {/* {imageCount < 6 && (
                 <button
                   type="button"
                   className="w-[315px] h-[38px] rounded bg-brand4 text-brand1 text-[14px] font-600"
@@ -277,7 +274,7 @@ const ModalEditAds = () => {
                 >
                   Adicionar campo para imagem da galeria
                 </button>
-              )}
+              )} */}
               <div className="mt-[42px] flex justify-end gap-[10px]">
                 <button
                   type="button"
@@ -303,7 +300,17 @@ const ModalEditAds = () => {
           </div>
         </div>
       )}
-      {deleteModal ? <DeleteModalAd /> : null}
+      {deleteModal ? (
+        <DeleteModal
+          title={"Excluir anúncio"}
+          ask={" Tem certeza que deseja remover este anúncio?"}
+          text={
+            "Essa ação não pode ser desfeita. Isso excluirá permanentemente sua conta e removerá seus dados de nossos servidores."
+          }
+          clickFunction={deleteAds}
+          openModal={toggleDeleteAds}
+        />
+      ) : null}
     </>
   );
 };
