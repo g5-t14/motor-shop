@@ -1,10 +1,10 @@
 import { Card } from "../../components/Card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Footer } from "../../components/Footer";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
-import { apiLocal } from "../../services/api";
+// import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
 import { useCar } from "../../hooks/useCar";
 import { useNavigate } from "react-router-dom";
