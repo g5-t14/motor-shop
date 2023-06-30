@@ -7,7 +7,10 @@ import { Header } from "../../components/Header";
 import { Comment } from "../../components/Comment";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterCommentData, registerCommentSchema } from "../../validations/comment";
+import {
+  RegisterCommentData,
+  registerCommentSchema,
+} from "../../validations/comment";
 import { string } from "zod";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -25,6 +28,7 @@ export interface CarSeller {
   name: string;
   user_color: string;
   description: string;
+  phone: string;
 }
 
 export interface CarProps {
@@ -46,16 +50,15 @@ export interface CarProps {
 }
 
 export interface Comments {
-  id: number
-  ad_id: number
-  user_id: number
-  created_at: string
-  description: string
-  username: string
+  id: number;
+  ad_id: number;
+  user_id: number;
+  created_at: string;
+  description: string;
+  username: string;
 }
 
 export const Product = () => {
-
   const getInitials = (name: string) => {
     if (name) {
       const names = name.split(" ");
@@ -75,12 +78,12 @@ export const Product = () => {
     //mode: "all",
   });
 
-  const {isUserLoggedIn, userData} = useAuth()
+  const { isUserLoggedIn, userData } = useAuth();
   const { id } = useParams();
   const [carPictures, setCarPictures] = useState<string[]>([]);
   const [car, setCar] = useState<CarProps>();
-  const [comments, setComments] = useState<Comments[]>([])
-  const [commentData, setCommentData] = useState<string>()
+  const [comments, setComments] = useState<Comments[]>([]);
+  const [commentData, setCommentData] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -91,8 +94,8 @@ export const Product = () => {
       );
       setCarPictures(picturesFiltered);
       setCar(response.data);
-      const responseComments = await apiLocal.get(`comments/${id}`)
-      setComments(responseComments.data.comments)
+      const responseComments = await apiLocal.get(`comments/${id}`);
+      setComments(responseComments.data.comments);
     })();
   }, []);
 
@@ -105,12 +108,12 @@ export const Product = () => {
 
   const addInComment = (buttonText: string) => {
     if (commentData) {
-      setCommentData(commentData + " " + buttonText)
-    } else{
-      setCommentData(buttonText)
+      setCommentData(commentData + " " + buttonText);
+    } else {
+      setCommentData(buttonText);
     }
-    document.getElementById("teste")!.focus()
-  }
+    document.getElementById("teste")!.focus();
+  };
 
   const registerComment = async (commentDataToSend: RegisterCommentData) => {
     try {
@@ -118,13 +121,18 @@ export const Product = () => {
         `/comments/${id}`,
         commentDataToSend
       );
-      
-      window.location.reload()
 
+      window.location.reload();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  const handleBuyClick = (car: CarProps) => {
+    const phoneNumber = car.user_seller.phone;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=Eu+gostei+do+seu+produto+${car.model}+da+marca+${car.brand}.+Podemos+conversar%3F`;
+    window.open(whatsappUrl, "_blank");
+  };
 
   return (
     <>
@@ -159,7 +167,11 @@ export const Product = () => {
                       currency: "BRL",
                     })}
                   </span>
-                  <PurpleButton children="Comprar" size="medium" />
+                  <PurpleButton
+                    children="Comprar"
+                    size="medium"
+                    onClick={() => handleBuyClick(car)}
+                  />
                 </section>
 
                 <section className="rounded flex flex-col gap-8 px-7 py-9 bg-grey10 mb-[15px] w-full">
@@ -224,54 +236,78 @@ export const Product = () => {
                     Comentários
                   </h1>
                   <ul className="flex flex-col gap-11">
-                    {comments.map(comment => <Comment description={comment.description} posted_at={comment.created_at} username={comment.username} key={comment.id} />)}
-
+                    {comments.map((comment) => (
+                      <Comment
+                        description={comment.description}
+                        posted_at={comment.created_at}
+                        username={comment.username}
+                        key={comment.id}
+                      />
+                    ))}
                   </ul>
                 </section>
                 <section className="px-[26px] py-10 bg-grey10 rounded">
-                  <form onSubmit={handleSubmit(registerComment)} className="flex flex-col gap-6">
-                    {
-                      isUserLoggedIn && (
-
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
-                        <span className="text-white font-medium text-[14px]">
-                          {getInitials(userData.name)}
+                  <form
+                    onSubmit={handleSubmit(registerComment)}
+                    className="flex flex-col gap-6"
+                  >
+                    {isUserLoggedIn && (
+                      <div className="flex items-center gap-2">
+                        <div className="rounded-full bg-purple-600 w-8 h-8 flex items-center justify-center">
+                          <span className="text-white font-medium text-[14px]">
+                            {getInitials(userData.name)}
+                          </span>
+                        </div>
+                        <span className="text-grey2 font-medium text-[14px] leading-6">
+                          {userData.name}
                         </span>
                       </div>
-                      <span className="text-grey2 font-medium text-[14px] leading-6">
-                        {userData.name}
-                      </span>
-                    </div>
-                    )
-                    }
+                    )}
                     <textarea
                       className="border-[1.5px] rounded border-grey7 px-4 py-3 min-h-[128px] resize-none"
                       placeholder="Digite seu comentário"
                       value={commentData}
                       id="teste"
                       {...register("description")}
-                      onChange={e => setCommentData(e.target.value)}
+                      onChange={(e) => setCommentData(e.target.value)}
                     />
-                    {isUserLoggedIn 
-                    ?
-                    <PurpleButton type="submit" children="Comentar" size="medium" />
-                    :
-                    <GreyButton children="Comentar"  size="medium" disabled/>
-                    }
+                    {isUserLoggedIn ? (
+                      <PurpleButton
+                        type="submit"
+                        children="Comentar"
+                        size="medium"
+                      />
+                    ) : (
+                      <GreyButton children="Comentar" size="medium" disabled />
+                    )}
                     <ul className="flex flex-wrap gap-2">
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            addInComment(e.target.innerText);
+                          }}
+                        >
                           Gostei muito!
                         </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            addInComment(e.target.innerText);
+                          }}
+                        >
                           Incrível!
                         </button>
                       </li>
                       <li className="px-3 rounded-3xl text-grey3 bg-grey7 font-medium text-[12px] leading-6">
-                        <button type="button" onClick={(e) => { addInComment(e.target.innerText) }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            addInComment(e.target.innerText);
+                          }}
+                        >
                           Recomendarei para meus amigos!
                         </button>
                       </li>
