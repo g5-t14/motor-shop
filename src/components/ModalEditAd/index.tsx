@@ -1,9 +1,9 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction } from "react";
 import { useCar } from "../../hooks/useCar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GrClose } from "react-icons/gr";
 import { useForm } from "react-hook-form";
-import { adData, adEdit, adSchema, editSchema } from "./../../validations/ad";
+import { adEdit, editSchema } from "./../../validations/ad";
 import { DeleteModal } from "./deleteModalAd";
 
 const ModalEditAds = () => {
@@ -18,16 +18,16 @@ const ModalEditAds = () => {
     deleteAds,
   } = useCar();
 
-  const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
+  // const [galeryInputs, setGaleryInputs] = useState(["picture_1", "picture_2"]);
 
-  const idLogged = localStorage.getItem("user-id");
+  // const idLogged = localStorage.getItem("user-id");
 
   const handleOptionChange = (e: {
     target: { value: SetStateAction<string> };
   }) => {
     setSelectedOption(e.target.value);
   };
-  const [imageCount, setImageCount] = useState(2);
+  // const [imageCount, setImageCount] = useState(2);
 
   // const handleAddImage = () => {
   //   setImageCount((prevCount) => prevCount + 1);

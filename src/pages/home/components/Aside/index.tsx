@@ -17,13 +17,13 @@ const AsideHome = () => {
     setSortBy,
   } = useCar();
   const [activeFilter, setActiveFilter] = useState("");
-  const [showModels, setShowModels] = useState(false);
+  const [showModels] = useState(false);
   const [activeModelFilter, setActiveModelFilter] = useState("");
   const [modelFilter, setModelFilter] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState("");
-  const [activeColorFilter, setActiveColorFilter] = useState("");
+  const [activeColorFilter] = useState("");
   const [filtersActive, setFiltersActive] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>("");
+  const [activeCategory] = useState<string>("");
 
   const colors = [
     "Preto",

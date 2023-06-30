@@ -44,9 +44,9 @@ export interface CarProps {
 }
 
 export const Home = () => {
-  const [cars, setCars] = useState<CarProps[]>([]);
+  // const [setCars] = useState<CarProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const { searchBrand, allCars } = useCar();
+  const { allCars } = useCar();
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 8;
@@ -69,17 +69,17 @@ export const Home = () => {
     setCurrentPage(currentPage - 1);
   };
 
-  useEffect(() => {
-    (async () => {
-      const response = await apiLocal.get<CarProps[]>(`ads`);
-      const avaliableCars: CarProps[] = response.data.filter(
-        (car) => car.is_active
-      );
-      if (avaliableCars.length > 0) {
-        setCars(avaliableCars);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await apiLocal.get<CarProps[]>(`ads`);
+  //     const avaliableCars: CarProps[] = response.data.filter(
+  //       (car) => car.is_active
+  //     );
+  //     if (avaliableCars.length > 0) {
+  //       setCars(avaliableCars);
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <>
