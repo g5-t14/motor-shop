@@ -1,7 +1,7 @@
 import { SetStateAction, useState } from "react";
 import { useCar } from "../../../../hooks/useCar";
 import { apiLocal } from "../../../../services/api";
-import { CarProps } from "../../../Product";
+import { CarProps } from "../../index";
 
 const AsideHome = () => {
   const {

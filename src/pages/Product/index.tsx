@@ -108,14 +108,18 @@ export const Product = () => {
     return `${formatedBrand} - ${formatedName}`;
   };
 
-  const addInComment = (eventTarget: any) => {
-    const element: HTMLButtonElement = eventTarget;
+  const addInComment = (eventTarget: HTMLButtonElement) => {
     if (commentData) {
-      setCommentData(commentData + " " + element.innerText);
+      setCommentData(commentData + " " + eventTarget.innerText);
     } else {
-      setCommentData(element.innerText);
+      setCommentData(eventTarget.innerText);
     }
-    document.getElementById("teste")!.focus();
+    const textarea = document.getElementById(
+      "teste"
+    ) as HTMLTextAreaElement | null;
+    if (textarea) {
+      textarea.focus();
+    }
   };
 
   const registerComment = async (commentDataToSend: RegisterCommentData) => {
@@ -291,7 +295,8 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target);
+                            const button = e.target as HTMLButtonElement;
+                            addInComment(button);
                           }}
                         >
                           Gostei muito!
@@ -301,7 +306,8 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target);
+                            const button = e.target as HTMLButtonElement;
+                            addInComment(button);
                           }}
                         >
                           Incrível!
@@ -311,7 +317,8 @@ export const Product = () => {
                         <button
                           type="button"
                           onClick={(e) => {
-                            addInComment(e.target);
+                            const button = e.target as HTMLButtonElement;
+                            addInComment(button);
                           }}
                         >
                           Recomendarei para meus amigos!
