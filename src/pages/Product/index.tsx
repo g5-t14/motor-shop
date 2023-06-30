@@ -49,6 +49,7 @@ export interface CarProps {
 }
 
 export interface CommentUser {
+  id: number;
   name: string;
   user_color: string;
 }
@@ -115,14 +116,19 @@ export const Product = () => {
       setCommentData(eventTarget.innerText);
     }
     const textarea = document.getElementById(
-      "teste"
+      "comment_area"
     ) as HTMLTextAreaElement | null;
     if (textarea) {
       textarea.focus();
     }
+    document.getElementById("comment_area")!.focus();
   };
 
   const registerComment = async (commentDataToSend: RegisterCommentData) => {
+    if (commentDataToSend.description.length === 0) {
+      return;
+    }
+
     try {
       const response = await apiLocal.post(
         `/comments/${id}`,
@@ -249,6 +255,7 @@ export const Product = () => {
                         description={comment.description}
                         posted_at={comment.created_at}
                         username={comment.user.name}
+                        owner_id={comment.user.id}
                         key={comment.id}
                       />
                     ))}
@@ -278,7 +285,7 @@ export const Product = () => {
                       className="border-[1.5px] rounded border-grey7 px-4 py-3 min-h-[128px] resize-none"
                       placeholder="Digite seu comentário"
                       value={commentData}
-                      id="teste"
+                      id="comment_area"
                       {...register("description")}
                       onChange={(e) => setCommentData(e.target.value)}
                     />
