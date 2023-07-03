@@ -1,18 +1,23 @@
 # motor-shop
 
 <div style="display: inline_block"><br>
-<h1 align="center">
+<h1 style="center">
   <img alt="KenzieKommerce" title="KenzieKommerce" src="https://kenzie.com.br/_next/image?url=%2Fimages%2Flogo.png&w=640&q=75" width="100px" />
 </h1>
-  <p align="center">Este é o backend da aplicação de e-commerce Motorshop do sexto módulo da Kenzie-Academy-Brasil, desenvolvida em express.js,typescript e prisma. Esta aplicação
-  foi feita no intuito de demonstrar os conhecimentos que os desenvolvedores adquiriram sobre desenvolvimento web fullstack ao longo de 1 ano do curso oferecido
-  pela Kenzie Academy Brasil. <p/>
-  
-  <h5 align="center">Feito por: Victor Guterres, Giovanni Perotto, Diego Lima, Jozhué Beni, Hérmerson Landim </h5>  
+  <p style="text-align: justify;">Desenvolvemos um e-commerce de carros durante o sexto módulo da Kenzie Academy Brasil. A parte do Front-end foi desenvolvida com as seguintes tecnologias e ferramentas: React-router-dom, Context, React-hook-form, TypeScript, Zod, Axios e Tailwind CSS</p>
+
+<p style="text-align: justify;">O objetivo desta aplicação é demonstrar os conhecimentos adquiridos pelos desenvolvedores ao longo de um ano de curso oferecido pela Kenzie Academy Brasil, focado no desenvolvimento web full stack.</p>
+
+<p style="text-align: justify;">Essa aplicação construída, busca apresentar uma interface amigável e fácil de usar, apresentando rotas diferentes para quem for "Cliente" ou "Anunciante" dependendo como for cadastrado, assim quem for anunciante, poderá divulgar seus carros para venda, e assim gerar uma página explicando detalhes automaticamente e de forma dinâmica. Já como cliente, poderá ver todos os carros ativos em nossa aplicação, de forma dinâmica, podendo filtrar de acordo com o seu interesse.</p>
+
+<p style="text-align: justify;">No site gerado dinâmicamente para o carro cadastrado, haverá interação dos usuários através de comentários, que serão adicionados vinculando-os ao produto, e caso queira comprar, haverá um botão que será direcionado ao número telefônico cadastrado do anunciante dono do produto divulgado.</p>
+
+<p style="text-align: justify;">Agradecemos a sua estadia em nossa aplicação! </p>
+
+  <h5 style="center">Feito por: Diego Lima, Giovanni Perotto, Jozhué Beni, Hérmerson Landim, Victor Guterres</h5>  
 </div>
 
-Link do Deploy:https://motor-shop-thatoneguy1337.vercel.app
-
+Link do Deploy:https://motor-shop-4xawq0jsr-mst5.vercel.app/
 
 ## Instalando as dependências
 
@@ -46,8 +51,4 @@ yarn dev
 O servidor irá rodar em: http://localhost:5173/
 ```
 
-
-
-
-
-
+### Link para o repositório do Back-end: https://github.com/g5-t14/motor-shop-api
