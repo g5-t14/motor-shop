@@ -22,6 +22,7 @@ export const CommentCard = (commentData: CommentProps) => {
   const [editedDescription, setEditedDescription] = useState(
     commentData.description
   );
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -49,6 +50,12 @@ export const CommentCard = (commentData: CommentProps) => {
     } catch (error) {
       console.error();
     }
+  };
+
+  const handleDeleteClick = () => {
+    setConfirmDelete(true);
+
+    setTimeout(() => setConfirmDelete(false), 3000);
   };
 
   const deleteComment = async () => {
@@ -165,27 +172,25 @@ export const CommentCard = (commentData: CommentProps) => {
       )}
       {userData.id === commentData.owner_id ? (
         <div className="flex gap-2">
-          {isEditing ? (
-            <GreyButton
-              size="medium"
-              type="button"
-              onClick={() =>
-                editComment({ description: editedDescription })
-              }
-            >
-              Salvar
-            </GreyButton>
-          ) : (
-            <GreyButton size="medium" type="button" onClick={handleEditClick}>
-              Editar
-            </GreyButton>
-          )}
+          <GreyButton
+            size="medium"
+            type="button"
+            onClick={() =>
+              isEditing
+                ? editComment({ description: editedDescription })
+                : handleEditClick()
+            }
+          >
+            {isEditing ? "Salvar" : "Editar"}
+          </GreyButton>
           <RedButton
-            onClick={() => deleteComment()}
+            onClick={() =>
+              confirmDelete ? deleteComment() : handleDeleteClick()
+            }
             size="medium"
             type="button"
           >
-            Excluir
+            {confirmDelete ? "Clique para confirmar" : "Excluir"}
           </RedButton>
         </div>
       ) : null}
