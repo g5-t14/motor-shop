@@ -4,7 +4,7 @@ import { Footer } from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
-import { Comment } from "../../components/Comment";
+import { CommentCard } from "../../components/Comment";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -59,6 +59,9 @@ export interface Comments {
   description: string;
   created_at: string;
   user: CommentUser;
+  edited: boolean;
+  comments: Comments[]
+  setComments: (value: Comments[]) => void
 }
 
 export const Product = () => {
@@ -250,13 +253,17 @@ export const Product = () => {
                   </h1>
                   <ul className="flex flex-col gap-11">
                     {comments.map((comment) => (
-                      <Comment
+                      <CommentCard
+                        id={comment.id}
                         user_color={comment.user.user_color}
                         description={comment.description}
                         posted_at={comment.created_at}
                         username={comment.user.name}
                         owner_id={comment.user.id}
+                        edited={comment.edited}
                         key={comment.id}
+                        comments={comments}
+                        setComments={setComments}
                       />
                     ))}
                   </ul>
