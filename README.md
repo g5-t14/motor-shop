@@ -14,7 +14,7 @@
 
 <p style="text-align: justify;">Agradecemos a sua estadia em nossa aplicação! </p>
 
-  <h5 style="center">Feito por: Diego Lima, Giovanni Perotto, Jozhué Beni, Hérmerson Landim, Victor Guterres</h5>  
+  <h5 style="center">Feito por: Diego Lima, Giovanni Perotto, Hérmerson Landim, Jozhué Beni, Victor Guterres</h5>  
 </div>
 
 Link do Deploy:https://motor-shop-4xawq0jsr-mst5.vercel.app/
