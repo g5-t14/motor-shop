@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/Motors shop.svg";
 import closeDropDown from "./../../assets/closedropmenu.png";
@@ -17,6 +17,7 @@ export const Header = () => {
   const { profileModal, addressModal, toggleProfileModal, toggleAddressModal } =
     useUser();
   const [active, setActive] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const navigate = useNavigate();
@@ -32,14 +33,15 @@ export const Header = () => {
   const showMenu = () => {
     setActive(!active);
   };
+  const showDropdown = () => {
+    setDropdownActive(!dropdownActive);
+  };
 
   const homeHandler = () => {
     navigate("/");
     window.location.reload();
   };
-  const showDropdown = () => {
-    setDropdownActive(!dropdownActive);
-  };
+
   const getInitials = (name: string) => {
     if (name) {
       const names = name.split(" ");

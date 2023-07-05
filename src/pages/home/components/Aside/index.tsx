@@ -15,6 +15,8 @@ const AsideHome = () => {
     setSelectedFilters,
     selectedFilters,
     setSortBy,
+    filtersActive,
+    setFiltersActive,
   } = useCar();
   const [activeFilter, setActiveFilter] = useState("");
   const [showModels] = useState(false);
@@ -22,7 +24,7 @@ const AsideHome = () => {
   const [modelFilter, setModelFilter] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState("");
   const [activeColorFilter] = useState("");
-  const [filtersActive, setFiltersActive] = useState(false);
+  // const [filtersActive, setFiltersActive] = useState(false);
   const [activeCategory] = useState<string>("");
 
   const colors = [
@@ -35,7 +37,7 @@ const AsideHome = () => {
     "Verde Claro",
     "Verde Escuro",
     "Azul Claro",
-    "Azul Escuro",
+    "AzulEscuro",
     "Roxo",
     "Rosa",
     "Branco",

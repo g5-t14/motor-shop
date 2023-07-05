@@ -20,10 +20,10 @@ export const EditProfileModal = () => {
   });
 
   return (
-    <div className="fixed z-50 top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center overflow-hidden">
+    <div className="fixed z-50 top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center  justify-center overflow-hidden">
       <form
         onSubmit={handleSubmit(profileEdit)}
-        className="box-border h-[700px] flex flex-col gap-4 w-full max-w-lg bg-whiteFixed p-4 rounded-md overflow-auto md:h-auto md:max-w-[33rem]"
+        className="box-border h-auto flex flex-col gap-4 w-full max-w-lg bg-whiteFixed p-4 rounded-md overflow-auto md:h-auto md:max-w-[33rem]"
       >
         <div className="flex justify-between items-center">
           <h2 className="font-500 text-[16px] text-grey1">Editar perfil</h2>
