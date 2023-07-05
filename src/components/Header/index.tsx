@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./../../assets/Motors shop.svg";
 import closeDropDown from "./../../assets/closedropmenu.png";
@@ -17,7 +17,6 @@ export const Header = () => {
   const { profileModal, addressModal, toggleProfileModal, toggleAddressModal } =
     useUser();
   const [active, setActive] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const navigate = useNavigate();
