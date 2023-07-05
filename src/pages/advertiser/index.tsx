@@ -119,8 +119,8 @@ export const AdvertiserProfile = () => {
         </div>
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
-        <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full">
-          <ul className="flex flex-row flex-wrap gap-3 overflow-scroll md:overflow-auto min-h-[550px] items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px] maxsm:flex-nowrap maxsm:overflow-auto justify-center">
+        <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full w-full">
+          <ul className="flex flex-row flex-nowrap gap-[25px] overflow-x-scroll md:overflow-auto min-h-[550px] items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px]">
             {adArray?.length > 0 ? (
               currentCards.map((ad) => {
                 const isCurrentUserSeller =

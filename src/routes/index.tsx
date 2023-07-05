@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, ScrollRestoration } from "react-router-dom";
 import { Home } from "../pages/home";
 import { AdvertiserProfile } from "../pages/advertiser";
 import { Login } from "../pages/login";
@@ -6,6 +6,7 @@ import { Product } from "../pages/Product";
 import { Register } from "../pages/register";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { ResetPassword } from "../pages/ResetPassword";
+import ScrollToTop from "../components/ScrollToTop";
 
 export const RoutesMain = () => {
   return (
