@@ -34,9 +34,9 @@ const AsideHome = () => {
     "Vermelho",
     "Laranja",
     "Amarelo",
-    "Verde Claro",
-    "Verde Escuro",
-    "Azul Claro",
+    "VerdeClaro",
+    "VerdeEscuro",
+    "AzulClaro",
     "AzulEscuro",
     "Roxo",
     "Rosa",
@@ -46,7 +46,7 @@ const AsideHome = () => {
   const clickFilter = async (category: string, filter: string) => {
     const updatedFilters = {
       ...selectedFilters,
-      [category.toLowerCase()]: filter,
+      [category.split(" ").join().toLowerCase()]: filter,
     };
     setSelectedFilters(updatedFilters);
     try {
