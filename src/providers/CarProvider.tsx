@@ -85,6 +85,8 @@ interface CarContextValues {
   deleteAds: () => void;
   deleteModal: boolean;
   array: CarProps[];
+  filtersActive: boolean;
+  setFiltersActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export const CarContext = createContext({} as CarContextValues);
 
@@ -103,6 +105,7 @@ export const CarProvider = ({ children }: CarProviderProps) => {
   const [selectedOption, setSelectedOption] = useState("true");
   const [infoCarId, setInfoCarId] = useState<CarProps | null>(null);
   const [idCard, setIdCard] = useState(0);
+  const [filtersActive, setFiltersActive] = useState(false);
   const [array, setArray] = useState<CarProps[]>([]);
   const [deleteModal, setDeleteModal] = useState(false);
   const [filters, setFilters] = useState<Filters>({
@@ -248,6 +251,8 @@ export const CarProvider = ({ children }: CarProviderProps) => {
         toggleDeleteAds,
         deleteAds,
         deleteModal,
+        setFiltersActive,
+        filtersActive,
       }}
     >
       {children}

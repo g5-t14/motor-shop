@@ -15,6 +15,8 @@ const AsideHome = () => {
     setSelectedFilters,
     selectedFilters,
     setSortBy,
+    filtersActive,
+    setFiltersActive,
   } = useCar();
   const [activeFilter, setActiveFilter] = useState("");
   const [showModels] = useState(false);
@@ -22,7 +24,7 @@ const AsideHome = () => {
   const [modelFilter, setModelFilter] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState("");
   const [activeColorFilter] = useState("");
-  const [filtersActive, setFiltersActive] = useState(false);
+  // const [filtersActive, setFiltersActive] = useState(false);
   const [activeCategory] = useState<string>("");
 
   const colors = [
@@ -32,10 +34,10 @@ const AsideHome = () => {
     "Vermelho",
     "Laranja",
     "Amarelo",
-    "Verde Claro",
-    "Verde Escuro",
-    "Azul Claro",
-    "Azul Escuro",
+    "VerdeClaro",
+    "VerdeEscuro",
+    "AzulClaro",
+    "AzulEscuro",
     "Roxo",
     "Rosa",
     "Branco",
@@ -44,7 +46,7 @@ const AsideHome = () => {
   const clickFilter = async (category: string, filter: string) => {
     const updatedFilters = {
       ...selectedFilters,
-      [category.toLowerCase()]: filter,
+      [category.split(" ").join().toLowerCase()]: filter,
     };
     setSelectedFilters(updatedFilters);
     try {

@@ -44,9 +44,9 @@ export interface CarProps {
 }
 
 export const Home = () => {
-  // const [setCars] = useState<CarProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const { allCars } = useCar();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 8;
@@ -68,6 +68,20 @@ export const Home = () => {
   const previousPage = () => {
     setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    if (isOpenModal && windowWidth > 767) {
+      setIsOpenModal(false);
+    }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth, isOpenModal]);
 
   // useEffect(() => {
   //   (async () => {
@@ -150,14 +164,16 @@ export const Home = () => {
           </div>
         )}
 
-        <button
-          className="w-[320px] h-[60px] my-20 rounded-2xl flex-grow-0 lg:hidden bg-brand1 
-        border-brand1 text-white hover:bg-brand2 
-        font:bold hover:border-brand2 "
-          onClick={toggleModal}
-        >
-          Filtros
-        </button>
+        {windowWidth <= 767 && (
+          <button
+            className="w-[320px] h-[60px] my-20 rounded-2xl flex-grow-0 lg:hidden bg-brand1 
+          border-brand1 text-white hover:bg-brand2 
+          font:bold hover:border-brand2"
+            onClick={toggleModal}
+          >
+            Filtros
+          </button>
+        )}
         {isOpenModal && <ModalFilterTask toggleModal={toggleModal} />}
       </div>
 
