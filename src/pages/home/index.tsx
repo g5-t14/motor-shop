@@ -1,10 +1,9 @@
 import { Card } from "../../components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { ModalFilterTask } from "../../components/ModalFilter";
 import AsideHome from "./components/Aside";
 import { HeaderPhoto } from "../../components/HeaderPhoto";
-// import { apiLocal } from "../../services/api";
 import { Header } from "../../components/Header";
 import { useCar } from "../../hooks/useCar";
 import { useNavigate } from "react-router-dom";
@@ -82,18 +81,6 @@ export const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [windowWidth, isOpenModal]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await apiLocal.get<CarProps[]>(`ads`);
-  //     const avaliableCars: CarProps[] = response.data.filter(
-  //       (car) => car.is_active
-  //     );
-  //     if (avaliableCars.length > 0) {
-  //       setCars(avaliableCars);
-  //     }
-  //   })();
-  // }, []);
 
   return (
     <>
