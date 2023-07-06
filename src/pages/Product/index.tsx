@@ -12,6 +12,7 @@ import {
   registerCommentSchema,
 } from "../../validations/comment";
 import { useAuth } from "../../hooks/useAuth";
+import { CarImgModal } from "../../components/CarImgModal/carImgModal";
 
 interface CarPictures {
   picture_1: string;
@@ -60,11 +61,18 @@ export interface Comments {
   created_at: string;
   user: CommentUser;
   edited: boolean;
-  comments: Comments[]
-  setComments: (value: Comments[]) => void
+  comments: Comments[];
+  setComments: (value: Comments[]) => void;
 }
 
 export const Product = () => {
+  const [actualImg, setActualImg] = useState("");
+  const [imgModal, setImgModal] = useState(false);
+
+  const closeModal = () => {
+    setImgModal(!imgModal);
+  };
+
   const getInitials = (name: string) => {
     if (name) {
       const names = name.split(" ");
@@ -210,7 +218,11 @@ export const Product = () => {
                       return (
                         <li
                           key={index}
-                          className="w-[90px] max-w-[100%] h-[90px] rounded"
+                          className="h-[60px] rounded hover:opacity-70 cursor-pointer"
+                          onClick={() => {
+                            setActualImg(element);
+                            setImgModal(true);
+                          }}
                         >
                           <img
                             className="w-full h-full rounded"
@@ -234,7 +246,7 @@ export const Product = () => {
                   <h2 className="text-[20px] leading-[25px] font-semibold font-lexend text-grey1">
                     {car.user_seller.name}
                   </h2>
-                  <p className="text-grey2 font-normal text-[16px] leading-[28px] truncate whitespace-normal line-clamp-3 w-[440px] text-center">
+                  <p className="text-grey2 font-normal text-[16px] leading-[28px] truncate whitespace-normal line-clamp-3 w-full text-center">
                     {car.user_seller.description}
                   </p>
                   <Link
@@ -349,6 +361,10 @@ export const Product = () => {
           )}
         </main>
         <Footer />
+
+        {imgModal ? (
+          <CarImgModal img={actualImg} closeModal={closeModal} />
+        ) : null}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BorderBlackButton } from "../../../components/Button";
 import { useCar } from "../../../hooks/useCar";
 import { useAuth } from "../../../hooks/useAuth";
@@ -38,6 +38,7 @@ export const CardAdvertiser = ({
 }: CardProps) => {
   const { userData } = useAuth();
   const { toggleEditModalAds, retrieveEdit } = useCar();
+  const navigate = useNavigate();
 
   const showTag = (status: boolean | undefined) => {
     if (status == true) {
@@ -126,7 +127,12 @@ export const CardAdvertiser = ({
               >
                 Editar
               </BorderBlackButton>
-              <BorderBlackButton size="medium">Ver detalhes</BorderBlackButton>
+              <BorderBlackButton
+                size="medium"
+                onClick={() => navigate("/product/" + id)}
+              >
+                Ver detalhes
+              </BorderBlackButton>
             </div>
           ) : null}
         </div>

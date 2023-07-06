@@ -120,7 +120,7 @@ export const AdvertiserProfile = () => {
       </div>
       <div className="bg-grey8 h-auto flex flex-col items-center">
         <div className="max-w-[1400px] bg-grey8 flex flex-col pl-[28px] maxsm:w-full w-full">
-          <ul className="flex flex-row flex-nowrap gap-[25px] overflow-x-scroll md:overflow-auto min-h-[550px] items-center maxsm:mt-[200px] md:mt-[200px] pb-[90px]">
+          <ul className="flex flex-row flex-nowrap gap-[25px] overflow-x-scroll md:overflow-auto min-h-[550px] items-center maxsm:mt-[200px] md:mt-[200px] md:flex-wrap">
             {adArray?.length > 0 ? (
               currentCards.map((ad) => {
                 const isCurrentUserSeller =
@@ -155,7 +155,7 @@ export const AdvertiserProfile = () => {
           </ul>
         </div>
         {totalPages > 1 && (
-          <div className="flex justify-center space-x-4 align-end md:h-[200px] md:flex md:justify-center md:items-center lg:min-w-[768px] bg-grey8 w-full">
+          <div className="flex justify-center space-x-4 align-end md:h-[200px] md:flex md:justify-center md:items-center lg:min-w-[768px] bg-grey8 w-full py-6">
             {currentPage > 1 && (
               <button
                 onClick={previousPage}

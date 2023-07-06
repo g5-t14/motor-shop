@@ -62,7 +62,7 @@ export const Header = () => {
           <img
             src={logo}
             alt="Logo"
-            className={`w-13 h-8 ${active ? "opacity-50" : ""}`}
+            className={`w-13 h-8 ${active ? "opacity-50" : ""} cursor-pointer`}
             onClick={homeHandler}
           />
 
